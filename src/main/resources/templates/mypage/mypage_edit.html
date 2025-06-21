@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<h2>ユーザー情報の編集</h2>
+
+		<form method="post" action="/mypage/update">
+			<label>名前</label><input type="text" name="name"><br>
+			<label>メール</label><input type="email" name="email"><br>
+			<button type="submit">更新する</button>
+		</form>
+
+		<p><a href="/mypage">← マイページに戻る</a></p>
+	</body>
+
+</html>
