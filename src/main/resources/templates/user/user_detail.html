@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<div th:replace="fragments/header_user :: header"></div>
+		<h2>ユーザー詳細</h2>
+		<p>ユーザー名: ユーザーA</p>
+		<p>メール: user@example.com</p>
+		<h3>出品商品</h3>
+		<ul>
+			<li><a href="/items/1/detail">商品A</a></li>
+			<li><a href="/items/2/detail">商品B</a></li>
+		</ul>
+		<a href="/item/item_list">← 商品一覧へ</a>
+	</body>
+
+</html>

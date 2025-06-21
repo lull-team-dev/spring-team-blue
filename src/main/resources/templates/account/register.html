@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<div th:replace="fragments/header_account :: header"></div>
+		<h2>新規登録</h2>
+		<form method="post" action="/register">
+			<input type="text" name="last_name">
+			<input type="text" name="first_name">
+			<input type="email" name="email">
+			<input type="password" name="password">
+			<button type="submit">確認画面へ</button>
+		</form>
+	</body>
+
+</html>
