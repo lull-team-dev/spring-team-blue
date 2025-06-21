@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<h2>配送情報の入力</h2>
+		<form method="post" action="/order/confirm">
+			<label>郵便番号</label><input type="text" name="postal_code"><br>
+			<label>住所</label><input type="text" name="address"><br>
+			<label>支払い方法</label>
+			<select name="payment_method">
+				<option value="credit">クレジットカード</option>
+				<option value="cod">代金引換</option>
+			</select><br>
+			<button type="submit">確認画面へ</button>
+		</form>
+	</body>
+
+</html>
