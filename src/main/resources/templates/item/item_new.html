@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<h2>商品登録フォーム</h2>
+		<form method="post" action="/items/submit">
+			<label>商品名</label><input type="text" name="item_name"><br>
+			<label>価格</label><input type="number" name="price"><br>
+			<label>画像URL</label><input type="text" name="item_img"><br>
+			<button type="submit">登録する</button>
+		</form>
+	</body>
+
+</html>

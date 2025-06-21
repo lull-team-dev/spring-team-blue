@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<div th:replace="fragments/header_user :: header"></div>
+		<h2>商品詳細</h2>
+		<p>商品名: 商品A</p>
+		<p>価格: 1000円</p>
+		<p><img src="/images/sample.jpg" alt="商品画像"></p>
+		<p>出品者: <a href="/user/1/detail">出品者プロフィールを見る</a></p>
+		<a href="/order">購入する</a>
+		<a href="/item/item_list">← 一覧へ</a>
+	</body>
+
+</html>

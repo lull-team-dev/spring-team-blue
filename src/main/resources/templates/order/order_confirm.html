@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
+
+	<body>
+		<h2>注文内容の確認</h2>
+		<p>配送先住所：（ここに後で表示）</p>
+		<p>支払い方法：（ここに後で表示）</p>
+
+		<form method="post" action="/order/confirm/complete">
+			<button type="submit">この内容で購入する</button>
+		</form>
+
+		<a href="/order">← 入力画面に戻る</a>
+	</body>
+
+</html>
