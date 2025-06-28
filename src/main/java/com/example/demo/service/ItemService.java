@@ -21,6 +21,7 @@ public class ItemService {
 	private ItemRepository itemRepository;
 
 	public void loadItemPage(Integer categoryId, Model model) {
+
 		// カテゴリー一覧取得
 		List<Category> categoryList = categoryRepository.findAll();
 		model.addAttribute("categories", categoryList);
