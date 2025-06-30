@@ -16,7 +16,7 @@ public class AccountController {
 	// ログイン処理
 	@PostMapping("/login")
 	public String login() {
-		return "redirect:item/item_list";
+		return "redirect:/items";
 	}
 
 	// 登録フォーム
