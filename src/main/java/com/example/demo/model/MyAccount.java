@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
+import org.springframework.web.context.annotation.SessionScope;
 
 @SessionScope
-import jakarta.enterprise.context.SessionScope;
-public class Account {
+public class MyAccount {
 
 }

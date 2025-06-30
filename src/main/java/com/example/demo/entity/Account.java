@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,49 +29,64 @@ public class Account {
 	@Column(nullable = true)
 	private String address;
 
-
 	private String tel;
 
-
+	//getter
 	public Integer getId() {
 		return id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public String getProfile() {
 		return profile;
 	}
+
 	public String getAddress() {
 		return address;
 	}
 
+	public String getTel() {
+		return tel;
+	}
 
-
-
+	//setter
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 }
