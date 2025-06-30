@@ -79,7 +79,7 @@ public class ItemController {
 	}
 
 	// 商品一覧
-	@GetMapping({ "items", "/" })
+	@GetMapping({ "/items", "/" })
 	public String index(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
 
 		itemService.loadItemPage(categoryId, model);
