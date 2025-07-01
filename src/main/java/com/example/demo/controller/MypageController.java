@@ -1,20 +1,27 @@
 package com.example.demo.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Account;
+import com.example.demo.entity.Item;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.ItemRepository;
 
 @Controller
 public class MypageController {
 
 	@Autowired
 	AccountRepository accountRepository;
+	@Autowired
+	ItemRepository itemRepository;
 
 	// マイページ
 	@GetMapping("/mypage")
@@ -63,7 +70,12 @@ public class MypageController {
 
 	// ユーザー詳細
 	@GetMapping("/user/{id}/detail")
-	public String showUserDetail(@PathVariable("id") Integer id) {
+	public String showUserDetail(@PathVariable("id") Integer id, Model model) {
+		Account account = accountRepository.findById(id).orElse(null);
+		//ユーザーの商品一覧を取得
+		List<Item> items = itemRepository.findByAccountId(id);
+		model.addAttribute("account" , account);
+		model.addAttribute("items",items);
 		return "user/user_detail";
 	}
 

@@ -9,14 +9,21 @@
 	<body>
 		<div th:replace="fragments/header_user :: header"></div>
 		<h2>ユーザー詳細</h2>
-		<p>ユーザー名: ユーザーA</p>
-		<p>メール: user@example.com</p>
+		<p>ユーザー名: <span th:text="${account.name}"></spam></p>
+		<p>メール:<span th:text="${account.email}"></spam></p>
 		<h3>出品商品</h3>
-		<ul>
-			<li><a href="/items/1/detail">商品A</a></li>
-			<li><a href="/items/2/detail">商品B</a></li>
-		</ul>
-		<a href="/item/item_list">← 商品一覧へ</a>
+		<div th:each="item : ${items}">
+						<div style="margin-bottom: 20px;">
+							<a th:href="@{'/items/' + ${item.id} + '/detail'}">
+								<img th:if="${item.image != null}" th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"
+									width="200">
+
+							</a>
+							<p th:text="${item.name}">商品名</p>
+							<p th:text="${item.price} + '円'">価格</p>
+						</div>
+					</div>>
+		<a href="/">← 商品一覧へ</a>
 	</body>
 
 </html>
