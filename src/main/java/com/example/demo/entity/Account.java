@@ -15,7 +15,6 @@ public class Account {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-
 	@Column(nullable = false)
 	private String name;
 
@@ -32,7 +31,22 @@ public class Account {
 
 	private String tel;
 
+	public Account() {
 
+	}
+
+	public Account(Integer id, String name, String email, String password, String profile, String address, String tel) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+		this.password = password;
+		this.profile = profile;
+		this.address = address;
+		this.tel = tel;
+	}
+
+	//getter
 	public Integer getId() {
 		return id;
 	}
@@ -66,7 +80,6 @@ public class Account {
 		this.id = id;
 	}
 
-
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -92,4 +105,3 @@ public class Account {
 	}
 
 }
-
