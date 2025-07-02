@@ -11,28 +11,58 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Account;
+import com.example.demo.entity.History;
 import com.example.demo.entity.Item;
+import com.example.demo.entity.Review;
+import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.HistoryRepository;
 import com.example.demo.repository.ItemRepository;
+import com.example.demo.repository.ReviewRepository;
 
 @Controller
 public class MypageController {
 
 	@Autowired
+	MyAccount myAccount;
+	@Autowired
 	AccountRepository accountRepository;
 	@Autowired
 	ItemRepository itemRepository;
+	@Autowired
+	ReviewRepository reviewRepository;
+
+	@Autowired
+	HistoryRepository historyRepository;
 
 	// マイページ
 	@GetMapping("/mypage")
 	public String showMypage() {
-		//マイページの表示の仕方をカテゴリー選択ごとに変える（お気に入りが追加機能のため、一旦型だけ作って明日やる。）
+
+		return "mypage/mypage";
+	}
+
+	@GetMapping("mypage/{id}")
+	public String showMoreMypage(@PathVariable(name = "id") Integer id, Model model) {
+
+		if (id == 1) {
+			List<History> orderDetail = historyRepository.findByAccountId(myAccount.getId());
+			model.addAttribute("orderDetail", orderDetail);
+		} else if (id == 2) {
+			List<Item> itemSelling = itemRepository.findByAccountId(id);
+			model.addAttribute("itemSelling", itemSelling);
+		} else if (id == 3) {
+			List<Review> myReview = reviewRepository.findByAccountId(id);
+			model.addAttribute("myReview", myReview);
+		}
 		return "mypage/mypage";
 	}
 
 	// マイページ編集
 	@GetMapping("/mypage/update")
-	public String showMypageEditForm() {
+	public String showMypageEditForm(Model model) {
+		Account account = accountRepository.findById(myAccount.getId()).get();
+		model.addAttribute("account", account);
 		return "mypage/mypage_edit";
 	}
 
@@ -49,8 +79,8 @@ public class MypageController {
 		Account UpdateAccount = accountRepository.findById(id).get();
 
 		UpdateAccount.setName(name);
-		UpdateAccount.setEmail(email);
 		UpdateAccount.setPassword(password);
+		UpdateAccount.setEmail(email);
 		UpdateAccount.setProfile(profile);
 		UpdateAccount.setAddress(address);
 		UpdateAccount.setTel(tel);
