@@ -23,10 +23,10 @@
     </div>
 
     <div>
-      <a th:href="@{/mypage(id=1)}">気になる</a>
-      <a th:href="@{/mypage(id=2)}">購入履歴</a>
-      <a th:href="@{/mypage(id=3)}">出品</a>
-      <a th:href="@{/mypage(id=4)}">評価</a>
+      <a th:href="@{/mypage/{id}(id=1)}">購入履歴</a>
+      <a th:href="@{/mypage/{id}(id=2)}">出品</a>
+      <a th:href="@{/mypage/{id}(id=3)}">評価</a>
+<!--  <a th:href="@{/mypage(id=4)}"></a>-->
     </div>
   </body>
 </html>
