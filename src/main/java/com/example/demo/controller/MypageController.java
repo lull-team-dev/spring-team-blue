@@ -25,16 +25,8 @@ public class MypageController {
 
 	// マイページ
 	@GetMapping("/mypage")
-	public String showMypage(@RequestParam(name = "id", defaultValue = "") Integer id) {
+	public String showMypage() {
 		//マイページの表示の仕方をカテゴリー選択ごとに変える（お気に入りが追加機能のため、一旦型だけ作って明日やる。）
-		if (id == 1) {
-		} else if (id == 2) {
-		} else if (id == 3) {
-		} else if (id == 4) {
-		} else {
-
-		}
-
 		return "mypage/mypage";
 	}
 
@@ -74,8 +66,8 @@ public class MypageController {
 		Account account = accountRepository.findById(id).orElse(null);
 		//ユーザーの商品一覧を取得
 		List<Item> items = itemRepository.findByAccountId(id);
-		model.addAttribute("account" , account);
-		model.addAttribute("items",items);
+		model.addAttribute("account", account);
+		model.addAttribute("items", items);
 		return "user/user_detail";
 	}
 
