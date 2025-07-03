@@ -10,10 +10,11 @@ DROP TABLE IF EXISTS categories CASCADE;
 CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 name TEXT NOT NULL,
+nickname TEXT NOT NULL,
 email TEXT NOT NULL UNIQUE,
 password TEXT NOT NULL,
 profile TEXT,
-address TEXT NOT NULL,
+address TEXT,
 tel TEXT
 );
 
