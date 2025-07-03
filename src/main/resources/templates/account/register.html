@@ -1,21 +1,51 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
 
-	<body>
-		<div th:replace="fragments/header_account :: header"></div>
-		<h2>新規登録</h2>
-		<form method="post" action="/register">
-			<input type="text" name="last_name">
-			<input type="text" name="first_name">
-			<input type="email" name="email">
-			<input type="password" name="password">
+<body>
+	<div th:replace="fragments/header_account :: header"></div>
+	<h2>新規登録</h2>
+	<form method="post" action="/register">
+		<div>
+			<div>
+				<p style="color: red;" th:if="${nameMessage}" th:text="${nameMessage}"></p>
+				<p>姓</p>
+				<input type="text" name="last_name" placeholder="山田">
+
+				<p>名</p>
+				<input type="text" name="first_name" placeholder="花子">
+			</div>
+			<div>
+				<p style="color: red;" th:if="${nickNameMessage}" th:text="${nickNameMessage}"></p>
+				<p>ニックネーム</p>
+				<input type="text" name="nickName" placeholder="ニックネーム">
+			</div>
+			<div>
+				<p style="color: red;" th:if="${emailMessage}" th:text="${emailMessage}"></p>
+				<p>Email</p>
+				<input type="email" name="email" placeholder="メールアドレス">
+			</div>
+			<div>
+				<p style="color: red;" th:if="${passMessage}" th:text="${passMessage}"></p>
+				<p>Password</p>
+				<input type="password" name="password" placeholder="パスワード">
+				<input type="password" name="confirmPass" placeholder="パスワード(確認用)">
+			</div>
+			<div>
+				<p>Adress</p>
+				<input type="address" name="address" placeholder="住所">
+			</div>
+			<div>
+				<p>Tel</p>
+				<input type="tel" name="tel" placeholder="電話番号">
+			</div>
 			<button type="submit">確認画面へ</button>
-		</form>
-	</body>
+		</div>
+	</form>
+</body>
 
 </html>

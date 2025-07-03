@@ -31,7 +31,6 @@ public class MypageController {
 	ItemRepository itemRepository;
 	@Autowired
 	ReviewRepository reviewRepository;
-
 	@Autowired
 	HistoryRepository historyRepository;
 

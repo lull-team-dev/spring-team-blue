@@ -1,8 +1,9 @@
 -- ユーザー初期データ
-INSERT INTO users (name, email, password, profile, address, tel) VALUES
-('こたつ', 'kotatu@example.com', 'kotatu', '制作者A', '東京都', '090-1111-1111'),
-('みかん', 'mikan@example.com', 'mikan', '購入者A', 'ブラジル', '090-1111-2222'),
-('さわら', 'sawara@example.com', 'sawara', '購入者B', '石川県', '090-1111-3333');
+INSERT INTO users (name,nickname, email, password, profile, address, tel) VALUES
+('温水冬華','こたつ', 'kotatu@example.com', 'kotatu', '子育ての合間に、手作りアクセサリー作ってます！', '東京都港区', '090-1111-1111'),
+('鈴木・オランジュ・花梨','みかん','mikan@example.com', 'mikan', '手作りはしません。購入のみで利用しています。', 'ブラジル', '090-1111-2222'),
+('魚沢紗良','さわら', 'sawara@example.com', 'sawara', 'ホーム雑貨中心に作っています！時々気に入ったものを購入したり・・・', '石川県', '090-1111-3333'),
+('金城美海','Gold Marin','kane@example.com','subeteKane','本業が調香師です。副業でアロマキャンドル販売中。','大阪府大阪市','080-1111-4444');
 
 -- カテゴリー初期データ
 INSERT INTO categories (name) VALUES

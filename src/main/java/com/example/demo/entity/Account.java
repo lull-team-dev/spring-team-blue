@@ -18,6 +18,9 @@ public class Account {
 	@Column(nullable = false)
 	private String name;
 
+	@Column(nullable = false)
+	private String nickname;
+
 	@Column(nullable = false, unique = true)
 	private String email;
 
@@ -35,10 +38,12 @@ public class Account {
 
 	}
 
-	public Account(Integer id, String name, String email, String password, String profile, String address, String tel) {
+	public Account(Integer id, String name, String nickname, String email, String password, String profile,
+			String address, String tel) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.nickname = nickname;
 		this.email = email;
 		this.password = password;
 		this.profile = profile;
@@ -53,6 +58,10 @@ public class Account {
 
 	public String getName() {
 		return name;
+	}
+
+	public String getNickName() {
+		return nickname;
 	}
 
 	public String getEmail() {
@@ -82,6 +91,10 @@ public class Account {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickname = nickName;
 	}
 
 	public void setEmail(String email) {
