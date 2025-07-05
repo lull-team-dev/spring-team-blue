@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -148,4 +152,27 @@ public class AccountController {
 		return "redirect:/login";
 	}
 
+	// マイページ
+	@GetMapping("/mypage")
+	public String showMypage() {
+		return "mypage/mypage";
+	}
+
+	// マイページ編集
+	@GetMapping("/mypage/update")
+	public String showMypageEditForm() {
+		return "mypage/mypage_edit";
+	}
+
+	// 編集完了 →　マイページへ
+	@PostMapping("/mypage/update")
+	public String updateMypage() {
+		return "redirect:/mypage";
+	}
+
+	// ユーザー詳細
+	@GetMapping("/user/{id}/detail")
+	public String showUserDetail(@PathVariable("id") Long id) {
+		return "user/user_detail";
+	}
 }

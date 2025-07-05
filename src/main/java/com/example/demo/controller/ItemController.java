@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,13 +22,7 @@ import com.example.demo.service.ItemService;
 public class ItemController {
 
 	@Autowired
-	CategoryRepository categoryRepository;
-
-	@Autowired
-	ItemRepository itemRepository;
-
-	@Autowired
-	ItemService itemService;
+	private ItemService itemService;
 
 	// 商品登録フォーム
 	@GetMapping("items/new")
@@ -46,24 +39,16 @@ public class ItemController {
 			@RequestParam("memo") String memo,
 			@RequestParam("image_file") MultipartFile imageFile) {
 		try {
-			// ✅ 保存先の絶対パス（static/images/items）
 			String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
-			Files.createDirectories(Paths.get(uploadDir)); // フォルダが無ければ作成
+			Files.createDirectories(Paths.get(uploadDir));
 
-			// ✅ ファイル名（重複防止にUUIDつけてもよい）
 			String originalFilename = imageFile.getOriginalFilename();
 			Path filePath = Paths.get(uploadDir, originalFilename);
-
-			// ✅ 画像ファイル保存
 			imageFile.transferTo(filePath.toFile());
 
-			// 仮ユーザーID
 			Integer userId = 1;
-
-			// ✅ 画像ファイル名を保存（パスは不要）
 			itemService.saveNewItem(itemName, originalFilename, price, memo, userId, categoryId);
 
-			// ✅ 商品詳細に遷移するように変更も可能（任意）
 			return "redirect:/submit/complete";
 
 		} catch (Exception e) {
@@ -81,18 +66,13 @@ public class ItemController {
 	// 商品一覧
 	@GetMapping({ "/items", "/" })
 	public String index(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
-
 		itemService.loadItemPage(categoryId, model);
-
 		return "item/item_list";
 	}
 
-	// 商品詳細
-	@GetMapping("/items/{id}/detail")
-	public String showItemDetail(@PathVariable("id") Integer id, Model model) {
-		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
-		model.addAttribute("item", item);
+	// 商品詳細（未実装っぽいのであとで対応する？）
+	@GetMapping("items/{id}/detail")
+	public String showItemDetail() {
 		return "item/item_detail";
 	}
-
 }

@@ -1,34 +1,23 @@
+<!-- templates/item/item_list.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
 	<head>
 		<title>商品一覧</title>
-		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
 	</head>
 
 	<body>
 		<div th:replace="fragments/header_search :: header"></div>
 		<div>
 			<h2>商品一覧</h2>
-			<nav>
-				<a href="/items">全商品</a>
-				<a th:each="c:${categories}" th:href="@{'/items?categoryId=' + ${c.id}}">
-					<span th:text="${c.name}" style="padding-left: 10px;"></span>
-				</a>
-			</nav>
-			<div th:each="item : ${items}">
-				<div style="margin-bottom: 20px;">
-					<a th:href="@{'/items/' + ${item.id} + '/detail'}">
-						<img th:if="${item.image != null}" th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"
-							width="200">
-
-					</a>
-					<p th:text="${item.name}">商品名</p>
-					<p th:text="${item.price} + '円'">価格</p>
-				</div>
-			</div>
-
-
+			<ul>
+				<li>
+					<a href="/items/1/detail">商品A</a>（<a href="/user/1/detail">出品者</a>）
+				</li>
+				<li>
+					<a href="/items/2/detail">商品B</a>（<a href="/user/2/detail">出品者</a>）
+				</li>
+			</ul>
 		</div>
 	</body>
 

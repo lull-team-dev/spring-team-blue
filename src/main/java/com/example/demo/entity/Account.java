@@ -2,18 +2,13 @@ package com.example.demo.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "users")
 public class Account {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Column(nullable = false)
 	private String name;
@@ -35,7 +30,6 @@ public class Account {
 	private String tel;
 
 	public Account() {
-
 	}
 
 	public Account(Integer id, String name, String nickname, String email, String password, String profile,
@@ -51,9 +45,9 @@ public class Account {
 		this.tel = tel;
 	}
 
-	//getter
+	// getter
 	public Integer getId() {
-		return id;
+		return id.intValue(); // Long → Integer に変換（呼び出し側が Integer を期待してるなら）
 	}
 
 	public String getName() {
@@ -84,9 +78,9 @@ public class Account {
 		return tel;
 	}
 
-	//setter
+	// setter
 	public void setId(Integer id) {
-		this.id = id;
+		this.id = id.longValue(); // Integer → Long に変換
 	}
 
 	public void setName(String name) {
@@ -116,5 +110,4 @@ public class Account {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-
 }

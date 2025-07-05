@@ -1,3 +1,4 @@
+
 -- ユーザー初期データ
 INSERT INTO users (name,nickname, email, password, profile, address, tel) VALUES
 ('温水冬華','こたつ', 'kotatu@example.com', 'kotatu', '子育ての合間に、手作りアクセサリー作ってます！', '東京都港区', '090-1111-1111'),
