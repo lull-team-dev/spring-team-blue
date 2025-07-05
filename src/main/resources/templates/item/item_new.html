@@ -3,15 +3,25 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>出品</title>
 	</head>
 
 	<body>
 		<h2>商品登録フォーム</h2>
-		<form method="post" action="/items/submit">
+		<form method="post" action="/items/submit" enctype="multipart/form-data">
 			<label>商品名</label><input type="text" name="item_name"><br>
 			<label>価格</label><input type="number" name="price"><br>
-			<label>画像URL</label><input type="text" name="item_img"><br>
+			<label>画像アップロード</label><input type="file" name="image_file" accept="image/*"><br> 
+			<label>商品説明</label><input
+				type="text" name="memo"><br>
+			<label>カテゴリー</label>
+			<select name="category_id">
+				<option value="1">アクセサリー</option>
+				<option value="2">バッグ・財布</option>
+				<option value="3">雑貨</option>
+				<option value="4">キッズ</option>
+				<option value="5">その他</option>
+			</select><br>
 			<button type="submit">登録する</button>
 		</form>
 	</body>

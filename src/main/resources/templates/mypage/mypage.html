@@ -1,22 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>マイページ</title>
+  </head>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>マイページ</title>
-	</head>
+  <body>
+    <div th:replace="fragments/header_account :: header"></div>
+    <h2>マイページ</h2>
 
-	<body>
-		<div th:replace="fragments/header_account :: header"></div>
-		<h2>マイページ</h2>
 
-		<p>ようこそ、ユーザー名さん</p>
+    <ul>
+      <li><a href="/mypage/update">プロフィール編集</a></li>
+      <li><a href="/items/new">商品を登録する</a></li>
+      <!-- ← ここが導線 -->
+      <li>出品中の商品一覧のリンク</li>
+    </ul>
 
-		<ul>
-			<li><a href="/mypage/update">プロフィール編集</a></li>
-			<li><a href="/items/new">商品を登録する</a></li> <!-- ← ここが導線 -->
-			<li>出品中の商品一覧のリンク</li>
-		</ul>
-	</body>
+    <div>
+      <h3></h3>
+      <span>評価：</span><span></span>
+    </div>
 
+    <div>
+      <a th:href="@{/mypage/{id}(id=1)}">購入履歴</a>
+      <a th:href="@{/mypage/{id}(id=2)}">出品</a>
+      <a th:href="@{/mypage/{id}(id=3)}">評価</a>
+<!--  <a th:href="@{/mypage(id=4)}"></a>-->
+    </div>
+  </body>
 </html>
