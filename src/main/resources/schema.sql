@@ -45,7 +45,9 @@ total_price INTEGER NOT NULL CHECK (total_price >= 0),
 status SMALLINT,
 delivery_address TEXT NOT NULL,
 delivery_tel TEXT
+payment_method VARCHAR(50) NOT NULL
 );
+
 
 -- 購入履歴テーブル
 CREATE TABLE history (
@@ -64,4 +66,39 @@ user_id INTEGER NOT NULL REFERENCES users(id),
 score SMALLINT NOT NULL CHECK (score >= 1 AND score <= 5),
 review_text TEXT NOT NULL,
 review_date TIMESTAMP NOT NULL
+);
+
+-- ブックマークテーブル
+CREATE TABLE bookmarks (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    item_id INT NOT NULL,         -- ブックマーク対象（商品、投稿など）
+    item_type VARCHAR(50),        -- 例：'post', 'product'
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- チャットテーブル
+CREATE TABLE chats (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    sender_id INT NOT NULL,
+    receiver_id INT NOT NULL,
+    message TEXT NOT NULL,
+    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (sender_id) REFERENCES users(id),
+    FOREIGN KEY (receiver_id) REFERENCES users(id)
+);
+
+-- フォローテーブル
+CREATE TABLE follows (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    follower_id INT NOT NULL,
+    followed_id INT NOT NULL,
+    followed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (follower_id) REFERENCES users(id),
+    FOREIGN KEY (followed_id) REFERENCES users(id),
+    UNIQUE (follower_id, followed_id)  -- 同じ人を2回フォローできないように
 );
