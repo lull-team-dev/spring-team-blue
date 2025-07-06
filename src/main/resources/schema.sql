@@ -5,6 +5,9 @@ DROP TABLE IF EXISTS orders CASCADE;
 DROP TABLE IF EXISTS history CASCADE;
 DROP TABLE IF EXISTS reviews CASCADE;
 DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS bookmarks CASCADE;
+DROP TABLE IF EXISTS chats CASCADE;
+DROP TABLE IF EXISTS follows CASCADE;
 
 -- ユーザーテーブル
 CREATE TABLE users (
@@ -44,7 +47,7 @@ order_date TIMESTAMP,
 total_price INTEGER NOT NULL CHECK (total_price >= 0),
 status SMALLINT,
 delivery_address TEXT NOT NULL,
-delivery_tel TEXT
+delivery_tel TEXT,
 payment_method VARCHAR(50) NOT NULL
 );
 
@@ -70,35 +73,32 @@ review_date TIMESTAMP NOT NULL
 
 -- ブックマークテーブル
 CREATE TABLE bookmarks (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    item_id INT NOT NULL,         -- ブックマーク対象（商品、投稿など）
-    item_type VARCHAR(50),        -- 例：'post', 'product'
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
+    item_id INT NOT NULL,
+    item_type VARCHAR(50),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- チャットテーブル
 CREATE TABLE chats (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    sender_id INT NOT NULL,
-    receiver_id INT NOT NULL,
-    message TEXT NOT NULL,
-    sent_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (sender_id) REFERENCES users(id),
-    FOREIGN KEY (receiver_id) REFERENCES users(id)
+  id SERIAL PRIMARY KEY,
+  sender_id INT NOT NULL,
+  receiver_id INT NOT NULL,
+  message TEXT NOT NULL,
+  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (sender_id) REFERENCES users(id),
+  FOREIGN KEY (receiver_id) REFERENCES users(id)
 );
 
 -- フォローテーブル
 CREATE TABLE follows (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    follower_id INT NOT NULL,
-    followed_id INT NOT NULL,
-    followed_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (follower_id) REFERENCES users(id),
-    FOREIGN KEY (followed_id) REFERENCES users(id),
-    UNIQUE (follower_id, followed_id)  -- 同じ人を2回フォローできないように
+  id SERIAL PRIMARY KEY,
+  follower_id INT NOT NULL,
+  followed_id INT NOT NULL,
+  followed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (follower_id) REFERENCES users(id),
+  FOREIGN KEY (followed_id) REFERENCES users(id),
+  UNIQUE (follower_id, followed_id)
 );

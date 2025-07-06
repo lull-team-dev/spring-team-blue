@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Account;
@@ -21,6 +22,7 @@ import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ReviewRepository;
 
 @Controller
+@RequestMapping("/mypage")
 public class MypageController {
 
 	@Autowired
@@ -35,9 +37,8 @@ public class MypageController {
 	HistoryRepository historyRepository;
 
 	// マイページ
-	@GetMapping("/mypage")
+	@GetMapping("")
 	public String showMypage() {
-
 		return "mypage/mypage";
 	}
 

@@ -6,12 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.PathVariable;
-
 import org.springframework.web.bind.annotation.ModelAttribute;
-
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,6 +18,7 @@ import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
 
 @Controller
+@RequestMapping("/account")
 public class AccountController {
 
 	@Autowired
@@ -34,8 +33,7 @@ public class AccountController {
 	// ログイン画面
 	@GetMapping("/login")
 	public String index() {
-
-		session.invalidate();
+		session.removeAttribute("account"); // ← セッション全体を消さず、ログイン情報だけクリア
 		return "account/login";
 	}
 
@@ -45,12 +43,12 @@ public class AccountController {
 			@RequestParam(name = "password", defaultValue = "") String password,
 			Model model) {
 
-		if (email == null || email.length() == 0) {
+		if (email.isEmpty()) {
 			model.addAttribute("message", "メールアドレスを入力してください");
 			return "account/login";
-
 		}
-		if (password == null || password.length() == 0) {
+
+		if (password.isEmpty()) {
 			model.addAttribute("message", "パスワードを入力してください");
 			return "account/login";
 		}
@@ -64,6 +62,15 @@ public class AccountController {
 		myAccount.setId(account.getId());
 		myAccount.setName(account.getName());
 		session.setAttribute("account", myAccount);
+
+		// 🔽 セッションに保存されたリダイレクト先があるならそこへ
+		String redirectPath = (String) session.getAttribute("redirectAfterLogin");
+		if (redirectPath != null && redirectPath.startsWith("/")) {
+			session.removeAttribute("redirectAfterLogin");
+			return "redirect:" + redirectPath;
+		}
+
+		// デフォルトはトップや商品一覧などへ
 		return "redirect:/items";
 	}
 
@@ -149,7 +156,7 @@ public class AccountController {
 	public String registerComplete(@ModelAttribute(name = "account") Account account,
 			Model model) {
 		accountRepository.save(account);
-		return "redirect:/login";
+		return "redirect:/account/login";
 	}
 
 	// マイページ
