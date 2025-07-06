@@ -32,7 +32,7 @@ public class Account {
 	public Account() {
 	}
 
-	public Account(Integer id, String name, String nickname, String email, String password, String profile,
+	public Account(Long id, String name, String nickname, String email, String password, String profile,
 			String address, String tel) {
 		super();
 		this.id = id;
@@ -46,8 +46,8 @@ public class Account {
 	}
 
 	// getter
-	public Integer getId() {
-		return id.intValue(); // Long → Integer に変換（呼び出し側が Integer を期待してるなら）
+	public Long getId() {
+		return id; // Long → Integer に変換（呼び出し側が Integer を期待してるなら）
 	}
 
 	public String getName() {
@@ -79,8 +79,8 @@ public class Account {
 	}
 
 	// setter
-	public void setId(Integer id) {
-		this.id = id.longValue(); // Integer → Long に変換
+	public void setId(Long id) {
+		this.id = id; // Integer → Long に変換
 	}
 
 	public void setName(String name) {

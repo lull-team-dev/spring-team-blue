@@ -12,5 +12,5 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 	List<Item> findByCategoryId(Integer categoryId);
 
 	// SELECT * FROM items WHERE account_id = ?
-	List<Item> findByAccountId(Integer accountId);
+	List<Item> findByAccountId(Long accountId);
 }
