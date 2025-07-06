@@ -141,7 +141,7 @@ public class AccountController {
 			addAccount.setTel(tel);
 
 			redirectAttributes.addFlashAttribute("account", addAccount);
-			return "redirect:/register/confirm";
+			return "redirect:/account/register/confirm";
 		}
 	}
 

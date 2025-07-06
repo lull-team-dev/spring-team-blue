@@ -59,7 +59,7 @@ public class MypageController {
 	}
 
 	// マイページ編集
-	@GetMapping("/mypage/update")
+	@GetMapping("/update")
 	public String showMypageEditForm(Model model) {
 		Account account = accountRepository.findById(myAccount.getId()).get();
 		model.addAttribute("account", account);
@@ -67,7 +67,7 @@ public class MypageController {
 	}
 
 	// 編集完了 →　マイページへ
-	@PostMapping("/mypage/update")
+	@PostMapping("/update")
 	public String updateMypage(@RequestParam(value = "id", defaultValue = "") Long id,
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "password", defaultValue = "") String password,
