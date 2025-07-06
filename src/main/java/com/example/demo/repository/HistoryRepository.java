@@ -8,6 +8,6 @@ import com.example.demo.entity.History;
 
 public interface HistoryRepository extends JpaRepository<History, Integer> {
 
-	List<History> findByAccountId(Integer userId);
+	List<History> findByAccountId(Long userId);
 
 }

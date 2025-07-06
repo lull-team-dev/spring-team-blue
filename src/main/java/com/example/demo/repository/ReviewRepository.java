@@ -8,5 +8,5 @@ import com.example.demo.entity.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-	List<Review> findByAccountId(Integer userId);
+	List<Review> findByAccountId(Long userId);
 }

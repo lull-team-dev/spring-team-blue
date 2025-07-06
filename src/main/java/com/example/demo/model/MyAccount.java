@@ -7,12 +7,12 @@ import org.springframework.web.context.annotation.SessionScope;
 @SessionScope
 public class MyAccount {
 
-	private Integer id;
+	private Long id;
 
 	private String name;
 
 	//getter
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
@@ -21,7 +21,7 @@ public class MyAccount {
 	}
 
 	//setter
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
