@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.example.demo.entity.Item;
-import com.example.demo.repository.CategoryRepository;
-import com.example.demo.repository.ItemRepository;
 import com.example.demo.service.ItemService;
 
 @Controller
@@ -46,7 +43,7 @@ public class ItemController {
 			Path filePath = Paths.get(uploadDir, originalFilename);
 			imageFile.transferTo(filePath.toFile());
 
-			Integer userId = 1;
+			Long userId = (long) 1;
 			itemService.saveNewItem(itemName, originalFilename, price, memo, userId, categoryId);
 
 			return "redirect:/submit/complete";
