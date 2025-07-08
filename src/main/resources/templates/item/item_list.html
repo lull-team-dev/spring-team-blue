@@ -11,6 +11,7 @@
 		<div th:replace="fragments/header_search :: header"></div>
 		<div>
 			<h2>商品一覧</h2>
+
 			<nav>
 				<a href="/items">全商品</a>
 				<a th:each="c:${categories}" th:href="@{'/items?categoryId=' + ${c.id}}">
@@ -27,7 +28,5 @@
 					<p th:text="${item.price} + '円'">価格</p>
 				</div>
 			</div>
-
-
 		</div>
 	</body>
