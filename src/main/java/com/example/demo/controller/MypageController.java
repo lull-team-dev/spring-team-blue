@@ -61,6 +61,7 @@ public class MypageController {
 	@GetMapping("/mypage/update")
 	public String showMypageEditForm(Model model) {
 		Account account = accountRepository.findById(myAccount.getId()).get();
+
 		model.addAttribute("account", account);
 		return "mypage/mypage_edit";
 	}
