@@ -1,27 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-	<meta charset="UTF-8">
-	<title>商品詳細</title>
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<title>Insert title here</title>
+	</head>
 
-<body>
-	<div th:replace="fragments/header_user :: header"></div>
+	<body>
+		<div th:replace="fragments/header_user :: header"></div>
 
-	<main>
-		<div>
-			<p><img th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"></p>
-			<p>価格:<span th:text="${item.price}"></span></p>
-		</div>
+		<main>
+			<div>
 
-		<div>
-			<p>出品者:<span th:text="${item.account.name}"></span> <a href="/user/1/detail">出品者プロフィールを見る</a></p>
-			<p>商品名:<span th:text="${item.name}"></span></p>
-			<p>商品詳細:<br><span th:text="${item.memo}"></span></p>
-		</div>
+				<p><img th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"></p>
+				<p>価格:<span th:text="${item.price}"></span></p>
+			</div>
 
-		<a href="/order">購入する</a>
-		<a href="/">一覧へ</a>
-	</main>
-	</bod
+			<div>
+				<p>出品者:<span th:text="${item.account.name}"></span> 
+				   <a th:href="@{/mypage/user/{id}/detail(id=${item.account.id})}">出品者プロフィールを見る</a>
+				</p>
+				<p>商品名:<span th:text="${item.name}"></span></p>
+				<p>商品詳細:<br><span th:text="${item.memo}"></span></p>
+
+			</div>
+
+			<a href="/order">購入する</a>
+			<a th:href="@{/items}">← 一覧へ</a>
+		</main>
+	</body>
+
+</html>
