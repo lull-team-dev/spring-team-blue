@@ -28,7 +28,7 @@ public class AccountController {
 	AccountRepository accountRepository;
 
 	// ログイン画面
-	@GetMapping("/login")
+	@GetMapping({ "/login", "/logout" })
 	public String index() {
 
 		session.invalidate();

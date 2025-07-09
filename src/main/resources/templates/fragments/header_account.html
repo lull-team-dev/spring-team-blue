@@ -3,8 +3,9 @@
 	ログイン画面・新規登録・マイページ用ヘッダー
     <nav>
       <a href="/">トップ</a>
-      <a href="/login">ログイン</a>
-      <a href="/register">新規登録</a>
+	  <th:block th:if="${session.account != null}">
+      <a href="/logout">ログアウト</a>
+	  </th:block>
     </nav>
   </header>
 </div>

@@ -45,6 +45,10 @@ public class ItemService {
 			}
 			if (keyword != null) {
 				itemList = itemRepository.findByNameContaining(keyword);
+				if (itemList.isEmpty()) {
+					model.addAttribute("message", "お探しの商品は見つかりませんでした");
+					itemList = itemRepository.findAll();
+				}
 			}
 		}
 		model.addAttribute("items", itemList);

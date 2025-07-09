@@ -10,6 +10,7 @@
 	<div th:replace="fragments/header_search :: header"></div>
 	<div>
 		<h2>商品一覧</h2>
+		<p th:if="${message}" style="color: red;" th:text="${message}"></p>
 		<div class="item-link">
 			<a href="/items">全商品</a>
 			<a th:each="category:${categories}" th:href="@{/items(categoryId=${category.id})}">

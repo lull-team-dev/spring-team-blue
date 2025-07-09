@@ -23,7 +23,7 @@ public class CheckLoginAspect {
 	MyAccount myAccount;
 
 	@Before("execution(* com.example.demo.controller.MypageController.*(..)) || " +
-			"execution(* com.example.demo.controller.OrderController.*(..))")
+			"execution(* com.example.demo.controller.OrderController.*(..)) ")
 	public void loginCheck(JoinPoint joinPoint) {
 		// ログインしてなければリダイレクトや例外など
 		if (myAccount == null || myAccount.getName() == null || myAccount.getName().length() == 0) {
