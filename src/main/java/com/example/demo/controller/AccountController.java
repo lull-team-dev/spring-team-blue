@@ -158,22 +158,4 @@ public class AccountController {
 		return "redirect:/account/login";
 	}
 
-	// マイページ
-	@GetMapping("/mypage")
-	public String showMypage() {
-		return "mypage/mypage";
-	}
-
-	// マイページ編集
-	@GetMapping("/mypage/update")
-	public String showMypageEditForm() {
-		return "mypage/mypage_edit";
-	}
-
-	// 編集完了 →　マイページへ
-	@PostMapping("/mypage/update")
-	public String updateMypage() {
-		return "redirect:/mypage";
-	}
-
 }
