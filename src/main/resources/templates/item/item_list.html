@@ -2,16 +2,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<title>商品一覧</title>
-		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-	</head>
 
-	<body>
-		<div th:replace="fragments/header_search :: header"></div>
-		<div>
-			<h2>商品一覧</h2>
+<head>
+	<title>商品一覧</title>
+</head>
 
+<body>
+	<div th:replace="fragments/header_search :: header"></div>
+	<div>
+		<h2>商品一覧</h2>
+		<div class="item-link">
 			<nav>
 				<a href="/items">全商品</a>
 				<a th:each="c:${categories}" th:href="@{'/items?categoryId=' + ${c.id}}">
@@ -30,3 +30,4 @@
 			</div>
 		</div>
 	</body>
+

@@ -1,11 +1,23 @@
-<div th:fragment="header">
-	<header>
-		検索欄を表示させるヘッダー
-		<nav>
-			<a th:href="@{/}">トップ</a>
-			<a href="/account/login">ログイン</a>
+<header>
+	<div class="header-container">
+		<!-- 左：ロゴ -->
+		<div class="logo">
+			<a th:href="@{/}">Handmade Market</a>
+		</div>
+
+		<!-- 中央：検索フォーム -->
+		<div class="search-box">
+			<form method="get" th:action="@{/items}">
+				<input type="text" name="keyword" th:value="${param.keyword}" placeholder="お探しのものはありますか？">
+				<button type="submit">検索</button>
+			</form>
+		</div>
+
+		<!-- 右：ユーザー関連リンク（ログイン状態で出し分けることも可能） -->
+		<div class="user-links">
+			<a th:href="@{/account/login}">ログイン</a>
 			<a th:href="@{/account/register}">新規登録</a>
 			<a th:href="@{/mypage}">マイページ</a>
-		</nav>
-	</header>
-</div>
+		</div>
+	</div>
+</header>
