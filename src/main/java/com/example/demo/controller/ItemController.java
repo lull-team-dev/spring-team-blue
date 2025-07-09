@@ -31,6 +31,8 @@ public class ItemController {
 	@Autowired
 	ItemService itemService;
 
+
+
 	// 商品登録フォーム
 	@GetMapping("items/new")
 	public String showItemForm() {
@@ -45,6 +47,7 @@ public class ItemController {
 			@RequestParam("category_id") Integer categoryId,
 			@RequestParam("memo") String memo,
 			@RequestParam("image_file") MultipartFile imageFile) {
+
 		try {
 			// ✅ 保存先の絶対パス（static/images/items）
 			String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
@@ -79,10 +82,13 @@ public class ItemController {
 	}
 
 	// 商品一覧
-	@GetMapping({ "items", "/" })
-	public String index(@RequestParam(value = "categoryId", required = false) Integer categoryId, Model model) {
 
-		itemService.loadItemPage(categoryId, model);
+	@GetMapping({ "/items", "/" })
+	public String index(
+			@RequestParam(value = "categoryId", required = false) Integer categoryId,
+			@RequestParam(value = "keyword", required = false) String keyword,
+			Model model) {
+		itemService.loadItemPage(categoryId, keyword, model);
 
 		return "item/item_list";
 	}
@@ -94,5 +100,6 @@ public class ItemController {
 		model.addAttribute("item", item);
 		return "item/item_detail";
 	}
+
 
 }

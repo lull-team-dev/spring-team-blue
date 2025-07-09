@@ -13,4 +13,6 @@ public interface ItemRepository extends JpaRepository<Item, Integer> {
 
 	// SELECT * FROM items WHERE account_id = ?
 	List<Item> findByAccountId(Long accountId);
+
+	List<Item> findByNameContaining(String keyword);
 }
