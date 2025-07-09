@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.transaction.Transactional;
@@ -27,20 +28,27 @@ public class ItemService {
 	@Autowired
 	private AccountRepository accountRepository;
 
-	public void loadItemPage(Integer categoryId, Model model) {
+	public void loadItemPage(Integer categoryId, String keyword, Model model) {
 
 		// カテゴリー一覧取得
 		List<Category> categoryList = categoryRepository.findAll();
 		model.addAttribute("categories", categoryList);
 
 		// 商品一覧取得（絞り込みあり）
-		List<Item> itemList;
-		if (categoryId == null) {
+		List<Item> itemList = new ArrayList<>();
+
+		if (categoryId == null && keyword == null) {
 			itemList = itemRepository.findAll();
 		} else {
-			itemList = itemRepository.findByCategoryId(categoryId);
+			if (categoryId != null) {
+				itemList = itemRepository.findByCategoryId(categoryId);
+			}
+			if (keyword != null) {
+				itemList = itemRepository.findByNameContaining(keyword);
+			}
 		}
 		model.addAttribute("items", itemList);
+
 	}
 
 	// 商品を保存（新規追加）

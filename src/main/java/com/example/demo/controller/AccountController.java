@@ -41,13 +41,13 @@ public class AccountController {
 			@RequestParam(name = "password", defaultValue = "") String password,
 			Model model) {
 
-		if (email == null || email.length() == 0) {
-			model.addAttribute("message", "メールアドレスを入力してください");
-			return "account/login";
+		if (email.isEmpty() || email.length() == 0) {
 
-		}
-		if (password == null || password.length() == 0) {
-			model.addAttribute("message", "パスワードを入力してください");
+			model.addAttribute("emailMessage", "メールアドレスを入力してください");
+
+			if (password.isEmpty() || password.length() == 0) {
+				model.addAttribute("passMessage", "パスワードを入力してください");
+			}
 			return "account/login";
 		}
 
@@ -56,9 +56,9 @@ public class AccountController {
 			model.addAttribute("message", "メールアドレスまたはパスワードが一致しません");
 			return "account/login";
 		}
-
 		myAccount.setId(account.getId());
 		myAccount.setName(account.getName());
+
 		session.setAttribute("account", myAccount);
 		return "redirect:/items";
 	}
