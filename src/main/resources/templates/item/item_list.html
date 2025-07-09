@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+
 <head>
 	<title>商品一覧</title>
 </head>
@@ -37,4 +38,22 @@
 	</div>
 </body>
 
-</html>
+
+			<nav>
+				<a href="/items">全商品</a>
+				<a th:each="c:${categories}" th:href="@{'/items?categoryId=' + ${c.id}}">
+					<span th:text="${c.name}" style="padding-left: 10px;"></span>
+				</a>
+			</nav>
+			<div th:each="item : ${items}">
+				<div style="margin-bottom: 20px;">
+					<a th:href="@{'/items/' + ${item.id} + '/detail'}">
+						<img th:if="${item.image != null}" th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"
+							width="200">
+					</a>
+					<p th:text="${item.name}">商品名</p>
+					<p th:text="${item.price} + '円'">価格</p>
+				</div>
+			</div>
+		</div>
+	</body>

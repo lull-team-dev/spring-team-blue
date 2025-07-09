@@ -2,6 +2,7 @@
 	<header>
 		検索欄を表示させるヘッダー
 		<nav>
+
 			<a href="/">トップ</a>
 			<th:block th:if="${session.account == null}">
 				<a href="/login">ログイン</a>
@@ -17,5 +18,6 @@
 			<input name="keyword" placeholder="お探しのものはありますか？">
 			<button>検索</button>
 		</form>
+
 	</header>
 </div>

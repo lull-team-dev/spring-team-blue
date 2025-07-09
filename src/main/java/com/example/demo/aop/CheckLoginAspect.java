@@ -3,12 +3,9 @@ package com.example.demo.aop;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -18,6 +15,7 @@ import com.example.demo.model.MyAccount;
 @Aspect
 @Component
 public class CheckLoginAspect {
+
 
 	@Autowired
 	MyAccount myAccount;
@@ -39,18 +37,22 @@ public class CheckLoginAspect {
 	public Object loginChecked(ProceedingJoinPoint joinPoint) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession(true);
+		String path = request.getRequestURI();
 
-		// セッションからログイン情報取得（例: "account" という名前でログインユーザーを保存している場合）
-		MyAccount loginUser = (session != null) ? (MyAccount) session.getAttribute("account") : null;
-
-		if (loginUser == null) {
-			// ログインしていない → リダイレクト用の文字列を返す
-			return "redirect:/login";
+		// ログインページや登録ページは対象外
+		if (path.contains("/account/login") || path.contains("/account/register")) {
+			return joinPoint.proceed();
 		}
 
-		// ログイン済み → 本来の処理を実行
+		MyAccount loginUser = (MyAccount) session.getAttribute("account");
+
+		if (loginUser == null) {
+			// 元のリクエストURIを記録
+			session.setAttribute("redirectAfterLogin", path);
+			return "redirect:/account/login";
+		}
+
 		return joinPoint.proceed();
 	}
-
 }

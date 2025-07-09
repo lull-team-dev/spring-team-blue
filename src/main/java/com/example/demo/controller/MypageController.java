@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Account;
@@ -21,6 +22,7 @@ import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ReviewRepository;
 
 @Controller
+@RequestMapping("/mypage")
 public class MypageController {
 
 	@Autowired
@@ -35,6 +37,7 @@ public class MypageController {
 	HistoryRepository historyRepository;
 
 	// マイページ
+
 	@GetMapping("/mypage")
 	public String showMypage(@RequestParam(name = "id", defaultValue = "1") Integer id, Model model) {
 
@@ -52,7 +55,7 @@ public class MypageController {
 	}
 
 	// マイページ編集
-	@GetMapping("/mypage/update")
+	@GetMapping("/update")
 	public String showMypageEditForm(Model model) {
 		Account account = accountRepository.findById(myAccount.getId()).get();
 
@@ -61,7 +64,7 @@ public class MypageController {
 	}
 
 	// 編集完了 →　マイページへ
-	@PostMapping("/mypage/update")
+	@PostMapping("/update")
 	public String updateMypage(@RequestParam(value = "id", defaultValue = "") Long id,
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "password", defaultValue = "") String password,
