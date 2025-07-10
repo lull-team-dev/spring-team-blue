@@ -12,7 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 public class Order {
 
 	@Id
@@ -23,9 +23,36 @@ public class Order {
 	@ManyToOne
 	@JoinColumn(name = "consumer_id", nullable = false)
 	private Account account;
+	
+	@ManyToOne
+	@JoinColumn(name = "item_id", nullable = false)
+	private Item item;
 
 	@Column(name = "order_date")
 	private LocalDateTime orderDate;
+	
+	@Column(name = "total_price", nullable = false)
+	private Integer totalPrice;
+	
+	@Column
+	private Short status;
+	
+	@Column(name = "postal_code")
+	private String postalCode;
+	
+	@Column(name = "delivery_address", nullable = false, columnDefinition = "TEXT")
+	private String deliveryAddress;
+	
+	@Column(name = "delivery_tel")
+	private String deliveryTel;
+	
+	@Column(name = "payment_method", nullable = false)
+	private String paymentMethod;
+	
+	
+	public Order() {
+	}
+	
 
 	public Integer getId() {
 		return id;
@@ -42,6 +69,14 @@ public class Order {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
+	
+	public Item getItem() {
+	    return item;
+	}
+
+	public void setItem(Item item) {
+	    this.item = item;
+	}
 
 	public LocalDateTime getOrderDate() {
 		return orderDate;
@@ -49,6 +84,10 @@ public class Order {
 
 	public void setOrderDate(LocalDateTime orderDate) {
 		this.orderDate = orderDate;
+	}
+	
+	public String getPaymentMethod() {
+	    return paymentMethod;
 	}
 
 	public Integer getTotalPrice() {
@@ -66,6 +105,14 @@ public class Order {
 	public void setStatus(Short status) {
 		this.status = status;
 	}
+	
+	public String getPostalCode() {
+	    return postalCode;
+	}
+
+	public void setPostalCode(String postalCode) {
+	    this.postalCode = postalCode;
+	}
 
 	public String getDeliveryAddress() {
 		return deliveryAddress;
@@ -82,19 +129,9 @@ public class Order {
 	public void setDeliveryTel(String deliveryTel) {
 		this.deliveryTel = deliveryTel;
 	}
-
-	@Column(name = "total_price", nullable = false)
-	private Integer totalPrice;
-
-	@Column
-	private Short status;
-
-	@Column(name = "delivery_address", nullable = false, columnDefinition = "TEXT")
-	private String deliveryAddress;
-
-	@Column(name = "delivery_tel")
-	private String deliveryTel;
-
-	protected Order() {
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
+
+	
 }
