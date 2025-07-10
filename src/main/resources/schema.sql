@@ -18,7 +18,8 @@ email TEXT NOT NULL UNIQUE,
 password TEXT NOT NULL,
 profile TEXT,
 address TEXT,
-tel TEXT
+tel TEXT,
+payment_method VARCHAR(50) 
 );
 
 -- カテゴリーテーブル
@@ -43,9 +44,11 @@ sold_out BOOLEAN NOT NULL
 CREATE TABLE orders (
 id SERIAL PRIMARY KEY,
 consumer_id INTEGER NOT NULL REFERENCES users(id),
+item_id INTEGER NOT NULL REFERENCES items(id),
 order_date TIMESTAMP,
 total_price INTEGER NOT NULL CHECK (total_price >= 0),
 status SMALLINT,
+postal_code VARCHAR(10), 
 delivery_address TEXT NOT NULL,
 delivery_tel TEXT,
 payment_method VARCHAR(50) NOT NULL
