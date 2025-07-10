@@ -52,8 +52,13 @@ public class MypageController {
 			List<Item> itemSelling = itemRepository.findByAccountId(id);
 			model.addAttribute("itemSelling", itemSelling);
 		} else if (id == 3) {
-			List<Review> myReview = reviewRepository.findByAccountId(id);
-			model.addAttribute("myReview", myReview);
+			Account targetUser = accountRepository.findById(id).orElse(null);
+			if (targetUser != null) {
+				List<Review> myReview = reviewRepository.findByReviewee(targetUser);
+				model.addAttribute("myReview", myReview);
+			} else {
+				model.addAttribute("myReview", List.of()); // ユーザーが見つからなかった場合は空リスト
+			}
 		}
 		return "mypage/mypage";
 	}
