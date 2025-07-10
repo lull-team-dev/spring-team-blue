@@ -16,6 +16,23 @@ import com.example.demo.model.MyAccount;
 @Component
 public class CheckLoginAspect {
 
+
+	@Autowired
+	MyAccount myAccount;
+
+	@Before("execution(* com.example.demo.controller.MypageController.*(..)) || " +
+			"execution(* com.example.demo.controller.OrderController.*(..)) ")
+	public void loginCheck(JoinPoint joinPoint) {
+		// ログインしてなければリダイレクトや例外など
+		if (myAccount == null || myAccount.getName() == null || myAccount.getName().length() == 0) {
+			System.out.println("ゲスト");
+		} else {
+			System.out.println(myAccount.getName() + "さんがログイン");
+		}
+		System.out.println(joinPoint.getSignature());
+	}
+
+
 	@Around("execution(* com.example.demo.controller.MypageController.*(..)) || " +
 			"execution(* com.example.demo.controller.OrderController.*(..))")
 	public Object loginChecked(ProceedingJoinPoint joinPoint) throws Throwable {

@@ -1,23 +1,22 @@
-<header>
-	<div class="header-container">
-		<!-- 左：ロゴ -->
-		<div class="logo">
-			<a th:href="@{/}">Handmade Market</a>
-		</div>
 
-		<!-- 中央：検索フォーム -->
-		<div class="search-box">
-			<form method="get" th:action="@{/items}">
-				<input type="text" name="keyword" th:value="${param.keyword}" placeholder="お探しのものはありますか？">
-				<button type="submit">検索</button>
-			</form>
-		</div>
+<div th:fragment="header">
+	<header>
+		検索欄を表示させるヘッダー
+		<nav>
+			<a href="/">トップ</a>
+			<th:block th:if="${session.account == null}">
+				<a href="/login">ログイン</a>
+				<a href="/register">新規登録</a>
+			</th:block>
+			<th:block th:if="${session.account != null}">
+				<a href="/mypage">[[${@myAccount.name}]]さんのマイページ</a>
+				<a href="/logout">ログアウト</a>
+			</th:block>
+		</nav>
 
-		<!-- 右：ユーザー関連リンク（ログイン状態で出し分けることも可能） -->
-		<div class="user-links">
-			<a th:href="@{/account/login}">ログイン</a>
-			<a th:href="@{/account/register}">新規登録</a>
-			<a th:href="@{/mypage}">マイページ</a>
-		</div>
-	</div>
-</header>
+		<form method="get" action="/items">
+			<input name="keyword" placeholder="お探しのものはありますか？">
+			<button>検索</button>
+		</form>
+	</header>
+</div>

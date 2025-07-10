@@ -3,7 +3,13 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+
+	<title>商品詳細</title>
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="/js/chat.js"></script>
+
 </head>
 
 <body>
@@ -12,22 +18,28 @@
 	<main>
 		<div>
 
-			<p><img th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"></p>
-			<p>価格:<span th:text="${item.price}"></span></p>
+			<p><img th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"></img></p>
+			<p>価格:<span th:text="${item.price}+'円'"></span></p>
 		</div>
 
 		<div>
-			<p>出品者:<span th:text="${item.account.name}"></span> 
-			<a th:href="@{/mypage/user/{id}/detail(id=${item.account.id})}">出品者プロフィールを見る</a>
-			</p>
+			<p>出品者:<span th:text="${item.account.name}+'さん'"></span> <a href="/user/1/detail">プロフィールを見る</a></p>
 			<p>商品名:<span th:text="${item.name}"></span></p>
 			<p>商品詳細:<br><span th:text="${item.memo}"></span></p>
 
 		</div>
 
-		<a th:href="@{/order/{itemId}(itemId=${item.id})}">購入する</a>
-		 <a href="/">一覧へ</a>
+		<form th:href="@{/order/{itemId}(itemId=${item.id})}" method="get">
+		<button >購入する</button>
+		</form>
+		<form action="/chat/start" method="post">
+			<input name="itemId" type="hidden" th:value="${item.id}">
+			<input name="ownerId" type="hidden" th:value="${item.account.id}">
+			<button>チャットを始める</button>
+		</form>
+		<a href="/">一覧へ</a>
 	</main>
-</body>
-
-</html>
+	</body>
+	
+	</html>
+	

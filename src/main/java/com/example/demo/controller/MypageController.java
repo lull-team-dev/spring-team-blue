@@ -37,22 +37,18 @@ public class MypageController {
 	HistoryRepository historyRepository;
 
 	// マイページ
-	@GetMapping("")
-	public String showMypage() {
-		return "mypage/mypage";
-	}
 
-	@GetMapping("mypage/{id}")
-	public String showMoreMypage(@PathVariable(name = "id") Long id, Model model) {
+	@GetMapping("/mypage")
+	public String showMypage(@RequestParam(name = "id", defaultValue = "1") Integer id, Model model) {
 
 		if (id == 1) {
+			List<Item> itemSelling = itemRepository.findByAccountId(myAccount.getId());
+			model.addAttribute("myItems", itemSelling);
+		} else if (id == 2) {
 			List<History> orderDetail = historyRepository.findByAccountId(myAccount.getId());
 			model.addAttribute("orderDetail", orderDetail);
-		} else if (id == 2) {
-			List<Item> itemSelling = itemRepository.findByAccountId(id);
-			model.addAttribute("itemSelling", itemSelling);
 		} else if (id == 3) {
-			List<Review> myReview = reviewRepository.findByAccountId(id);
+			List<Review> myReview = reviewRepository.findByAccountId(myAccount.getId());
 			model.addAttribute("myReview", myReview);
 		}
 		return "mypage/mypage";
@@ -86,6 +82,7 @@ public class MypageController {
 		UpdateAccount.setAddress(address);
 		UpdateAccount.setTel(tel);
 
+		myAccount.setName(UpdateAccount.getName());
 		accountRepository.save(UpdateAccount);
 
 		return "redirect:/mypage";

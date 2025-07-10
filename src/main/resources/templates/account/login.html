@@ -11,10 +11,18 @@
 	<!-- 🔽 エラーメッセージ表示ブロックを追加 -->
 	<p th:if="${message}" th:text="${message}" style="color:red;"></p>
 
-	<form method="post" th:action="@{/account/login}">
-		<label>メール</label><input type="email" name="email"><br>
-		<label>パスワード</label><input type="password" name="password"><br>
-		<button type="submit">ログイン</button>
-	</form>
-</body>
+
+	<body>
+		<div th:replace="fragments/header_account :: header"></div>
+		<h2>ログイン</h2>
+		<form method="post" action="/login">
+			<p style="color: red;" th:if="${message}" th:text="${message}"></p>
+			<p style="color: red;" th:if="${emailMessage}" th:text="${emailMessage}"></p>
+			<label>メール</label><input type="email" name="email"><br>
+			<p style="color: red;" th:if="${passMessage}" th:text="${passMessage}"></p>
+			<label>パスワード</label><input type="password" name="password"><br>
+			<button type="submit">ログイン</button>
+		</form>
+	</body>
+
 </html>

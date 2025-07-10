@@ -30,7 +30,7 @@ public class AccountController {
 	AccountRepository accountRepository;
 
 	// ログイン画面
-	@GetMapping("/login")
+	@GetMapping({ "/login", "/logout" })
 	public String index() {
 		session.removeAttribute("account"); // ← セッション全体を消さず、ログイン情報だけクリア
 		return "account/login";
@@ -42,13 +42,15 @@ public class AccountController {
 			@RequestParam(name = "password", defaultValue = "") String password,
 			Model model) {
 
-		if (email.isEmpty()) {
-			model.addAttribute("message", "メールアドレスを入力してください");
-			return "account/login";
-		}
 
-		if (password.isEmpty()) {
-			model.addAttribute("message", "パスワードを入力してください");
+		if (email.isEmpty() || email.length() == 0) {
+
+			model.addAttribute("emailMessage", "メールアドレスを入力してください");
+
+			if (password.isEmpty() || password.length() == 0) {
+				model.addAttribute("passMessage", "パスワードを入力してください");
+			}
+
 			return "account/login";
 		}
 
@@ -57,9 +59,9 @@ public class AccountController {
 			model.addAttribute("message", "メールアドレスまたはパスワードが一致しません");
 			return "account/login";
 		}
-
 		myAccount.setId(account.getId());
 		myAccount.setName(account.getName());
+
 		session.setAttribute("account", myAccount);
 
 		// 🔽 セッションに保存されたリダイレクト先があるならそこへ

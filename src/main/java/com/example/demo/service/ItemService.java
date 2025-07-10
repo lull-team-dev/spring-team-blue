@@ -57,7 +57,9 @@ public class ItemService {
 
 	// 商品を保存（新規追加）
 	@Transactional
-	public void saveNewItem(String name, String image, Integer price, String memo, Integer userId, Integer categoryId) {
+
+	public void saveNewItem(String name, String image, Integer price, String memo, Long userId, Long categoryId) {
+
 		Item item = new Item();
 		item.setName(name);
 		item.setImage(image); // ここは "namekuzi.jpg" のようなファイル名だけ

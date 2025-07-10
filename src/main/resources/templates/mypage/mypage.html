@@ -11,12 +11,12 @@
 	<h2>マイページ</h2>
 
 	<form method="get" action="/mypage/update">
-	<button >プロフィール編集</button>
+		<button>プロフィール編集</button>
 	</form>
 
 	<a href="/items/new">商品を登録する</a>
 	<!-- ← ここが導線 -->
-	<p>出品中の商品一覧のリンク</p>
+
 
 	<div>
 		<h3></h3>
@@ -24,11 +24,27 @@
 	</div>
 
 	<div>
-		<a th:href="@{/mypage/{id}(id=1)}">購入履歴</a>
-		<a th:href="@{/mypage/{id}(id=2)}">出品</a>
-		<a th:href="@{/mypage/{id}(id=3)}">評価</a>
+		<a th:href="@{/mypage(id=1)}">出品</a>
+		<a th:href="@{/mypage(id=2)}">購入履歴</a>
+		<a th:href="@{/mypage(id=3)}">評価</a>
 		<!--  <a th:href="@{/mypage(id=4)}"></a>-->
 	</div>
+	<th:block th:if="${myItems}">
+		<div th:each="item:${myItems}">
+			<img name="image" th:src="@{'/images/items/' + ${item.image}}" />
+			<p name="price" th:text="${item.price}"></p>
+		</div>
+	</th:block>
+	<th:Block th:if="${orderDetail}">
+		<div th:each="orders:${orderDetail}">
+			<p th:text="${orders.item.name}"></p>
+		</div>
+	</th:Block>
+	<th:Block th:if="${myReview}">
+		<div th:each="review: ${myReview}">
+			<p ></p>
+		</div>
+	</th:Block>
 </body>
 
 </html>
