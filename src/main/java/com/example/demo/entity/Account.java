@@ -33,6 +33,9 @@ public class Account {
 	private String address;
 
 	private String tel;
+	
+	@Column(name = "payment_method", nullable = true)
+	private String paymentMethod;
 
 	public Account() {
 	}
@@ -49,6 +52,8 @@ public class Account {
 		this.address = address;
 		this.tel = tel;
 	}
+	
+
 
 	// getter
 	public Long getId() {
@@ -82,6 +87,10 @@ public class Account {
 	public String getTel() {
 		return tel;
 	}
+	
+	public String getPaymentMethod() {
+		return paymentMethod;
+	}
 
 	// setter
 	public void setId(Long id) {
@@ -114,5 +123,9 @@ public class Account {
 
 	public void setTel(String tel) {
 		this.tel = tel;
+	}
+	
+	public void setPaymentMethod(String paymentMethod) {
+		this.paymentMethod = paymentMethod;
 	}
 }

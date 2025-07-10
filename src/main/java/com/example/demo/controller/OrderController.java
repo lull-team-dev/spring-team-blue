@@ -1,28 +1,115 @@
 package com.example.demo.controller;
 
+import java.time.LocalDateTime;
+
+import jakarta.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.demo.entity.Account;
+import com.example.demo.entity.Item;
+import com.example.demo.entity.Order;
+import com.example.demo.model.MyAccount;
+import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.ItemRepository;
+import com.example.demo.repository.OrderRepository;
 
 @Controller
 public class OrderController {
 
-	// 商品購入ページを表示
-	@GetMapping("/order")
-	public String showConfirm() {
-		return "order/order_form";
-	}
+    @Autowired
+    OrderRepository orderRepository;
 
-	// 購入確認画面を表示
-	@PostMapping("/order/confirm")
-	public String showDoOrder() {
-		return "order/order_confirm";
-	}
+    @Autowired
+    HttpSession session;
 
-	// 購入完了ページを表示
-	@PostMapping("/order/confirm/complete")
-	public String orderComplete() {
-		return "order/order_result";
-	}
+    @Autowired
+    MyAccount myAccount;
 
+    @Autowired
+    AccountRepository accountRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
+    // 商品購入ページを表示
+    @GetMapping("/order/{itemId}")
+    public String showOrderForm(@PathVariable("itemId") Integer itemId, Model model) {
+        Item item = itemRepository.findById(itemId).orElseThrow();
+        Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
+        model.addAttribute("item", item);
+        model.addAttribute("account", account);
+        return "order/order_form";
+    }
+
+    // 購入確認画面を表示
+    @PostMapping("/order/confirm")
+    public String showDoOrder(
+            @RequestParam("postal_code") String postalCode,
+            @RequestParam("address") String address,
+            @RequestParam("payment_method") String paymentMethod,
+            @RequestParam("item_id") Integer itemId,
+            Model model) {
+
+        Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
+        Item item = itemRepository.findById(itemId).orElseThrow();
+
+        // 注文情報を仮作成（まだ保存しない）
+        Order order = new Order();
+        order.setAccount(account);
+        order.setItem(item);
+        order.setOrderDate(LocalDateTime.now());
+        order.setTotalPrice(item.getPrice());
+        order.setStatus((short) 0); // 確認中など
+        order.setPostalCode(postalCode); 
+        order.setDeliveryAddress(address);
+        order.setDeliveryTel(account.getTel());
+        order.setPaymentMethod(paymentMethod);
+        
+        model.addAttribute("account", account); 
+        model.addAttribute("order", order);
+        model.addAttribute("item", item);
+
+        return "order/order_confirm";
+    }
+
+    // 購入完了ページを表示
+    @PostMapping("/order/confirm/complete")
+    public String orderComplete(@RequestParam("address") String address,
+                                @RequestParam("payment_method") String paymentMethod,
+                                @RequestParam("itemId") Integer itemId,
+                                @RequestParam("postalCode") String postalCode,
+                                Model model) {
+
+        Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
+        Item item = itemRepository.findById(itemId).orElseThrow();
+        
+        // 商品を売り切れにする
+        item.setSoldOut(true);
+        itemRepository.save(item); 
+
+        Order order = new Order();
+        order.setAccount(account);
+        order.setItem(item);
+        order.setOrderDate(LocalDateTime.now());
+        order.setTotalPrice(item.getPrice());
+        order.setStatus((short) 1); // 完了
+        order.setPostalCode(postalCode); 
+        order.setDeliveryAddress(address);
+        order.setDeliveryTel(account.getTel());
+        order.setPaymentMethod(paymentMethod);
+
+        orderRepository.save(order);
+
+        model.addAttribute("order", order);
+        model.addAttribute("item", item);
+
+        return "order/order_result";
+    }
 }
