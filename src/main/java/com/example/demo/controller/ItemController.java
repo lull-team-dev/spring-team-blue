@@ -42,7 +42,7 @@ public class ItemController {
 	public String submitItem(
 			@RequestParam("item_name") String itemName,
 			@RequestParam("price") Integer price,
-			@RequestParam("category_id") Integer categoryId,
+			@RequestParam("category_id") Long categoryId,
 			@RequestParam("memo") String memo,
 			@RequestParam("image_file") MultipartFile imageFile) {
 
@@ -83,7 +83,7 @@ public class ItemController {
 
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
-	public String showItemDetail(@PathVariable("id") Integer id, Model model) {
+	public String showItemDetail(@PathVariable("id") Long id, Model model) {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		model.addAttribute("item", item);
 		return "item/item_detail";

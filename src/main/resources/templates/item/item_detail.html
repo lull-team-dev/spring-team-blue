@@ -4,6 +4,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>商品詳細</title>
+	<script src="/webjars/jquery/jquery.min.js"></script>
+	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="/js/chat.js"></script>
 </head>
 
 <body>
@@ -20,8 +24,13 @@
 			<p>商品名:<span th:text="${item.name}"></span></p>
 			<p>商品詳細:<br><span th:text="${item.memo}"></span></p>
 		</div>
-		<form action="/order" method="get">
+		<form th:href="@{/order/{itemId}(itemId=${item.id})}" method="get">
 		<button >購入する</button>
+		</form>
+		<form action="/chat/start" method="post">
+			<input name="itemId" type="hidden" th:value="${item.id}">
+			<input name="ownerId" type="hidden" th:value="${item.account.id}">
+			<button>チャットを始める</button>
 		</form>
 		<a href="/">一覧へ</a>
 	</main>
