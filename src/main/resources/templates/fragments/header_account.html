@@ -1,12 +1,10 @@
 <div th:fragment="header">
-
-  <header>
-	ログイン画面・新規登録・マイページ用ヘッダー
-    <nav>
-      <a href="/">トップ</a>
-	  <th:block th:if="${session.account != null}">
-      <a href="/logout">ログアウト</a>
-	  </th:block>
-    </nav>
-  </header>
+	<header>
+		ログイン画面・新規登録・マイページ用ヘッダー
+		<nav>
+			<a href="/">トップ</a>
+			<a href="/account/login">ログイン</a>
+			<a th:href="@{/account/register}">新規登録</a>
+		</nav>
+	</header>
 </div>

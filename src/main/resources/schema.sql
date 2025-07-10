@@ -45,9 +45,7 @@ CREATE TABLE orders (
 id SERIAL PRIMARY KEY,
 consumer_id INTEGER NOT NULL REFERENCES users(id),
 item_id INTEGER NOT NULL REFERENCES items(id),
-
-order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
+order_date TIMESTAMP,
 total_price INTEGER NOT NULL CHECK (total_price >= 0),
 status SMALLINT,
 postal_code VARCHAR(10), 
@@ -69,7 +67,7 @@ total_price INTEGER NOT NULL
 -- レビューテーブル
 CREATE TABLE reviews (
 id SERIAL PRIMARY KEY,
-item_id INTEGER NOT NULL REFERENCES items(id),
+items_id INTEGER NOT NULL REFERENCES items(id),
 user_id INTEGER NOT NULL REFERENCES users(id),
 score SMALLINT NOT NULL CHECK (score >= 1 AND score <= 5),
 review_text TEXT NOT NULL,
@@ -78,40 +76,32 @@ review_date TIMESTAMP NOT NULL
 
 -- ブックマークテーブル
 CREATE TABLE bookmarks (
-
-    id SERIAL PRIMARY KEY ,
-    user_id INTEGER NOT NULL,
-    item_id INTEGER NOT NULL,         -- ブックマーク対象（商品、投稿など）
-    item_type VARCHAR(50),        -- 例：'post', 'product'
+    id SERIAL PRIMARY KEY,
+    user_id INT NOT NULL,
+    item_id INT NOT NULL,
+    item_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 -- チャットテーブル
 CREATE TABLE chats (
-
-    id SERIAL PRIMARY KEY,
-    item_id INTEGER NOT NULL,
-    client_id INTEGER NOT NULL,
-    owner_id INTEGER NOT NULL,
-    message TEXT,
-    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    
-    FOREIGN KEY (item_id) REFERENCES items(id),
-    FOREIGN KEY (client_id) REFERENCES users(id),
-    FOREIGN KEY (owner_id) REFERENCES users(id)
+  id SERIAL PRIMARY KEY,
+  sender_id INT NOT NULL,
+  receiver_id INT NOT NULL,
+  message TEXT NOT NULL,
+  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (sender_id) REFERENCES users(id),
+  FOREIGN KEY (receiver_id) REFERENCES users(id)
 );
 
 -- フォローテーブル
 CREATE TABLE follows (
-
-    id SERIAL PRIMARY KEY,
-    follower_id INTEGER NOT NULL,
-    followed_id INTEGER NOT NULL,
-    followed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    FOREIGN KEY (follower_id) REFERENCES users(id),
-    FOREIGN KEY (followed_id) REFERENCES users(id),
-    UNIQUE (follower_id, followed_id)  -- 同じ人を2回フォローできないように
+  id SERIAL PRIMARY KEY,
+  follower_id INT NOT NULL,
+  followed_id INT NOT NULL,
+  followed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (follower_id) REFERENCES users(id),
+  FOREIGN KEY (followed_id) REFERENCES users(id),
+  UNIQUE (follower_id, followed_id)
 );
