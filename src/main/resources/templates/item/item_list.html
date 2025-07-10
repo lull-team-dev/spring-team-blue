@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
+
 <head>
 	<title>商品一覧</title>
 </head>
@@ -10,6 +11,7 @@
 	<div th:replace="fragments/header_search :: header"></div>
 	<div>
 		<h2>商品一覧</h2>
+
 		<p th:if="${message}" style="color: red;" th:text="${message}"></p>
 		<div class="item-link">
 			<a href="/items">全商品</a>
@@ -37,4 +39,3 @@
 	</div>
 </body>
 
-</html>

@@ -45,7 +45,9 @@ CREATE TABLE orders (
 id SERIAL PRIMARY KEY,
 consumer_id INTEGER NOT NULL REFERENCES users(id),
 item_id INTEGER NOT NULL REFERENCES items(id),
+
 order_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
 total_price INTEGER NOT NULL CHECK (total_price >= 0),
 status SMALLINT,
 postal_code VARCHAR(10), 
@@ -76,6 +78,7 @@ review_date TIMESTAMP NOT NULL
 
 -- ブックマークテーブル
 CREATE TABLE bookmarks (
+
     id SERIAL PRIMARY KEY ,
     user_id INTEGER NOT NULL,
     item_id INTEGER NOT NULL,         -- ブックマーク対象（商品、投稿など）
@@ -87,6 +90,7 @@ CREATE TABLE bookmarks (
 
 -- チャットテーブル
 CREATE TABLE chats (
+
     id SERIAL PRIMARY KEY,
     item_id INTEGER NOT NULL,
     client_id INTEGER NOT NULL,
@@ -101,6 +105,7 @@ CREATE TABLE chats (
 
 -- フォローテーブル
 CREATE TABLE follows (
+
     id SERIAL PRIMARY KEY,
     follower_id INTEGER NOT NULL,
     followed_id INTEGER NOT NULL,

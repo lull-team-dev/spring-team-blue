@@ -9,7 +9,7 @@
 <body>
 	<div th:replace="fragments/header_account :: header"></div>
 	<h2>新規登録</h2>
-	<form method="post" action="/register">
+	<form method="post" th:action="@{/account/register}">
 		<div>
 			<div>
 				<p style="color: red;" th:if="${nameMessage}" th:text="${nameMessage}"></p>

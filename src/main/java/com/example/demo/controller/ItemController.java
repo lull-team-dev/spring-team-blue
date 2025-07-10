@@ -26,7 +26,13 @@ public class ItemController {
 	CategoryRepository categoryRepository;
 
 	@Autowired
-	private ItemService itemService;
+
+	ItemRepository itemRepository;
+
+	@Autowired
+	ItemService itemService;
+
+
 
 	@Autowired
 	ItemRepository itemRepository;
@@ -47,16 +53,24 @@ public class ItemController {
 			@RequestParam("image_file") MultipartFile imageFile) {
 
 		try {
+			// ✅ 保存先の絶対パス（static/images/items）
 			String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
-			Files.createDirectories(Paths.get(uploadDir));
+			Files.createDirectories(Paths.get(uploadDir)); // フォルダが無ければ作成
 
+			// ✅ ファイル名（重複防止にUUIDつけてもよい）
 			String originalFilename = imageFile.getOriginalFilename();
 			Path filePath = Paths.get(uploadDir, originalFilename);
+
+			// ✅ 画像ファイル保存
 			imageFile.transferTo(filePath.toFile());
 
-			Long userId = (long) 1;
+			// 仮ユーザーID
+			Integer userId = 1;
+
+			// ✅ 画像ファイル名を保存（パスは不要）
 			itemService.saveNewItem(itemName, originalFilename, price, memo, userId, categoryId);
 
+			// ✅ 商品詳細に遷移するように変更も可能（任意）
 			return "redirect:/submit/complete";
 
 		} catch (Exception e) {
@@ -72,6 +86,7 @@ public class ItemController {
 	}
 
 	// 商品一覧
+
 	@GetMapping({ "/items", "/" })
 	public String index(
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
@@ -83,10 +98,13 @@ public class ItemController {
 
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
+
 	public String showItemDetail(@PathVariable("id") Long id, Model model) {
+
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		model.addAttribute("item", item);
 		return "item/item_detail";
 	}
+
 
 }
