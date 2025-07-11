@@ -3,9 +3,12 @@ package com.example.demo.aop;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -15,7 +18,6 @@ import com.example.demo.model.MyAccount;
 @Aspect
 @Component
 public class CheckLoginAspect {
-
 
 	@Autowired
 	MyAccount myAccount;
@@ -31,7 +33,6 @@ public class CheckLoginAspect {
 		}
 		System.out.println(joinPoint.getSignature());
 	}
-
 
 	@Around("execution(* com.example.demo.controller.MypageController.*(..)) || " +
 			"execution(* com.example.demo.controller.OrderController.*(..))")

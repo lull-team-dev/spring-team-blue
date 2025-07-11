@@ -26,16 +26,10 @@ public class ItemController {
 	CategoryRepository categoryRepository;
 
 	@Autowired
-
 	ItemRepository itemRepository;
 
 	@Autowired
 	ItemService itemService;
-
-
-
-	@Autowired
-	ItemRepository itemRepository;
 
 	// 商品登録フォーム
 	@GetMapping("items/new")
@@ -105,6 +99,5 @@ public class ItemController {
 		model.addAttribute("item", item);
 		return "item/item_detail";
 	}
-
 
 }

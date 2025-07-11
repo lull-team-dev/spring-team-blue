@@ -17,48 +17,46 @@ public class Order {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	// users テーブルとのリレーション（購入者）
 	@ManyToOne
 	@JoinColumn(name = "consumer_id", nullable = false)
 	private Account account;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "item_id", nullable = false)
 	private Item item;
 
 	@Column(name = "order_date")
 	private LocalDateTime orderDate;
-	
+
 	@Column(name = "total_price", nullable = false)
 	private Integer totalPrice;
-	
+
 	@Column
 	private Short status;
-	
+
 	@Column(name = "postal_code")
 	private String postalCode;
-	
+
 	@Column(name = "delivery_address", nullable = false, columnDefinition = "TEXT")
 	private String deliveryAddress;
-	
+
 	@Column(name = "delivery_tel")
 	private String deliveryTel;
-	
+
 	@Column(name = "payment_method", nullable = false)
 	private String paymentMethod;
-	
-	
+
 	public Order() {
 	}
-	
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -69,13 +67,13 @@ public class Order {
 	public void setAccount(Account account) {
 		this.account = account;
 	}
-	
+
 	public Item getItem() {
-	    return item;
+		return item;
 	}
 
 	public void setItem(Item item) {
-	    this.item = item;
+		this.item = item;
 	}
 
 	public LocalDateTime getOrderDate() {
@@ -85,9 +83,9 @@ public class Order {
 	public void setOrderDate(LocalDateTime orderDate) {
 		this.orderDate = orderDate;
 	}
-	
+
 	public String getPaymentMethod() {
-	    return paymentMethod;
+		return paymentMethod;
 	}
 
 	public Integer getTotalPrice() {
@@ -105,13 +103,13 @@ public class Order {
 	public void setStatus(Short status) {
 		this.status = status;
 	}
-	
+
 	public String getPostalCode() {
-	    return postalCode;
+		return postalCode;
 	}
 
 	public void setPostalCode(String postalCode) {
-	    this.postalCode = postalCode;
+		this.postalCode = postalCode;
 	}
 
 	public String getDeliveryAddress() {
@@ -129,9 +127,9 @@ public class Order {
 	public void setDeliveryTel(String deliveryTel) {
 		this.deliveryTel = deliveryTel;
 	}
+
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
 	}
 
-	
 }

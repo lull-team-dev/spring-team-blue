@@ -17,7 +17,7 @@ public class Review {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@ManyToOne
 	@JoinColumn(name = "items_id", nullable = false)
@@ -37,11 +37,11 @@ public class Review {
 	@Column(name = "review_date", nullable = false)
 	private LocalDateTime reviewDate;
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
