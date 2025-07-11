@@ -88,6 +88,6 @@ public class Review {
 		this.reviewDate = reviewDate;
 	}
 
-	protected Review() {
+	public Review() {
 	} // JPA用
 }
