@@ -33,7 +33,7 @@ public class ChatController {
 	@Autowired
 	AccountRepository accountRepository;
 
-	@PostMapping("/chat/start")
+	@PostMapping("/chat")
 	public String chatStart(
 			@RequestParam(name = "itemId", defaultValue = "") Long itemId,
 			@RequestParam(name = "ownerId", defaultValue = "") Long ownerId,
@@ -44,8 +44,9 @@ public class ChatController {
 		Chat newChatSpace = new Chat(item, client, owner);
 
 		chatRepository.save(newChatSpace);
+		Chat newChat = chatRepository.findByItemAndClientAndOwner(item, client, owner);
 
-		return "redirect:/chat?chatId=" + newChatSpace.getId();
+		return "redirect:/chat?chatId=" + newChat.getId();
 	}
 
 	@GetMapping("/chat")

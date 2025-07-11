@@ -26,6 +26,11 @@
 		</div>
 
 		<a th:href="@{/order/{itemId}(itemId=${item.id})}">購入する</a>
+		<form th:action="@{/chat}" method="post">
+			<input type="hidden" name="itemId" th:value="${item.id}">
+			<input type="hidden" name="ownerId" th:value="${item.account.id}">
+			<button>チャットを始める</button>
+		</form>
 		 <a href="/">一覧へ</a>
 	</main>
 </body>

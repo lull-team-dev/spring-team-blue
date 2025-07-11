@@ -26,6 +26,7 @@ public class Chat {
 	@ManyToOne
 	@JoinColumn(name = "owner_id", nullable = false)
 	private Account owner;
+
 	private String message;
 	@Column(name = "sent_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 	private LocalDateTime sentAt;

@@ -77,8 +77,8 @@ review_date TIMESTAMP NOT NULL
 -- ブックマークテーブル
 CREATE TABLE bookmarks (
     id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
-    item_id INT NOT NULL,
+    user_id INTEGER NOT NULL,
+    item_id INTEGER NOT NULL,
     item_type VARCHAR(50),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id)
@@ -87,19 +87,20 @@ CREATE TABLE bookmarks (
 -- チャットテーブル
 CREATE TABLE chats (
   id SERIAL PRIMARY KEY,
-  sender_id INT NOT NULL,
-  receiver_id INT NOT NULL,
-  message TEXT NOT NULL,
+  item_id INTEGER NOT NULL,
+  client_id INTEGER NOT NULL,
+  owner_id INTEGER NOT NULL,
+  message TEXT ,
   sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  FOREIGN KEY (sender_id) REFERENCES users(id),
-  FOREIGN KEY (receiver_id) REFERENCES users(id)
+  FOREIGN KEY (client_id) REFERENCES users(id),
+  FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 
 -- フォローテーブル
 CREATE TABLE follows (
   id SERIAL PRIMARY KEY,
-  follower_id INT NOT NULL,
-  followed_id INT NOT NULL,
+  follower_id INTEGER NOT NULL,
+  followed_id INTEGER NOT NULL,
   followed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (follower_id) REFERENCES users(id),
   FOREIGN KEY (followed_id) REFERENCES users(id),
