@@ -32,7 +32,7 @@ public class ReviewController {
 
 	// レビュー投稿画面の表示
 	@GetMapping("/form/{revieweeId}")
-	public String showReviewForm(@PathVariable("revieweeId") Integer revieweeId, Model model) {
+	public String showReviewForm(@PathVariable("revieweeId") Long revieweeId, Model model) {
 		Account reviewee = accountRepository.findById(revieweeId).orElse(null);
 		if (reviewee == null) {
 			return "error"; // ユーザーが存在しない場合
@@ -44,7 +44,7 @@ public class ReviewController {
 
 	// レビュー投稿の処理
 	@PostMapping("/submit")
-	public String submitReview(@RequestParam("revieweeId") Integer revieweeId,
+	public String submitReview(@RequestParam("revieweeId") Long revieweeId,
 			@RequestParam("score") Short score,
 			@RequestParam("reviewText") String reviewText,
 			Model model) {
