@@ -30,7 +30,7 @@ public class AccountController {
 	AccountRepository accountRepository;
 
 	// ログイン画面
-	@GetMapping("/login")
+	@GetMapping({ "/login", "/logout" })
 	public String index() {
 		session.removeAttribute("account"); // ← セッション全体を消さず、ログイン情報だけクリア
 		return "account/login";
