@@ -10,13 +10,13 @@ import com.example.demo.entity.Bookmark;
 import com.example.demo.entity.Item;
 
 public interface BookmarkRepository extends JpaRepository<Bookmark, Long> {
-	
-  //ブックマーク済みか確認	
+
+  // ブックマーク済みか確認
   Optional<Bookmark> findByUserAndItem(Account user, Item item);
-  //ブックマークから削除
+
+  // ブックマークから削除
   void deleteByUserAndItem(Account user, Item item);
-  
-  
-  //ブックマーク一覧表示
+
+  // ブックマーク一覧表示
   List<Bookmark> findAllByUser(Account user);
 }
