@@ -9,9 +9,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @Configuration
 @EnableWebSocketMessageBroker
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
-
 	/**
-	 * STOMPを使ったWebSocketのやり取りを開始するエンドポイントを設定する。
+	 * STOMPを使ったWebSocketのやり取りを開始するエンドポイントを設定。
 	 * ここではURL"/chat"を設定し、SockJSを使ってクライアント処理される前提で設定を行う。
 	 */
 	@Override

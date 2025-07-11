@@ -3,17 +3,6 @@
  */
 var stompClient = null;
 
-//// 接続状態により表示を切り替え
-//function setConnected(connected) {
-//  $("#connect").prop("disabled", connected);
-//  $("#disconnect").prop("disabled", !connected);
-//  if (connected) {
-//    $("#conversation").show();
-//  } else {
-//    $("#conversation").hide();
-//  }
-//  $("#message").html("");
-//}
 
 // 接続を行う。
 function connect() {
