@@ -19,6 +19,7 @@ import com.example.demo.model.MyAccount;
 @Component
 public class CheckLoginAspect {
 
+
 	@Autowired
 	MyAccount myAccount;
 
@@ -33,6 +34,7 @@ public class CheckLoginAspect {
 		}
 		System.out.println(joinPoint.getSignature());
 	}
+
 
 	@Around("execution(* com.example.demo.controller.MypageController.*(..)) || " +
 			"execution(* com.example.demo.controller.OrderController.*(..))")
