@@ -52,8 +52,13 @@ public class MypageController {
 			List<Item> itemSelling = itemRepository.findByAccountId(id);
 			model.addAttribute("itemSelling", itemSelling);
 		} else if (id == 3) {
-			List<Review> myReview = reviewRepository.findByAccountId(id);
-			model.addAttribute("myReview", myReview);
+			Account targetUser = accountRepository.findById(id).orElse(null);
+			if (targetUser != null) {
+				List<Review> myReview = reviewRepository.findByReviewee(targetUser);
+				model.addAttribute("myReview", myReview);
+			} else {
+				model.addAttribute("myReview", List.of()); // ユーザーが見つからなかった場合は空リスト
+			}
 		}
 		return "mypage/mypage";
 	}
@@ -95,10 +100,19 @@ public class MypageController {
 	@GetMapping("/user/{id}/detail")
 	public String showUserDetail(@PathVariable("id") Long id, Model model) {
 		Account account = accountRepository.findById(id).orElse(null);
-		//ユーザーの商品一覧を取得
+		if (account == null) {
+			return "error";
+		}
+
 		List<Item> items = itemRepository.findByAccountId(id);
+		List<Review> reviews = reviewRepository.findByReviewee(account);
+		Double avgScore = reviewRepository.findAverageScoreByUserId(id);
+
 		model.addAttribute("account", account);
 		model.addAttribute("items", items);
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("avgScore", avgScore != null ? String.format("%.1f", avgScore) : "未評価");
+
 		return "user/user_detail";
 	}
 
