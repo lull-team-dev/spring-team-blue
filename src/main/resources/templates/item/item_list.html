@@ -26,6 +26,11 @@
 					</a>
 					<p th:text="${item.name}">商品名</p>
 					<p th:text="${item.price} + '円'">価格</p>
+					
+					<button class="bookmark-btn" 
+					          th:attr="data-item-id=${item.id}">
+					    <span th:text="${item.bookmarked} ? '♥' : '♡'"></span>
+					  </button>
 				</div>
 			</div>
 		</div>
