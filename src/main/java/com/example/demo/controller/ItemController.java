@@ -31,6 +31,7 @@ public class ItemController {
 	@Autowired
 	ItemService itemService;
 
+
 	// 商品登録フォーム
 	@GetMapping("items/new")
 	public String showItemForm() {
@@ -42,7 +43,7 @@ public class ItemController {
 	public String submitItem(
 			@RequestParam("item_name") String itemName,
 			@RequestParam("price") Integer price,
-			@RequestParam("category_id") Long categoryId,
+			@RequestParam("category_id") Integer categoryId,
 			@RequestParam("memo") String memo,
 			@RequestParam("image_file") MultipartFile imageFile) {
 
@@ -87,14 +88,13 @@ public class ItemController {
 			@RequestParam(value = "keyword", required = false) String keyword,
 			Model model) {
 		itemService.loadItemPage(categoryId, keyword, model);
+
 		return "item/item_list";
 	}
 
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
-
-	public String showItemDetail(@PathVariable("id") Long id, Model model) {
-
+	public String showItemDetail(@PathVariable("id") Integer id, Model model) {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		model.addAttribute("item", item);
 		return "item/item_detail";
