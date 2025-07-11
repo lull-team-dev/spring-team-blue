@@ -93,7 +93,7 @@ public class ItemController {
 
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
-	public String showItemDetail(@PathVariable("id") Integer id, Model model) {
+	public String showItemDetail(@PathVariable("id") Long id, Model model) {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		model.addAttribute("item", item);
 		return "item/item_detail";
