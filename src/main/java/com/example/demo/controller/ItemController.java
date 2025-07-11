@@ -32,7 +32,6 @@ public class ItemController {
 	ItemService itemService;
 
 
-
 	// 商品登録フォーム
 	@GetMapping("items/new")
 	public String showItemForm() {
@@ -100,6 +99,5 @@ public class ItemController {
 		model.addAttribute("item", item);
 		return "item/item_detail";
 	}
-
 
 }
