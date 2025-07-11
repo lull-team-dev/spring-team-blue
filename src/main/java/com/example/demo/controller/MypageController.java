@@ -99,22 +99,21 @@ public class MypageController {
 	// ユーザー詳細
 	@GetMapping("/user/{id}/detail")
 	public String showUserDetail(@PathVariable("id") Long id, Model model) {
-	    Account account = accountRepository.findById(id).orElse(null);
-	    if (account == null) {
-	        return "error"; // 追加: nullチェック
-	    }
+		Account account = accountRepository.findById(id).orElse(null);
+		if (account == null) {
+			return "error";
+		}
 
-	    // 商品一覧を取得
-	    List<Item> items = itemRepository.findByAccountId(id);
+		List<Item> items = itemRepository.findByAccountId(id);
+		List<Review> reviews = reviewRepository.findByReviewee(account);
+		Double avgScore = reviewRepository.findAverageScoreByUserId(id);
 
-	    // レビュー一覧を取得 ★ 追加
-	    List<Review> reviews = reviewRepository.findByReviewee(account);
+		model.addAttribute("account", account);
+		model.addAttribute("items", items);
+		model.addAttribute("reviews", reviews);
+		model.addAttribute("avgScore", avgScore != null ? String.format("%.1f", avgScore) : "未評価");
 
-	    model.addAttribute("account", account);
-	    model.addAttribute("items", items);
-	    model.addAttribute("reviews", reviews); // ★ 追加
-
-	    return "user/user_detail";
+		return "user/user_detail";
 	}
 
 }

@@ -1,44 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>レビュー投稿</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}" />
-</head>
-<body>
 
-  <h2>レビュー投稿</h2>
+	<head>
+		<meta charset="UTF-8">
+		<title>レビュー投稿</title>
+		<link rel="stylesheet" th:href="@{/css/style.css}" />
+	</head>
 
-  <!-- 対象ユーザーの情報表示 -->
-  <div>
-    <p>レビュー対象: <strong th:text="${reviewee.name}">ユーザー名</strong>（ニックネーム: <span th:text="${reviewee.nickName}">ニックネーム</span>）</p>
-    <p>プロフィール: <span th:text="${reviewee.profile}">プロフィール文</span></p>
-  </div>
+	<body>
 
-  <!-- レビュー投稿フォーム -->
-  <form method="post" th:action="@{/review/submit}">
-    <input type="hidden" name="revieweeId" th:value="${reviewee.id}" />
+		<h2>レビュー投稿</h2>
 
-    <div>
-      <label for="score">評価（1〜5）:</label>
-      <select name="score" id="score" required>
-        <option value="1">★☆☆☆☆</option>
-        <option value="2">★★☆☆☆</option>
-        <option value="3">★★★☆☆</option>
-        <option value="4">★★★★☆</option>
-        <option value="5">★★★★★</option>
-      </select>
-    </div>
+		<!-- 対象ユーザーの情報表示 -->
+		<div>
+			<p>レビュー対象: <strong th:text="${reviewee.name}">ユーザー名</strong>（ニックネーム: <span
+					th:text="${reviewee.nickName}">ニックネーム</span>）</p>
+			<p>プロフィール: <span th:text="${reviewee.profile}">プロフィール文</span></p>
+		</div>
 
-    <div>
-      <label for="reviewText">レビュー内容:</label><br />
-      <textarea name="reviewText" id="reviewText" rows="5" cols="50" required></textarea>
-    </div>
+		<p th:if="${error}" th:text="${error}" style="color: red;"></p>
+		<!-- レビュー投稿フォーム -->
+		<form method="post" th:action="@{/review/submit}">
+			<input type="hidden" name="revieweeId" th:value="${reviewee.id}" />
 
-    <button type="submit">投稿</button>
-  </form>
+			<div>
+				<label for="score">評価（1〜5）:</label>
+				<select name="score" id="score" required>
+					<option value="1">★☆☆☆☆</option>
+					<option value="2">★★☆☆☆</option>
+					<option value="3">★★★☆☆</option>
+					<option value="4">★★★★☆</option>
+					<option value="5">★★★★★</option>
+				</select>
+			</div>
 
-  <p><a th:href="@{/items}">← 商品一覧へ戻る</a></p>
+			<div>
+				<label for="reviewText">レビュー内容:</label><br />
+				<textarea name="reviewText" id="reviewText" rows="5" cols="50" required></textarea>
+			</div>
 
-</body>
+			<button type="submit">投稿</button>
+		</form>
+		<!-- 戻るリンク -->
+		<p><a th:href="@{/items}">← 商品一覧へ戻る</a></p>
+
+	</body>
+
 </html>

@@ -46,13 +46,21 @@ public class ReviewController {
 	@PostMapping("/submit")
 	public String submitReview(@RequestParam("revieweeId") Integer revieweeId,
 			@RequestParam("score") Short score,
-			@RequestParam("reviewText") String reviewText) {
+			@RequestParam("reviewText") String reviewText,
+			Model model) {
 
 		Account reviewer = accountRepository.findById(myAccount.getId()).orElse(null);
 		Account reviewee = accountRepository.findById(revieweeId).orElse(null);
 
 		if (reviewer == null || reviewee == null) {
 			return "error";
+		}
+
+		// 🔒 自分自身へのレビュー防止
+		if (reviewer.getId().equals(reviewee.getId())) {
+			model.addAttribute("error", "自分自身にレビューすることはできません。");
+			model.addAttribute("reviewee", reviewee);
+			return "review/review_form";
 		}
 
 		Review review = new Review();
