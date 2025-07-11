@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "items")
@@ -40,6 +41,11 @@ public class Item {
 	@Column(name = "sold_out", nullable = false)
 	private Boolean soldOut;
 
+	// DBに保存しない一時的な変数
+	@Transient
+	// 画面表示用
+	private boolean bookmarked;
+
 	public Item() {
 
 	}
@@ -57,7 +63,7 @@ public class Item {
 		this.soldOut = soldOut;
 	}
 
-	//getter
+	// getter
 	public Long getId() {
 		return id;
 	}
@@ -89,8 +95,13 @@ public class Item {
 	public Boolean getSoldOut() {
 		return soldOut;
 	}
+	
+	//	boolean のgetterは → is〇〇() がルール（Javaの決まり）
+	public boolean isBookmarked() {
+		return bookmarked;
+	}
 
-	//setter
+	// setter
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -121,6 +132,10 @@ public class Item {
 
 	public void setSoldOut(Boolean soldOut) {
 		this.soldOut = soldOut;
+	}
+	
+	public void setBookmarked(boolean bookmarked) {
+	    this.bookmarked = bookmarked;
 	}
 
 }
