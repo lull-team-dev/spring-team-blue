@@ -40,7 +40,7 @@ public class OrderController {
 
     // 商品購入ページを表示
     @GetMapping("/order/{itemId}")
-    public String showOrderForm(@PathVariable("itemId") Integer itemId, Model model) {
+    public String showOrderForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemRepository.findById(itemId).orElseThrow();
         Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
         model.addAttribute("item", item);
@@ -54,7 +54,7 @@ public class OrderController {
             @RequestParam("postal_code") String postalCode,
             @RequestParam("address") String address,
             @RequestParam("payment_method") String paymentMethod,
-            @RequestParam("item_id") Integer itemId,
+            @RequestParam("item_id") Long itemId,
             Model model) {
 
         Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
@@ -83,7 +83,7 @@ public class OrderController {
     @PostMapping("/order/confirm/complete")
     public String orderComplete(@RequestParam("address") String address,
                                 @RequestParam("payment_method") String paymentMethod,
-                                @RequestParam("itemId") Integer itemId,
+                                @RequestParam("itemId") Long itemId,
                                 @RequestParam("postalCode") String postalCode,
                                 Model model) {
 

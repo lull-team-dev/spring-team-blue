@@ -31,8 +31,6 @@ public class ItemController {
 	@Autowired
 	ItemService itemService;
 
-
-
 	// 商品登録フォーム
 	@GetMapping("items/new")
 	public String showItemForm() {
@@ -44,7 +42,7 @@ public class ItemController {
 	public String submitItem(
 			@RequestParam("item_name") String itemName,
 			@RequestParam("price") Integer price,
-			@RequestParam("category_id") Integer categoryId,
+			@RequestParam("category_id") Long categoryId,
 			@RequestParam("memo") String memo,
 			@RequestParam("image_file") MultipartFile imageFile) {
 
@@ -61,7 +59,7 @@ public class ItemController {
 			imageFile.transferTo(filePath.toFile());
 
 			// 仮ユーザーID
-			Integer userId = 1;
+			Long userId = (long) 1;
 
 			// ✅ 画像ファイル名を保存（パスは不要）
 			itemService.saveNewItem(itemName, originalFilename, price, memo, userId, categoryId);
@@ -95,11 +93,10 @@ public class ItemController {
 
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
-	public String showItemDetail(@PathVariable("id") Integer id, Model model) {
+	public String showItemDetail(@PathVariable("id") Long id, Model model) {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		model.addAttribute("item", item);
 		return "item/item_detail";
 	}
-
 
 }
