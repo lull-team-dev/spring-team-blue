@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+	<script src="/js/chat.js"></script>
+
+</head>
+
+<body>
+
+	<label for="name">名前:</label>
+	<span name="clientName" th:text="${chat.client.nickname}"></span>
+	<label for="name">名前:</label>
+	<span name="ownerName" th:text="${chat.owner.nickname}"></span>
+
+	<form class="form-inline">
+		<input type="hidden" id="itemId" name="itemId" th:value="${item.id}">
+		<input type="hidden" id="chatId" name="chatId" th:value=${chat.id}>
+		<input type="hidden" id="myAccountId" name="myAccountId" th:value="${@myAccount.id}">
+
+		<div class="form-group">
+			<input type="hidden" name="name" id="name" th:value="${@myAccount.nickname}">
+		</div>
+		<div class="form-group">
+			<label for="name">メッセージ:</label>
+			<input type="text" id="statement" placeholder="Your Message">
+		</div>
+		<button id="send" type="submit">送信</button>
+	</form>
+	<!-- ここではチャットの内容をテーブルとして表示 -->
+	<table  th:each="messageLog:${messageLogs}">
+		<td  th:text="${messageLog.sender.nickname}+':'+${messageLog.message}"></td>
+	</table>
+	<table>
+		<tbody id="message"></tbody>
+	</table>
+
+	<form th:action="@{/items/{id}/detail(id=${item.id})}" method="get">
+		<button>チャットを終了する</button>
+	</form>
+</body>

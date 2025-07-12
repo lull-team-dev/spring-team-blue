@@ -60,6 +60,7 @@ public class AccountController {
 
 		myAccount.setId(account.getId());
 		myAccount.setName(account.getName());
+		myAccount.setNickname(account.getNickname());
 		session.setAttribute("account", myAccount);
 
 		// 🔽 セッションに保存されたリダイレクト先があるならそこへ
@@ -119,7 +120,7 @@ public class AccountController {
 			fullName = lastName + firstName;
 			addAccount.setName(fullName);
 
-			addAccount.setNickName(nickName);
+			addAccount.setNickname(nickName);
 
 			//メールの登録有無
 			Account mailCheck = accountRepository.findByEmail(email);
