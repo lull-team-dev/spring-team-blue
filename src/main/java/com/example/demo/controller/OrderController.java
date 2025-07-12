@@ -23,6 +23,7 @@ import com.example.demo.repository.OrderRepository;
 @Controller
 public class OrderController {
 
+
 	@Autowired
 	OrderRepository orderRepository;
 
@@ -112,4 +113,3 @@ public class OrderController {
 
 		return "order/order_result";
 	}
-}

@@ -67,12 +67,12 @@ total_price INTEGER NOT NULL
 
 -- レビューテーブル
 CREATE TABLE reviews (
-id SERIAL PRIMARY KEY,
-items_id INTEGER NOT NULL REFERENCES items(id),
-user_id INTEGER NOT NULL REFERENCES users(id),
-score SMALLINT NOT NULL CHECK (score >= 1 AND score <= 5),
-review_text TEXT NOT NULL,
-review_date TIMESTAMP NOT NULL
+  id SERIAL PRIMARY KEY,
+  reviewer_id INTEGER NOT NULL REFERENCES users(id),        -- 書いた人
+  reviewee_id INTEGER NOT NULL REFERENCES users(id),        -- 書かれた人
+  score SMALLINT NOT NULL CHECK (score BETWEEN 1 AND 5),    -- 星1〜5
+  review_text TEXT,
+  review_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- ブックマークテーブル

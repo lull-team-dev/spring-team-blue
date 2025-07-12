@@ -26,8 +26,58 @@
 					</a>
 					<p th:text="${item.name}">商品名</p>
 					<p th:text="${item.price} + '円'">価格</p>
+
+					 <!-- th:attr="data-item-id=${item.id} ,JavaScriptで Ajax 通信時に使うためのアイテムIDの埋め込み。-->
+					<button class="bookmark-btn" th:attr="data-item-id=${item.id}">
+						<!-- ログインユーザーがブックマークしている商品のID一覧に現在の商品IDが含まれていれば ♥ を表示 -->
+						<span th:if="${bookmarkedItemIds != null and #lists.contains(bookmarkedItemIds, item.id)}">♥</span>
+						<!-- 含まれていなければ ♡ を表示 -->
+						<span th:if="${bookmarkedItemIds == null or !#lists.contains(bookmarkedItemIds, item.id)}">♡</span>
+					</button>
 				</div>
 			</div>
 		</div>
+
+	<script>
+    // ページのHTMLが読み込まれたら実行される（画像の読み込みは待たない）
+    document.addEventListener('DOMContentLoaded', () => {
+      // 全ての「.bookmark-btn」ボタンを取得して、それぞれにクリックイベントを設定
+      document.querySelectorAll('.bookmark-btn').forEach(btn => {
+        btn.addEventListener('click', async (e) => {
+          // ボタンの中のカスタム属性「data-item-id」から、商品IDを取得
+          const itemId = btn.getAttribute('data-item-id');
+
+          // fetchでサーバーに非同期リクエストを送信（Ajax）
+          const response = await fetch('/bookmarks/toggle-ajax', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: `itemId=${itemId}` // サーバー側で受け取るリクエストの中身
+          });
+
+          // 通信中はボタンを無効化
+          btn.disabled = true;
+
+          const result = await response.text(); // サーバーからの応答を受け取る
+
+          btn.disabled = false;
+
+          if (result === 'unauthenticated') {
+            alert('お気に入り機能を利用するには、ログインしてください');
+            return;
+          }
+
+          // ♥ と ♡ を切り替える
+          const iconSpan = btn.querySelector('span');
+          if (result === 'bookmarked') {
+            iconSpan.textContent = '♥';
+          } else {
+            iconSpan.textContent = '♡';
+          }
+        });
+      });
+    });
+  </script>
 	</body>
 
