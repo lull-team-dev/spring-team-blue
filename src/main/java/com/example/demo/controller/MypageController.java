@@ -17,6 +17,7 @@ import com.example.demo.entity.Item;
 import com.example.demo.entity.Review;
 import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.FollowRepository;
 import com.example.demo.repository.HistoryRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ReviewRepository;
@@ -35,10 +36,20 @@ public class MypageController {
 	ReviewRepository reviewRepository;
 	@Autowired
 	HistoryRepository historyRepository;
+	@Autowired
+	FollowRepository followRepository;
 
 	// マイページ
 	@GetMapping("")
-	public String showMypage() {
+	public String showMypage(Model model) {
+		Account loginUser = accountRepository.findById(myAccount.getId()).orElse(null);
+		if (loginUser != null) {
+			int followerCount = followRepository.countByFollowed(loginUser);
+			int followingCount = followRepository.countByFollower(loginUser);
+			model.addAttribute("followerCount", followerCount);
+			model.addAttribute("followingCount", followingCount);
+			model.addAttribute("account", loginUser);
+		}
 		return "mypage/mypage";
 	}
 
@@ -108,10 +119,23 @@ public class MypageController {
 		List<Review> reviews = reviewRepository.findByReviewee(account);
 		Double avgScore = reviewRepository.findAverageScoreByUserId(id);
 
+		int followerCount = followRepository.countByFollowed(account);
+		int followingCount = followRepository.countByFollower(account);
+
+		Account loginUser = accountRepository.findById(myAccount.getId()).orElse(null);
+		boolean isFollowing = false;
+		if (loginUser != null && !loginUser.getId().equals(account.getId())) {
+			isFollowing = followRepository.existsByFollowerAndFollowed(loginUser, account);
+		}
+		model.addAttribute("myAccount", myAccount);
+		model.addAttribute("isFollowing", isFollowing);
+
 		model.addAttribute("account", account);
 		model.addAttribute("items", items);
 		model.addAttribute("reviews", reviews);
 		model.addAttribute("avgScore", avgScore != null ? String.format("%.1f", avgScore) : "未評価");
+		model.addAttribute("followerCount", followerCount);
+		model.addAttribute("followingCount", followingCount);
 
 		return "user/user_detail";
 	}
