@@ -8,6 +8,7 @@ DROP TABLE IF EXISTS categories CASCADE;
 DROP TABLE IF EXISTS bookmarks CASCADE;
 DROP TABLE IF EXISTS chats CASCADE;
 DROP TABLE IF EXISTS follows CASCADE;
+DROP TABLE IF EXISTS messages CASCADE;
 
 -- ユーザーテーブル
 CREATE TABLE users (
@@ -84,17 +85,29 @@ CREATE TABLE bookmarks (
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
--- チャットテーブル
+-- チャットルームテーブル
 CREATE TABLE chats (
   id SERIAL PRIMARY KEY,
   item_id INTEGER NOT NULL,
   client_id INTEGER NOT NULL,
   owner_id INTEGER NOT NULL,
-  message TEXT ,
-  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (item_id) REFERENCES items(id),
   FOREIGN KEY (client_id) REFERENCES users(id),
   FOREIGN KEY (owner_id) REFERENCES users(id)
 );
+
+--　チャットメッセージテーブル
+CREATE TABLE messages (
+  id SERIAL PRIMARY KEY,
+  chat_id INTEGER NOT NULL,
+  sender_id INTEGER NOT NULL,
+  message TEXT NOT NULL,
+  sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE,
+  FOREIGN KEY (sender_id) REFERENCES users(id)
+);
+
 
 -- フォローテーブル
 CREATE TABLE follows (

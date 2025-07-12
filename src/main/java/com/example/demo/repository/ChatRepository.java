@@ -11,4 +11,5 @@ import com.example.demo.entity.Item;
 public interface ChatRepository extends JpaRepository<Chat, Long> {
 
 	List<Chat> findByItemAndClientAndOwner(Item item, Account client, Account owner);
+
 }

@@ -14,17 +14,17 @@
 <body>
 
 	<label for="name">名前:</label>
-	<p name="clientName" th:text="${chat.client.name}"></p>
+	<span name="clientName" th:text="${chat.client.nickname}"></span>
 	<label for="name">名前:</label>
-	<p name="ownerName" th:text="${chat.owner.name}"></p>
+	<span name="ownerName" th:text="${chat.owner.nickname}"></span>
 
 	<form class="form-inline">
-		<input type="hidden" name="itemId" th:value="${item.id}">
-		<input type="hidden" name="chatId" th:value=${chat.id}>
+		<input type="hidden" id="itemId" name="itemId" th:value="${item.id}">
+		<input type="hidden" id="chatId" name="chatId" th:value=${chat.id}>
+		<input type="hidden" id="myAccountId" name="myAccountId" th:value="${@myAccount.id}">
 
 		<div class="form-group">
-			<input type="hidden" name="name" id="name" th:value="${@myAccount.name}">
-
+			<input type="hidden" name="name" id="name" th:value="${@myAccount.nickname}">
 		</div>
 		<div class="form-group">
 			<label for="name">メッセージ:</label>
@@ -33,11 +33,14 @@
 		<button id="send" type="submit">送信</button>
 	</form>
 	<!-- ここではチャットの内容をテーブルとして表示 -->
+	<table  th:each="messageLog:${messageLogs}">
+		<td  th:text="${messageLog.sender.nickname}+':'+${messageLog.message}"></td>
+	</table>
 	<table>
 		<tbody id="message"></tbody>
 	</table>
 
-	<form action="/item/{id}/detail(id=${item.id})">
-		<button id="disconnect">チャットを終了する</button>
+	<form th:action="@{/items/{id}/detail(id=${item.id})}" method="get">
+		<button>チャットを終了する</button>
 	</form>
 </body>

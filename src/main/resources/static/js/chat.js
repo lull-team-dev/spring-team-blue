@@ -54,7 +54,13 @@ function disconnect() {
 function sendMessage() {
    //send/messageエンドポイントにメッセージを送信する
   stompClient.send("/send/message", {}, JSON.stringify(
-      {'name': $("#name").val(), 'statement': $("#statement").val()}));
+   {'name': $("#name").val(), 
+	'statement': $("#statement").val(),
+	'itemId':$("#itemId").val(),
+	'chatId':$("#chatId").val(),
+	'myAccountId':$("#myAccountId").val(),
+
+	}));
   $("#statement").val('');
   
   //stompClient.send("/send/message", {
@@ -87,7 +93,7 @@ function showMessage(message) {
 // windows.onloadの処理
 $(function () {  
 	
-	$("form").on('submit', function (e) {
+	$(".form-inline").on('submit', function (e) {
 	  e.preventDefault();
 	  sendMessage();
 	});
