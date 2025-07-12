@@ -14,8 +14,23 @@
 	<h2>ユーザー詳細</h2>
 	<p>ユーザー名: <span th:text="${account.name}"></span></p>
 	<p>メール: <span th:text="${account.email}"></span></p>
-	
 	<p>平均評価: <span th:text="${avgScore}">未評価</span></p>
+	
+	<p>
+	  フォロー中: <span th:text="${followingCount}"></span>人 /
+	  フォロワー: <span th:text="${followerCount}"></span>人
+	</p>
+	<p>
+		<a th:href="@{'/mypage/user/' + ${account.id} + '/following'}">フォロー一覧</a>
+		<a th:href="@{'/mypage/user/' + ${account.id} + '/followers'}">フォロワー一覧</a>
+	</p>
+
+	<!-- フォローボタン表示：自分自身じゃないとき -->
+	<div th:if="${account.id != myAccount.id}">
+	  <form th:action="@{${isFollowing} ? '/mypage/user/' + ${account.id} + '/unfollow' : '/mypage/user/' + ${account.id}}" method="post">
+	    <button type="submit" th:text="${isFollowing} ? 'フォロー解除' : 'フォローする'"></button>
+	  </form>
+	</div>
 
 	<!-- 出品商品 -->
 	<h3>出品商品</h3>
@@ -42,14 +57,3 @@
 			</li>
 		</ul>
 	</div>
-
-	<!-- レビュー投稿リンク -->
-	<p>
-    <a th:href="@{'/review/form/' + ${account.id}}" class="btn btn-primary">レビューを書く</a>
-  </p>
-
-	<a href="/">← 商品一覧へ</a>
-
-</body>
-
-</html>

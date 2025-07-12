@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>フォロワー一覧</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+  <div th:replace="fragments/header_user :: header"></div>
+
+  <h3 th:text="${account.name} + 'さんのフォロワー一覧'">フォロワー</h3>
+  <ul>
+    <li th:each="follow : ${followers}">
+      <a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}"
+         th:text="${follow.follower.name}">ユーザー名</a>
+    </li>
+  </ul>
+
+  <a th:href="@{'/mypage/user/' + ${account.id} + '/detail'}">← 戻る</a>
+</body>
+</html>
