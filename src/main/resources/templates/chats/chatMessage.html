@@ -4,24 +4,27 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
-	<script src="/webjars/jquery/jquery.min.js"></script>
-	<script src="/webjars/sockjs-client/sockjs.min.js"></script>
-	<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 	<script src="/js/chat.js"></script>
+
 </head>
 
 <body>
 
-	<label for="name">名前:</label><p name="clientName"  th:text="${chat.client.name}"></p>
-	<label for="name">名前:</label><p name="ownerName"  th:text="${chat.owner.name}"></p>
+	<label for="name">名前:</label>
+	<p name="clientName" th:text="${chat.client.name}"></p>
+	<label for="name">名前:</label>
+	<p name="ownerName" th:text="${chat.owner.name}"></p>
 
 	<form class="form-inline">
 		<input type="hidden" name="itemId" th:value="${item.id}">
 		<input type="hidden" name="chatId" th:value=${chat.id}>
+
 		<div class="form-group">
-			<label for="name">名前:</label><p name="name" id="name" th:text="${@myAccount.name}"></p>
-			
-			
+			<input type="hidden" name="name" id="name" th:value="${@myAccount.name}">
+
 		</div>
 		<div class="form-group">
 			<label for="name">メッセージ:</label>
@@ -31,12 +34,10 @@
 	</form>
 	<!-- ここではチャットの内容をテーブルとして表示 -->
 	<table>
-		<tbody id="message">
-		</tbody>
+		<tbody id="message"></tbody>
 	</table>
 
 	<form action="/item/{id}/detail(id=${item.id})">
 		<button id="disconnect">チャットを終了する</button>
 	</form>
 </body>
-
