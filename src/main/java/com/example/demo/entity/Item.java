@@ -43,11 +43,9 @@ public class Item {
 
 	// DBに保存しない一時的な変数
 	@Transient
-	// 画面表示用
 	private boolean bookmarked;
 
 	public Item() {
-
 	}
 
 	public Item(Long id, Account account, Category category, String name, String image, String memo, Integer price,
@@ -95,8 +93,12 @@ public class Item {
 	public Boolean getSoldOut() {
 		return soldOut;
 	}
-	
-	//	boolean のgetterは → is〇〇() がルール（Javaの決まり）
+
+	// boolean の getter（テンプレートエンジンなどで使用される形式）
+	public boolean isSoldOut() {
+		return Boolean.TRUE.equals(this.soldOut);
+	}
+
 	public boolean isBookmarked() {
 		return bookmarked;
 	}
@@ -133,9 +135,8 @@ public class Item {
 	public void setSoldOut(Boolean soldOut) {
 		this.soldOut = soldOut;
 	}
-	
-	public void setBookmarked(boolean bookmarked) {
-	    this.bookmarked = bookmarked;
-	}
 
+	public void setBookmarked(boolean bookmarked) {
+		this.bookmarked = bookmarked;
+	}
 }
