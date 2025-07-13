@@ -44,9 +44,9 @@ public class OrderController {
 	public String showOrderForm(@PathVariable("itemId") Long itemId, Model model) {
 		Item item = itemRepository.findById(itemId).orElseThrow();
 
-		if (item.isSoldOut()) {
-			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
-			return "order/order_error"; // エラーページへ
+		// 売り切れ or 自分の商品ならリダイレクト
+		if (item.isSoldOut() || item.getAccount().getId().equals(myAccount.getId())) {
+			return "redirect:/items/" + itemId + "/detail";
 		}
 
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
@@ -67,10 +67,9 @@ public class OrderController {
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();
 
-		// 売り切れチェック（念のため）
-		if (item.isSoldOut()) {
-			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
-			return "order/order_error";
+		// 売り切れ or 自分の商品ならリダイレクト
+		if (item.isSoldOut() || item.getAccount().getId().equals(myAccount.getId())) {
+			return "redirect:/items/" + itemId + "/detail";
 		}
 
 		Order order = new Order();
@@ -102,9 +101,9 @@ public class OrderController {
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();
 
-		if (item.isSoldOut()) {
-			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
-			return "order/order_error";
+		// 売り切れ or 自分の商品ならリダイレクト
+		if (item.isSoldOut() || item.getAccount().getId().equals(myAccount.getId())) {
+			return "redirect:/items/" + itemId + "/detail";
 		}
 
 		item.setSoldOut(true);

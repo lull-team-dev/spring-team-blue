@@ -63,14 +63,27 @@ public class AccountController {
 		myAccount.setNickname(account.getNickname());
 		session.setAttribute("account", myAccount);
 
-		// 🔽 セッションに保存されたリダイレクト先があるならそこへ
+		// 🔽 チャット用セッションがある場合 → 自動でチャット開始
+		if (session.getAttribute("chatItemId") != null && session.getAttribute("chatOwnerId") != null) {
+			Long itemId = (Long) session.getAttribute("chatItemId");
+			Long ownerId = (Long) session.getAttribute("chatOwnerId");
+
+			// セッションから削除（1回限り）
+			session.removeAttribute("chatItemId");
+			session.removeAttribute("chatOwnerId");
+			session.removeAttribute("redirectAfterLogin");
+
+			// GETだとチャット作成できないので、リダイレクト先は中継エンドポイントを用意する
+			return "redirect:/chat/auto-start?itemId=" + itemId + "&ownerId=" + ownerId;
+		}
+
+		// 🔽 通常のリダイレクト先
 		String redirectPath = (String) session.getAttribute("redirectAfterLogin");
 		if (redirectPath != null && redirectPath.startsWith("/")) {
 			session.removeAttribute("redirectAfterLogin");
 			return "redirect:" + redirectPath;
 		}
 
-		// デフォルトはトップや商品一覧などへ
 		return "redirect:/items";
 	}
 

@@ -3,6 +3,8 @@ package com.example.demo.controller;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -117,5 +119,52 @@ public class ChatController {
 	//		ChatMessage message = mapper.readValue(rawJson, ChatMessage.class);
 	//		return message;
 	//	}
+
+	@GetMapping("/chat/redirect")
+	public String redirectToLoginWithItemInfo(
+			@RequestParam("itemId") Long itemId,
+			@RequestParam("ownerId") Long ownerId,
+			HttpSession session) {
+
+		// 商品詳細ページに戻るためのパスをセッションに記録
+		String redirectPath = "/items/" + itemId + "/detail";
+		session.setAttribute("redirectAfterLogin", redirectPath);
+
+		// チャット情報もセッションに一時保存しておく
+		session.setAttribute("chatItemId", itemId);
+		session.setAttribute("chatOwnerId", ownerId);
+
+		return "redirect:/account/login";
+	}
+
+	@GetMapping("/chat/auto-start")
+	public String autoStartChat(
+			@RequestParam("itemId") Long itemId,
+			@RequestParam("ownerId") Long ownerId,
+			HttpSession session) {
+
+		// 自商品チェック
+		if (myAccount.getId().equals(ownerId)) {
+			// 自商品ならチャット画面には行かず、商品詳細に戻す
+			return "redirect:/items/" + itemId + "/detail";
+		}
+
+		Item item = itemRepository.findById(itemId).orElseThrow();
+		Account owner = accountRepository.findById(ownerId).orElseThrow();
+		Account client = accountRepository.findById(myAccount.getId()).orElseThrow();
+
+		// チャットルームが既に存在するか確認（なければ新規作成）
+		List<Chat> existingChats = chatRepository.findByItemAndClientAndOwner(item, client, owner);
+		Chat chatRoom;
+		if (existingChats.isEmpty()) {
+			Chat newChatRoom = new Chat(item, client, owner);
+			chatRepository.save(newChatRoom);
+			chatRoom = newChatRoom;
+		} else {
+			chatRoom = existingChats.get(0);
+		}
+
+		return "redirect:/chat?chatId=" + chatRoom.getId();
+	}
 
 }

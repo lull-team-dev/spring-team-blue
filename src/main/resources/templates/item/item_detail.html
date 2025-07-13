@@ -44,14 +44,16 @@
 
 		<!-- 未ログイン -->
 		<div th:if="${account == null}">
-			<form th:action="@{/login}" method="get">
+			<form th:action="@{/order/{itemId}(itemId=${item.id})}" method="get">
 				<button>購入する（ログインが必要です）</button>
 			</form>
-			<form th:action="@{/login}" method="get">
+			<form th:action="@{/chat/redirect}" method="get">
+				<input type="hidden" name="itemId" th:value="${item.id}" />
+				<input type="hidden" name="ownerId" th:value="${item.account.id}" />
 				<button>チャットを始める（ログインが必要です）</button>
 			</form>
 		</div>
-		<a href="/item/item_list">← 一覧へ</a>
+		<a th:href="@{/items}">← 一覧へ</a>
 	</main>
 </body>
 

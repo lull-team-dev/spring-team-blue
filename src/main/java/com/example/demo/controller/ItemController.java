@@ -102,13 +102,8 @@ public class ItemController {
 
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
-<<<<<<< HEAD
 	public String showItemDetail(@PathVariable("id") Long id, Model model) {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
-=======
-	public String showItemDetail(@PathVariable("id") Integer id, Model model) {
-		Item item = itemRepository.findById(id).orElse(null);
->>>>>>> d8a4272 (一時コミット：self-purchase 機能開発中の作業保存)
 		model.addAttribute("item", item);
 
 		if (myAccount.getId() != null) {
