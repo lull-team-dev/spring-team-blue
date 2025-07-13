@@ -22,4 +22,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
 	@Query("SELECT AVG(r.score) FROM Review r WHERE r.reviewee.id = :userId")
 	Double findAverageScoreByUserId(@Param("userId") Long userId);
+
 }
