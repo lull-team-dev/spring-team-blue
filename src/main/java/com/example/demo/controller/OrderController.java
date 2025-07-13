@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -111,5 +112,14 @@ public class OrderController {
 		model.addAttribute("item", item);
 
 		return "order/order_result";
+	}
+
+	//購入履歴の表示
+	@GetMapping("/mypage/orders")
+	public String showPurchaseHistory(Model model) {
+		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
+		List<Order> orders = orderRepository.findByAccountId(account.getId());
+		model.addAttribute("orders", orders);
+		return "mypage/purchase_history";
 	}
 }
