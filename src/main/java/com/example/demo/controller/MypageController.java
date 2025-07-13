@@ -44,17 +44,19 @@ public class MypageController {
 
 	@GetMapping("mypage/{id}")
 	public String showMoreMypage(@PathVariable(name = "id") Long id, Model model) {
+		Account account = accountRepository.findById(myAccount.getId()).get();
 
 		if (id == 1) {
 			List<History> orderDetail = historyRepository.findByAccountId(myAccount.getId());
 			model.addAttribute("orderDetail", orderDetail);
 		} else if (id == 2) {
-			List<Item> itemSelling = itemRepository.findByAccountId(id);
+			List<Item> itemSelling = itemRepository.findByAccount(account);
 			model.addAttribute("itemSelling", itemSelling);
 		} else if (id == 3) {
-			List<Review> myReview = reviewRepository.findByAccountId(id);
+			List<Review> myReview = reviewRepository.findByAccount(account);
 			model.addAttribute("myReview", myReview);
 		}
+
 		return "mypage/mypage";
 	}
 
@@ -96,7 +98,7 @@ public class MypageController {
 	public String showUserDetail(@PathVariable("id") Long id, Model model) {
 		Account account = accountRepository.findById(id).orElse(null);
 		//ユーザーの商品一覧を取得
-		List<Item> items = itemRepository.findByAccountId(id);
+		List<Item> items = itemRepository.findByAccount(account);
 		model.addAttribute("account", account);
 		model.addAttribute("items", items);
 		return "user/user_detail";

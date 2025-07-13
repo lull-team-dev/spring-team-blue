@@ -4,9 +4,14 @@
 		ユーザー名を表示させるヘッダー
 		<nav>
 			<a href="/">トップ</a>
-			<a href="/account/login">ログイン</a>
-			<a th:href="@{/account/register}">新規登録</a>
-			<a th:href="@{/mypage}">マイページ</a>
+			<th:block th:if="${session.account == null}">
+				<a th:href="@{/account/login}">ログイン</a>
+				<a th:href="@{/account/register}">新規登録</a>
+			</th:block>
+			<th:block th:if="${session.account != null}">
+				<a th:href="@{/mypage}">マイページ</a>
+				<a th:href="@{/account/logout}">ログアウト</a>
+			</th:block>
 		</nav>
 	</header>
 </div>
