@@ -28,8 +28,9 @@
 		<p>出品中の商品一覧のリンク</p>
 
 		<div>
-			<h3></h3>
-			<span>評価：</span><span></span>
+		  <h3>あなたの評価</h3>
+		  <span>評価：</span>
+		  <span th:text="${#numbers.formatDecimal(avgScore, 1, 1)} + ' / 5.0'">未評価</span>
 		</div>
 
 		<div>

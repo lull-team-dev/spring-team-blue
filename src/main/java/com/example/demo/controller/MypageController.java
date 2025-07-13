@@ -46,6 +46,16 @@ public class MypageController {
 		if (loginUser != null) {
 			int followerCount = followRepository.countByFollowed(loginUser);
 			int followingCount = followRepository.countByFollower(loginUser);
+
+			// ★ 追加：レビュー平均スコアの計算
+			List<Review> reviews = reviewRepository.findByReviewee(loginUser);
+			double avgScore = 0.0;
+			if (!reviews.isEmpty()) {
+				double total = reviews.stream().mapToInt(r -> r.getScore()).sum();
+				avgScore = total / reviews.size();
+			}
+			model.addAttribute("avgScore", avgScore);
+
 			model.addAttribute("followerCount", followerCount);
 			model.addAttribute("followingCount", followingCount);
 			model.addAttribute("account", loginUser);
@@ -134,7 +144,6 @@ public class MypageController {
 		}
 		model.addAttribute("myAccount", myAccount);
 		model.addAttribute("isFollowing", isFollowing);
-
 
 		model.addAttribute("account", account);
 		model.addAttribute("items", items);
