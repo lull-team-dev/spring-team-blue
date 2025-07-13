@@ -39,10 +39,16 @@ public class OrderController {
 	@Autowired
 	ItemRepository itemRepository;
 
-	// 商品購入ページを表示
+	// 商品購入ページを表示（売り切れならリダイレクト）
 	@GetMapping("/order/{itemId}")
 	public String showOrderForm(@PathVariable("itemId") Long itemId, Model model) {
 		Item item = itemRepository.findById(itemId).orElseThrow();
+
+		if (item.isSoldOut()) {
+			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
+			return "order/order_error"; // エラーページへ
+		}
+
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		model.addAttribute("item", item);
 		model.addAttribute("account", account);
@@ -61,13 +67,18 @@ public class OrderController {
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();
 
-		// 注文情報を仮作成（まだ保存しない）
+		// 売り切れチェック（念のため）
+		if (item.isSoldOut()) {
+			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
+			return "order/order_error";
+		}
+
 		Order order = new Order();
 		order.setAccount(account);
 		order.setItem(item);
 		order.setOrderDate(LocalDateTime.now());
 		order.setTotalPrice(item.getPrice());
-		order.setStatus((short) 0); // 確認中など
+		order.setStatus((short) 0); // 仮状態
 		order.setPostalCode(postalCode);
 		order.setDeliveryAddress(address);
 		order.setDeliveryTel(account.getTel());
@@ -80,7 +91,7 @@ public class OrderController {
 		return "order/order_confirm";
 	}
 
-	// 購入完了ページを表示
+	// 購入完了ページ（売り切れなら防止）
 	@PostMapping("/order/confirm/complete")
 	public String orderComplete(@RequestParam("address") String address,
 			@RequestParam("payment_method") String paymentMethod,
@@ -91,7 +102,11 @@ public class OrderController {
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();
 
-		// 商品を売り切れにする
+		if (item.isSoldOut()) {
+			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
+			return "order/order_error";
+		}
+
 		item.setSoldOut(true);
 		itemRepository.save(item);
 
@@ -114,7 +129,7 @@ public class OrderController {
 		return "order/order_result";
 	}
 
-	//購入履歴の表示
+	// 購入履歴ページ
 	@GetMapping("/mypage/orders")
 	public String showPurchaseHistory(Model model) {
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
