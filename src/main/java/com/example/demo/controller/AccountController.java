@@ -130,7 +130,7 @@ public class AccountController {
 			}
 
 			if (!password.equals(confirmPass)) {
-				model.addAttribute("passMessage", "パスワードが一致しませんでした。");
+				model.addAttribute("passwordMismatchMessage", "パスワードが一致しませんでした。");
 				return "account/register";
 			}
 

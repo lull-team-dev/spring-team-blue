@@ -35,3 +35,30 @@ out/
 
 ### VS Code ###
 .vscode/
+
+
+# Node 関連
+node_modules/
+package-lock.json
+
+# Tailwind の設定ファイル（リモートでは使わない）
+postcss.config.mjs
+tailwind.config.js
+package.json
+
+# Tailwind の元CSS
+src/main/resources/static/css/input.css
+
+# 開発環境のwatch用ビルドファイルなど
+dist/
+*.css.map
+
+# その他
+.DS_Store
+.env
+.idea/
+*.iml
+*.class
+target/
+.gradle/
+build/

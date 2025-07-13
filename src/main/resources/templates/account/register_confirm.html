@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新規登録</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+    <!-- ロゴ部分 -->
 
-	<body>
-		<div th:replace="fragments/header_account :: header"></div>
-		<h2>登録確認</h2>
+	<body class="min-h-screen overflow-y-hidden bg-[#d1f5ff]">		<div th:replace="fragments/header_account :: header"></div>
+
+		<h2 class="text-4xl font-bold text-blue-600 bg-yellow-200 p-4">登録確認</h2>
+		<h2 class="text-red-500">登録確認</h2>
 		<p th:text="${account.name}"></p>
 		<p th:text="${account.nickName}"></p>
 		<p th:text="${account.email}"></p>
@@ -18,7 +22,7 @@
 		<form method="post" th:action="@{/account/register/complete}" th:object="${account}">
 		    <input type="hidden" th:field="*{id}" />
 		    <input type="hidden" th:field="*{name}" />
-		    <input type="hidden" th:field="*{nickName}" />			
+		    <input type="hidden" th:field="*{nickName}" />		
 		    <input type="hidden" th:field="*{email}" />
 		    <input type="hidden" th:field="*{password}" />
 		    <input type="hidden" th:field="*{address}" />
@@ -30,3 +34,4 @@
 	</body>
 
 </html>
+

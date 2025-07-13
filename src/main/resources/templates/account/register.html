@@ -1,51 +1,241 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新規登録</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+  </head>
+  <body class="min-h-screen overflow-y-hidden bg-[#d1f5ff]">
+    <!-- ロゴ部分 -->
 
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-</head>
+    <header
+      class="bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]"
+    >
+      <h1 class="w-[358px] mx-auto">
+        <img th:src="@{/images/Frame2.png}" alt="MadeForUロゴ" />
+      </h1>
+    </header>
 
-<body>
-	<div th:replace="fragments/header_account :: header"></div>
-	<h2>新規登録</h2>
-	<form method="post" th:action="@{/account/register}">
-		<div>
-			<div>
-				<p style="color: red;" th:if="${nameMessage}" th:text="${nameMessage}"></p>
-				<p>姓</p>
-				<input type="text" name="last_name" placeholder="山田">
+    <!-- 登録フォーム全体 -->
 
-				<p>名</p>
-				<input type="text" name="first_name" placeholder="花子">
-			</div>
-			<div>
-				<p style="color: red;" th:if="${nickNameMessage}" th:text="${nickNameMessage}"></p>
-				<p>ニックネーム</p>
-				<input type="text" name="nickName" placeholder="ニックネーム">
-			</div>
-			<div>
-				<p style="color: red;" th:if="${emailMessage}" th:text="${emailMessage}"></p>
-				<p>Email</p>
-				<input type="email" name="email" placeholder="メールアドレス">
-			</div>
-			<div>
-				<p style="color: red;" th:if="${passMessage}" th:text="${passMessage}"></p>
-				<p>Password</p>
-				<input type="password" name="password" placeholder="パスワード">
-				<input type="password" name="confirmPass" placeholder="パスワード(確認用)">
-			</div>
-			<div>
-				<p>Adress</p>
-				<input type="address" name="address" placeholder="住所">
-			</div>
-			<div>
-				<p>Tel</p>
-				<input type="tel" name="tel" placeholder="電話番号">
-			</div>
-			<button type="submit">確認画面へ</button>
-		</div>
-	</form>
-</body>
+    <main class="mt-4 relative perspective-[1000px]">
+      <form method="post" th:action="@{/account/register}">
+        <!--ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+       ステップ１
+     　ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー-->
+        <div
+          id="step1"
+          class="absolute inset-0 z-20 max-w-md mx-auto h-[550px] bg-[var(--bg-form)] shadow-md rounded-[66px] px-16 pt-6 space-y-9 pb-7"
+        >
+          <!-- 姓・名 -->
+          <h2 class="text-center text-2xl text-[var(--main-color)]">
+            新規登録
+          </h2>
+          <div class="flex mt-4 relative">
+            <span
+              th:text="${nameMessage}"
+              class="absolute -top-5 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+            <div class="w-[48%] flex flex-col">
+              <div class="flex">
+                <label class="text-sm text-[var(--text-color)] mr-2"
+                  >姓<span class="text-red-500">*</span></label
+                >
+              </div>
+              <input
+                class="border-b text-[var(--text-color)] border-[var(--main-color)] focus:outline-none"
+                type="text"
+                name="last_name"
+                placeholder="山田"
+              />
+            </div>
+            <div class="w-[48%] ml-[4%] flex flex-col">
+              <div class="flex">
+                <label class="text-sm text-[var(--text-color)]"
+                  >名<span class="text-red-500">*</span></label
+                >
+              </div>
+              <input
+                class="border-b text-[var(--text-color)] border-[var(--main-color)] focus:outline-none"
+                type="text"
+                name="first_name"
+                placeholder="花子"
+              />
+            </div>
+          </div>
 
+          <!-- メールアドレス -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >メールアドレス<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${emailMessage}"
+                th:text="${emailMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="email"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="email"
+            />
+          </div>
+
+          <!-- パスワード -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >パスワード<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${passMessage}"
+                th:text="${passMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="password"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="password"
+            />
+          </div>
+
+          <!-- パスワード（確認用） -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >パスワード（確認用）<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${passwordMismatchMessage}"
+                th:text="${passwordMismatchMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+              
+            </div>
+            <input
+              name="confirmPass"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="password"
+            />
+          </div>
+
+          <!-- 次へボタン -->
+          <div class="text-right">
+            <button
+              class="text-[var(--main-color)]"
+              type="button"
+              onclick="goToStep2()"
+            >
+              次へ →
+            </button>
+          </div>
+          <a class="text-[var(--main-color)] underline" href=""
+            >登録済みの方はこちら</a
+          >
+        </div>
+
+        <!--ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+         ステップ2
+     　   ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー-->
+
+        <div
+          id="step2"
+          class="absolute inset-0 z-10 max-w-md hidden h-[550px] mx-auto bg-[var(--bg-form)] shadow-md rounded-[66px] px-16 pt-6 space-y-6 pb-7"
+        >
+          <h2 class="text-center text-2xl text-[var(--main-color)]">
+            新規登録
+          </h2>
+          <div class="flex items-center space-x-2">
+            <label class="text-sm text-[var(--text-color)]"
+              >郵便番号<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              class="w-16 border rounded-[66px] border-[var(--main-color)] text-center"
+              maxlength="3"
+            />
+            <span>-</span>
+            <input
+              type="text"
+              class="w-16 border rounded-2xl border-[var(--main-color)] text-center"
+              maxlength="4"
+            />
+            <button
+              type="button"
+              class="px-3 py-1 ml-2 border rounded-2xl bg-[#baeeff] border-[var(--main-color)] text-[var(--main-color)] cursor-pointer text-sm"
+            >
+              検索
+            </button>
+          </div>
+          <div>
+            <label class="text-sm text-[var(--text-color)]"
+              >都道府県<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+          <div>
+            <label class="text-sm text-[var(--text-color)]"
+              >市区町村<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+          <div>
+            <label class="text-sm text-[var(--text-color)]"
+              >町域・番地<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+          <div>
+            <label class="text-sm text-[var(--text-color)]">建物名など</label>
+            <input
+              type="text"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+
+          <div class="flex">
+            <button
+              class="text-left text-[var(--main-color)] cursor-pointer"
+              type="button"
+              onclick="goToStep1()"
+            >
+              ←戻る
+            </button>
+            <button type="submit" class="ml-auto primary-button">登録</button>
+          </div>
+          <a class="text-[var(--main-color)] underline" href=""
+            >登録済みの方はこちら</a
+          >
+        </div>
+      </form>
+    </main>
+
+    <script>
+      const step1 = document.getElementById("step1");
+      const step2 = document.getElementById("step2");
+
+      function goToStep2() {
+        step1.classList.add("hidden"); // ←これが必要
+        step2.classList.remove("hidden");
+      }
+      function goToStep1() {
+        step2.classList.add("hidden");
+        step1.classList.remove("hidden");
+      }
+    </script>
+  </body>
 </html>
