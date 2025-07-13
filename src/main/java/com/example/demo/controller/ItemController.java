@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.entity.Account;
 import com.example.demo.entity.Item;
+import com.example.demo.model.MyAccount;
+import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.service.ItemService;
@@ -30,6 +33,12 @@ public class ItemController {
 
 	@Autowired
 	ItemService itemService;
+
+	@Autowired
+	MyAccount myAccount;
+
+	@Autowired
+	AccountRepository accountRepository;
 
 	// 商品登録フォーム
 	@GetMapping("items/new")
@@ -93,9 +102,22 @@ public class ItemController {
 
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
+<<<<<<< HEAD
 	public String showItemDetail(@PathVariable("id") Long id, Model model) {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
+=======
+	public String showItemDetail(@PathVariable("id") Integer id, Model model) {
+		Item item = itemRepository.findById(id).orElse(null);
+>>>>>>> d8a4272 (一時コミット：self-purchase 機能開発中の作業保存)
 		model.addAttribute("item", item);
+
+		if (myAccount.getId() != null) {
+			Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
+			model.addAttribute("account", account);
+		} else {
+			model.addAttribute("account", null);
+		}
+
 		return "item/item_detail";
 	}
 
