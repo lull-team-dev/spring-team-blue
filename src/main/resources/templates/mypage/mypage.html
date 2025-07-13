@@ -1,34 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head>
-	<meta charset="UTF-8" />
-	<title>マイページ</title>
-</head>
+	<head>
+		<meta charset="UTF-8" />
+		<title>マイページ</title>
+	</head>
 
-<body>
-	<div th:replace="fragments/header_account :: header"></div>
-	<h2>マイページ</h2>
+	<body>
+		<div th:replace="fragments/header_account :: header"></div>
+		<h2>マイページ</h2>
 
-	<form method="get" action="/mypage/update">
-	<button >プロフィール編集</button>
-	</form>
+		<form method="get" action="/mypage/update">
+			<button>プロフィール編集</button>
+		</form>
 
-	<a href="/items/new">商品を登録する</a>
-	<!-- ← ここが導線 -->
-	<p>出品中の商品一覧のリンク</p>
+		<p>
+			フォロー中: <span th:text="${followingCount}"></span>人 /
+			フォロワー: <span th:text="${followerCount}"></span>人
+		</p>
+		<p th:if="${account != null}">
+		  <a th:href="@{'/mypage/user/' + ${account.id} + '/following'}">フォロー一覧を見る</a> /
+		  <a th:href="@{'/mypage/user/' + ${account.id} + '/followers'}">フォロワー一覧を見る</a>
+		</p>
 
-	<div>
-		<h3></h3>
-		<span>評価：</span><span></span>
-	</div>
+		<a href="/items/new">商品を登録する</a>
+		<!-- ← ここが導線 -->
+		<p>出品中の商品一覧のリンク</p>
 
-	<div>
-		<a th:href="@{/mypage/{id}(id=1)}">購入履歴</a>
-		<a th:href="@{/mypage/{id}(id=2)}">出品</a>
-		<a th:href="@{/mypage/{id}(id=3)}">評価</a>
-		<!--  <a th:href="@{/mypage(id=4)}"></a>-->
-	</div>
-</body>
+		<div>
+			<h3></h3>
+			<span>評価：</span><span></span>
+		</div>
+
+		<div>
+			<a href="/bookmarks">気になる</a>
+			<a th:href="@{/mypage/{id}(id=1)}">購入履歴</a>
+			<a th:href="@{/mypage/{id}(id=2)}">出品</a>
+			<a th:href="@{/mypage/{id}(id=3)}">評価</a>
+			<!--  <a th:href="@{/mypage(id=4)}"></a>-->
+		</div>
+	</body>
 
 </html>

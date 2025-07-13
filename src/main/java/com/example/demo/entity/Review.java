@@ -12,30 +12,33 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "review")
+@Table(name = "reviews")
 public class Review {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	// 書いた人（レビュワー）
 	@ManyToOne
-	@JoinColumn(name = "items_id", nullable = false)
-	private Item item;
+	@JoinColumn(name = "reviewer_id", nullable = false)
+	private Account reviewer;
 
-	// users テーブルとのリレーション
+	// 書かれた人（レビュイー）
 	@ManyToOne
-	@JoinColumn(name = "user_id", nullable = false)
-	private Account account;
+	@JoinColumn(name = "reviewee_id", nullable = false)
+	private Account reviewee;
 
 	@Column(nullable = false)
 	private Short score;
 
-	@Column(name = "review_text", nullable = false, columnDefinition = "TEXT")
+	@Column(name = "review_text")
 	private String reviewText;
 
 	@Column(name = "review_date", nullable = false)
-	private LocalDateTime reviewDate;
+	private LocalDateTime reviewDate = LocalDateTime.now();
+
+	// --- Getter / Setter ---
 
 	public Long getId() {
 		return id;
@@ -45,20 +48,20 @@ public class Review {
 		this.id = id;
 	}
 
-	public Item getItem() {
-		return item;
+	public Account getReviewer() {
+		return reviewer;
 	}
 
-	public void setItem(Item item) {
-		this.item = item;
+	public void setReviewer(Account reviewer) {
+		this.reviewer = reviewer;
 	}
 
-	public Account getAccount() {
-		return account;
+	public Account getReviewee() {
+		return reviewee;
 	}
 
-	public void setAccount(Account account) {
-		this.account = account;
+	public void setReviewee(Account reviewee) {
+		this.reviewee = reviewee;
 	}
 
 	public Short getScore() {
@@ -85,6 +88,6 @@ public class Review {
 		this.reviewDate = reviewDate;
 	}
 
-	protected Review() {
-	}
+	public Review() {
+	} // JPA用
 }
