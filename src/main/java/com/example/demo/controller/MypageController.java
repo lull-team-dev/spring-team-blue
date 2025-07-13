@@ -55,14 +55,16 @@ public class MypageController {
 
 	@GetMapping("mypage/{id}")
 	public String showMoreMypage(@PathVariable(name = "id") Long id, Model model) {
+		Account account = accountRepository.findById(myAccount.getId()).get();
 
 		if (id == 1) {
 			List<History> orderDetail = historyRepository.findByAccountId(myAccount.getId());
 			model.addAttribute("orderDetail", orderDetail);
 		} else if (id == 2) {
-			List<Item> itemSelling = itemRepository.findByAccountId(id);
+			List<Item> itemSelling = itemRepository.findByAccount(account);
 			model.addAttribute("itemSelling", itemSelling);
 		} else if (id == 3) {
+
 			Account targetUser = accountRepository.findById(id).orElse(null);
 			if (targetUser != null) {
 				List<Review> myReview = reviewRepository.findByReviewee(targetUser);
@@ -70,7 +72,9 @@ public class MypageController {
 			} else {
 				model.addAttribute("myReview", List.of()); // ユーザーが見つからなかった場合は空リスト
 			}
+
 		}
+
 		return "mypage/mypage";
 	}
 
@@ -111,11 +115,12 @@ public class MypageController {
 	@GetMapping("/user/{id}/detail")
 	public String showUserDetail(@PathVariable("id") Long id, Model model) {
 		Account account = accountRepository.findById(id).orElse(null);
+
 		if (account == null) {
 			return "error";
 		}
 
-		List<Item> items = itemRepository.findByAccountId(id);
+		List<Item> items = itemRepository.findByAccount(account);
 		List<Review> reviews = reviewRepository.findByReviewee(account);
 		Double avgScore = reviewRepository.findAverageScoreByUserId(id);
 
@@ -129,6 +134,7 @@ public class MypageController {
 		}
 		model.addAttribute("myAccount", myAccount);
 		model.addAttribute("isFollowing", isFollowing);
+
 
 		model.addAttribute("account", account);
 		model.addAttribute("items", items);

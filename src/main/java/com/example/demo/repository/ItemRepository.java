@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.demo.entity.Account;
 import com.example.demo.entity.Item;
 
 public interface ItemRepository extends JpaRepository<Item, Long> {
@@ -12,7 +13,7 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Item> findByCategoryId(Integer categoryId);
 
 	// SELECT * FROM items WHERE account_id = ?
-	List<Item> findByAccountId(Long accountId);
+	List<Item> findByAccount(Account account);
 
 	List<Item> findByNameContaining(String keyword);
 }

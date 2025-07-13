@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>購入履歴</title>
+</head>
+<body>
+
+  <div th:replace="fragments/header_account :: header"></div>
+  <h2>購入履歴</h2>
+
+  <!-- 購入履歴がない場合 -->
+  <div th:if="${#lists.isEmpty(orders)}">
+    <p>購入履歴がありません。</p>
+  </div>
+
+  <!-- 購入履歴がある場合 -->
+  <div th:if="${not #lists.isEmpty(orders)}">
+    <table border="1">
+      <thead>
+        <tr>
+          <th>商品画像</th>
+          <th>商品名</th>
+          <th>購入日時</th>
+          <th>金額</th>
+          <th>配送先</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="order : ${orders}">
+          <td>
+            <img th:src="@{'/images/items/' + ${order.item.image}}" alt="商品画像" width="100" />
+          </td>
+          <td th:text="${order.item.name}">商品名</td>
+          <td th:text="${#temporals.format(order.orderDate, 'yyyy/MM/dd HH:mm')}">日時</td>
+          <td th:text="${order.totalPrice + ' 円'}">金額</td>
+          <td th:text="${order.deliveryAddress}">配送先</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- マイページに戻るボタン -->
+  <div style="margin-top: 20px;">
+    <a href="/mypage">
+      <button>マイページに戻る</button>
+    </a>
+  </div>
+
+</body>
+</html>

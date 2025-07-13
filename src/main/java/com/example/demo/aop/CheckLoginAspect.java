@@ -19,12 +19,13 @@ import com.example.demo.model.MyAccount;
 @Component
 public class CheckLoginAspect {
 
-
 	@Autowired
 	MyAccount myAccount;
 
 	@Before("execution(* com.example.demo.controller.MypageController.*(..)) || " +
-			"execution(* com.example.demo.controller.OrderController.*(..)) ")
+			"execution(* com.example.demo.controller.OrderController.*(..)) || " +
+			"(execution(* com.example.demo.controller.ChatController.*(..)) && " +
+			"!execution(* com.example.demo.controller.ChatController.chat(..)))")
 	public void loginCheck(JoinPoint joinPoint) {
 		// ログインしてなければリダイレクトや例外など
 		if (myAccount == null || myAccount.getName() == null || myAccount.getName().length() == 0) {
@@ -35,9 +36,10 @@ public class CheckLoginAspect {
 		System.out.println(joinPoint.getSignature());
 	}
 
-
 	@Around("execution(* com.example.demo.controller.MypageController.*(..)) || " +
-			"execution(* com.example.demo.controller.OrderController.*(..))")
+			"execution(* com.example.demo.controller.OrderController.*(..)) || " +
+			"(execution(* com.example.demo.controller.ChatController.*(..)) && " +
+			"!execution(* com.example.demo.controller.ChatController.chat(..)))")
 	public Object loginChecked(ProceedingJoinPoint joinPoint) throws Throwable {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();

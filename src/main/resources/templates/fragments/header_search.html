@@ -15,9 +15,14 @@
 
 		<!-- 右：ユーザー関連リンク（ログイン状態で出し分けることも可能） -->
 		<div class="user-links">
+			<th:block th:if="${session.account == null}">
 				<a th:href="@{/account/login}">ログイン</a>
 				<a th:href="@{/account/register}">新規登録</a>
+			</th:block>
+			<th:block th:if="${session.account != null}">
 				<a th:href="@{/mypage}">マイページ</a>
+				<a th:href="@{/account/logout}">ログアウト</a>
+			</th:block>
 		</div>
 	</div>
 </header>
