@@ -35,7 +35,15 @@ public class History {
 	@Column(name = "total_price", nullable = false)
 	private Integer totalPrice;
 
-	protected History() {
+	public History() {
+
+	}
+
+	public History(Account account, Item item, LocalDateTime date, Integer totalPrice) {
+		this.account = account;
+		this.item = item;
+		this.date = date;
+		this.totalPrice = totalPrice;
 	}
 
 	public Long getId() {

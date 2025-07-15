@@ -24,7 +24,8 @@
 				<p>商品詳細:<br><span th:text="${item.memo}"></span></p>
 
 			</div>
-
+			
+			<th:block th:if="${@myAccount.id != item.account.id}">
 			<form th:action="@{/order/{itemId}(itemId=${item.id})}" method="get">
 				<button th:disabled="${item.soldOut}" th:title="${item.soldOut ? '売り切れのため購入できません' : ''}"
 					style="padding: 8px 16px; font-size: 16px;"
@@ -37,6 +38,10 @@
 				<input type="hidden" name="ownerId" th:value="${item.account.id}">
 				<button>チャットを始める</button>
 			</form>
+			</th:block>
+			<th:block th:if="${@myAccount.id == item.account.id}">
+				<a th:href="@{'/items/' + ${item.id} + '/edit'}">編集する</a>
+			</th:block>
 			<a href="/">一覧へ</a>
 		</main>
 	</body>

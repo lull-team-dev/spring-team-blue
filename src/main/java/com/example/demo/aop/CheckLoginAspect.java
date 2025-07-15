@@ -24,6 +24,8 @@ public class CheckLoginAspect {
 
 	@Before("execution(* com.example.demo.controller.MypageController.*(..)) || " +
 			"execution(* com.example.demo.controller.OrderController.*(..)) || " +
+			"execution(* com.example.demo.controller.ReviewController.*(..)) || " +
+			"execution(* com.example.demo.controller.FollowController.*(..)) || " +
 			"(execution(* com.example.demo.controller.ChatController.*(..)) && " +
 			"!execution(* com.example.demo.controller.ChatController.chat(..)))")
 	public void loginCheck(JoinPoint joinPoint) {
@@ -38,6 +40,8 @@ public class CheckLoginAspect {
 
 	@Around("execution(* com.example.demo.controller.MypageController.*(..)) || " +
 			"execution(* com.example.demo.controller.OrderController.*(..)) || " +
+			"execution(* com.example.demo.controller.ReviewController.*(..)) || " +
+			"execution(* com.example.demo.controller.FollowController.*(..)) || " +
 			"(execution(* com.example.demo.controller.ChatController.*(..)) && " +
 			"!execution(* com.example.demo.controller.ChatController.chat(..)))")
 	public Object loginChecked(ProceedingJoinPoint joinPoint) throws Throwable {

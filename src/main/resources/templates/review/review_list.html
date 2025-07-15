@@ -6,5 +6,9 @@
 </head>
 <body>
   <h1>レビュー一覧ページ</h1>
+  <div th:each="review : ${myReview}">
+	<p th:text="${review.reviewer}"></p> <span th:text="'評価：' + ${review.score}"></span>
+	<p th:text="${review.reviewText}"></p>
+  </div>
 </body>
 </html>

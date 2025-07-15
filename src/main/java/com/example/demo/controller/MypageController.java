@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Account;
+import com.example.demo.entity.Bookmark;
 import com.example.demo.entity.History;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Review;
 import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.BookmarkRepository;
 import com.example.demo.repository.FollowRepository;
 import com.example.demo.repository.HistoryRepository;
 import com.example.demo.repository.ItemRepository;
@@ -38,6 +40,8 @@ public class MypageController {
 	HistoryRepository historyRepository;
 	@Autowired
 	FollowRepository followRepository;
+	@Autowired
+	BookmarkRepository bookmarkRepository;
 
 	// マイページ
 	@GetMapping("")
@@ -63,26 +67,43 @@ public class MypageController {
 		return "mypage/mypage";
 	}
 
-	@GetMapping("mypage/{id}")
+	@GetMapping("/{id}")
 	public String showMoreMypage(@PathVariable(name = "id") Long id, Model model) {
 		Account account = accountRepository.findById(myAccount.getId()).get();
 
 		if (id == 1) {
-			List<History> orderDetail = historyRepository.findByAccountId(myAccount.getId());
-			model.addAttribute("orderDetail", orderDetail);
+			List<History> historys = historyRepository.findByAccount(account);
+			model.addAttribute("historys", historys);
 		} else if (id == 2) {
 			List<Item> itemSelling = itemRepository.findByAccount(account);
 			model.addAttribute("itemSelling", itemSelling);
 		} else if (id == 3) {
 
-			Account targetUser = accountRepository.findById(id).orElse(null);
-			if (targetUser != null) {
-				List<Review> myReview = reviewRepository.findByReviewee(targetUser);
-				model.addAttribute("myReview", myReview);
-			} else {
-				model.addAttribute("myReview", List.of()); // ユーザーが見つからなかった場合は空リスト
-			}
+			List<Review> myReview = reviewRepository.findByReviewee(account);
+			model.addAttribute("myReview", myReview);
 
+		} else if (id == 4) {
+			Account user = accountRepository.findById(myAccount.getId()).orElseThrow();
+			List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+			model.addAttribute("bookmarks", bookmarks);
+		}
+
+		if (account != null) {
+			int followerCount = followRepository.countByFollowed(account);
+			int followingCount = followRepository.countByFollower(account);
+
+			// ★ 追加：レビュー平均スコアの計算
+			List<Review> reviews = reviewRepository.findByReviewee(account);
+			double avgScore = 0.0;
+			if (!reviews.isEmpty()) {
+				double total = reviews.stream().mapToInt(r -> r.getScore()).sum();
+				avgScore = total / reviews.size();
+			}
+			model.addAttribute("avgScore", avgScore);
+
+			model.addAttribute("followerCount", followerCount);
+			model.addAttribute("followingCount", followingCount);
+			model.addAttribute("account", account);
 		}
 
 		return "mypage/mypage";
