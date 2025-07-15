@@ -66,6 +66,25 @@
             </div>
           </div>
 
+          <!-- ニックネーム -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >ニックネーム<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${nickNameMessage}"
+                th:text="${nickNameMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="nickName"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="text"
+            />
+          </div>
+
           <!-- メールアドレス -->
           <div class="flex flex-col mt-4">
             <div class="flex">
@@ -82,6 +101,25 @@
               name="email"
               class="border-b border-[var(--main-color)] focus:outline-none"
               type="email"
+            />
+          </div>
+
+          <!-- 電話番号 -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >電話番号<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${tellMessage}"
+                th:text="${tellMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="tel"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="text"
             />
           </div>
 
@@ -115,7 +153,6 @@
                 th:text="${passwordMismatchMessage}"
                 class="text-red-500 text-xs ml-2 inline"
               ></span>
-              
             </div>
             <input
               name="confirmPass"
@@ -150,34 +187,50 @@
           <h2 class="text-center text-2xl text-[var(--main-color)]">
             新規登録
           </h2>
+
+          <span
+            th:if="${zipMessage}"
+            th:text="${zipMessage}"
+            class="block text-red-500 text-xs ml-2"
+          ></span>
           <div class="flex items-center space-x-2">
             <label class="text-sm text-[var(--text-color)]"
               >郵便番号<span class="text-red-500">*</span></label
             >
             <input
               type="text"
+              name="zip1"
               class="w-16 border rounded-[66px] border-[var(--main-color)] text-center"
               maxlength="3"
             />
             <span>-</span>
             <input
               type="text"
+              name="zip2"
               class="w-16 border rounded-2xl border-[var(--main-color)] text-center"
               maxlength="4"
             />
             <button
               type="button"
               class="px-3 py-1 ml-2 border rounded-2xl bg-[#baeeff] border-[var(--main-color)] text-[var(--main-color)] cursor-pointer text-sm"
+              id="searchBtn"
             >
               検索
             </button>
           </div>
+
+          <span
+            th:if="${addressMessage}"
+            th:text="${addressMessage}"
+            class="block text-red-500 text-xs mb-1"
+          ></span>
           <div>
             <label class="text-sm text-[var(--text-color)]"
               >都道府県<span class="text-red-500">*</span></label
             >
             <input
               type="text"
+              name="prefecture"
               class="w-full border-b border-[var(--main-color)]"
             />
           </div>
@@ -187,6 +240,7 @@
             >
             <input
               type="text"
+              name="city"
               class="w-full border-b border-[var(--main-color)]"
             />
           </div>
@@ -196,6 +250,7 @@
             >
             <input
               type="text"
+              name="town"
               class="w-full border-b border-[var(--main-color)]"
             />
           </div>
@@ -203,6 +258,7 @@
             <label class="text-sm text-[var(--text-color)]">建物名など</label>
             <input
               type="text"
+              name="building"
               class="w-full border-b border-[var(--main-color)]"
             />
           </div>
@@ -217,7 +273,7 @@
             </button>
             <button type="submit" class="ml-auto primary-button">登録</button>
           </div>
-          <a class="text-[var(--main-color)] underline" href=""
+          <a class="text-[var(--main-color)] underline" href="account/login"
             >登録済みの方はこちら</a
           >
         </div>
@@ -236,6 +292,46 @@
         step2.classList.add("hidden");
         step1.classList.remove("hidden");
       }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchBtn = document.getElementById("searchBtn");
+        const zip1 = document.querySelector('input[name="zip1"]');
+        const zip2 = document.querySelector('input[name="zip2"]');
+
+        const pref = document.querySelector('input[name="prefecture"]');
+        const city = document.querySelector('input[name="city"]');
+        const town = document.querySelector('input[name="town"]');
+
+        searchBtn.addEventListener("click", async () => {
+          const zipcode = zip1.value + zip2.value;
+
+          if (!/^\d{7}$/.test(zipcode)) {
+            alert("郵便番号は7桁の数字で入力してください");
+            return;
+          }
+
+          try {
+            const res = await fetch(
+              `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`
+            );
+            const data = await res.json();
+
+            if (data.results) {
+              const result = data.results[0];
+              pref.value = result.address1; // 都道府県
+              city.value = result.address2; // 市区町村
+              town.value = result.address3; // 町域
+            } else {
+              alert("該当する住所が見つかりませんでした");
+            }
+          } catch (err) {
+            alert("通信エラーが発生しました");
+            console.error(err);
+          }
+        });
+      });
     </script>
   </body>
 </html>

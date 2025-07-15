@@ -1,37 +1,102 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>新規登録</title>
+    <title>登録確認</title>
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
-</head>
-    <!-- ロゴ部分 -->
+  </head>
+  <body class="min-h-screen bg-[#d1f5ff] text-[var(--text-color)]">
+    <!-- ヘッダー -->
+    <header
+      class="bg-gradient-to-b from-[#7eccda] via-[#c5f2fb] to-[#d1f5ff] py-4"
+    >
+      <div class="w-[358px] mx-auto">
+        <img
+          th:src="@{/images/Frame2.png}"
+          alt="MadeForUロゴ"
+          class="mx-auto"
+        />
+      </div>
+    </header>
 
-	<body class="min-h-screen overflow-y-hidden bg-[#d1f5ff]">		<div th:replace="fragments/header_account :: header"></div>
+    <!-- タイトル -->
+    <main
+      class="max-w-md mx-auto mt-8 bg-[var(--bg-form)] shadow-md rounded-[66px] px-8 py-6 space-y-4"
+    >
+      <h2 class="text-center text-2xl font-bold text-[var(--main-color)]">
+        登録確認
+      </h2>
 
-		<h2 class="text-4xl font-bold text-blue-600 bg-yellow-200 p-4">登録確認</h2>
-		<h2 class="text-red-500">登録確認</h2>
-		<p th:text="${account.name}"></p>
-		<p th:text="${account.nickName}"></p>
-		<p th:text="${account.email}"></p>
-		<p th:if="${account.address}" th:text="${account.address}"></p>
-		<p th:if="${account.tel}" th:text="${account.tel}"></p>
-		
-		<form method="post" th:action="@{/account/register/complete}" th:object="${account}">
-		    <input type="hidden" th:field="*{id}" />
-		    <input type="hidden" th:field="*{name}" />
-		    <input type="hidden" th:field="*{nickName}" />		
-		    <input type="hidden" th:field="*{email}" />
-		    <input type="hidden" th:field="*{password}" />
-		    <input type="hidden" th:field="*{address}" />
-		    <input type="hidden" th:field="*{tel}" />
-		    <input type="hidden" th:field="*{profile}" />
-		    <button type="submit">登録する</button>
-		</form>
+      <!-- 確認項目 -->
+      <div class="space-y-2 text-sm">
+        <p>
+          <span class="font-bold">氏名：</span
+          ><span th:text="${account.name}"></span>
+        </p>
+        <p>
+          <span class="font-bold">ニックネーム：</span
+          ><span th:text="${account.nickname}"></span>
+        </p>
+        <p>
+          <span class="font-bold">メール：</span
+          ><span th:text="${account.email}"></span>
+        </p>
+        <p>
+          <span class="font-bold">郵便番号：</span
+          ><span th:text="'〒' + ${account.zip}"></span>
+        </p>
+        <p>
+          <span class="font-bold">住所：</span>
+          <span
+            th:text="${account.prefecture} + ${account.city} + ${account.town}"
+          ></span>
+        </p>
+        <p th:if="${account.building}">
+          <span class="font-bold">建物名：</span
+          ><span th:text="${account.building}"></span>
+        </p>
+        <p th:if="${account.tel}">
+          <span class="font-bold">電話番号：</span
+          ><span th:text="${account.tel}"></span>
+        </p>
+      </div>
 
-	</body>
+      <!-- 登録ボタン -->
+      <form
+        method="post"
+        th:action="@{/account/register/complete}"
+        th:object="${account}"
+        class="pt-4"
+      >
+        <!-- hidden項目 -->
+        <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{name}" />
+        <input type="hidden" th:field="*{nickname}" />
+        <input type="hidden" th:field="*{email}" />
+        <input type="hidden" th:field="*{password}" />
+        <input type="hidden" th:field="*{zip}" />
+        <input type="hidden" th:field="*{prefecture}" />
+        <input type="hidden" th:field="*{city}" />
+        <input type="hidden" th:field="*{town}" />
+        <input type="hidden" th:field="*{building}" />
+        <input type="hidden" th:field="*{tel}" />
+        <input type="hidden" th:field="*{profile}" />
 
+        <div class="flex justify-between mt-6">
+          <a
+            href="javascript:history.back()"
+            class="text-[var(--main-color)] underline"
+            >← 修正する</a
+          >
+          <button
+            type="submit"
+            class="bg-[var(--main-color)] text-white px-6 py-2 rounded-full hover:bg-[#65c4d1] transition"
+          >
+            登録する
+          </button>
+        </div>
+      </form>
+    </main>
+  </body>
 </html>
-
