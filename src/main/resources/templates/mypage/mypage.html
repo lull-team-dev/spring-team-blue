@@ -1,45 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8" />
-		<title>マイページ</title>
-	</head>
+<head>
+	<meta charset="UTF-8" />
+	<title>マイページ</title>
+</head>
 
-	<body>
-		<div th:replace="fragments/header_account :: header"></div>
-		<h2>マイページ</h2>
+<body>
+	<div th:replace="fragments/header_account :: header"></div>
+	<h2>マイページ</h2>
 
-		<form method="get" action="/mypage/update">
-			<button>プロフィール編集</button>
-		</form>
+	<form method="get" action="/mypage/update">
+		<button>プロフィール編集</button>
+	</form>
 
-		<p>
-			フォロー中: <span th:text="${followingCount}"></span>人 /
-			フォロワー: <span th:text="${followerCount}"></span>人
-		</p>
-		<p th:if="${account != null}">
-		  <a th:href="@{'/mypage/user/' + ${account.id} + '/following'}">フォロー一覧を見る</a> /
-		  <a th:href="@{'/mypage/user/' + ${account.id} + '/followers'}">フォロワー一覧を見る</a>
-		</p>
+	<p>
+		フォロー中: <span th:text="${followingCount}"></span>人 /
+		フォロワー: <span th:text="${followerCount}"></span>人
+	</p>
+	<a th:href="@{'/mypage/user/' + ${@myAccount.id} + '/following'}">フォロー一覧を見る</a> /
+	<a th:href="@{'/mypage/user/' + ${@myAccount.id} + '/followers'}">フォロワー一覧を見る</a><br>
 
-		<a href="/items/new">商品を登録する</a>
-		<!-- ← ここが導線 -->
-		<p>出品中の商品一覧のリンク</p>
+	<!-- ← ここが導線 -->
+	<p>出品中の商品一覧のリンク</p>
 
-		<div>
-		  <h3>あなたの評価</h3>
-		  <span>評価：</span>
-		  <span th:text="${#numbers.formatDecimal(avgScore, 1, 1)} + ' / 5.0'">未評価</span>
-		</div>
+	<div>
+		<h3>あなたの評価</h3>
+		<span>評価：</span>
+		<span th:text="${#numbers.formatDecimal(avgScore, 1, 1)} + ' / 5.0'">未評価</span>
+	</div>
 
-		<div>
-			<a href="/bookmarks">気になる</a>
-			<a href="/mypage/orders">購入履歴</a>
-			<a th:href="@{/mypage/{id}(id=2)}">出品</a>
-			<a th:href="@{/mypage/{id}(id=3)}">評価</a>
-			<!--  <a th:href="@{/mypage(id=4)}"></a>-->
-		</div>
-	</body>
+	<div>
+		<a th:href="@{/mypage/{id}(id=4)}">気になる</a>
+		<a th:href="@{/mypage/{id}(id=1)}">購入履歴</a>
+		<a th:href="@{/mypage/{id}(id=2)}">出品</a>
+		<a th:href="@{/mypage/{id}(id=3)}">評価</a>
+		<!--  <a th:href="@{/mypage(id=4)}"></a>-->
+	</div>
+	<div>
+		<th:block th:if="${historys}">
+			<div th:each="history : ${historys}">
+				<p th:text="${#temporals.format(history.date, 'yyyy/MM/dd')}"></p>
+				<p th:text="${history.item.name}"></p>
+				<p th:text="${history.totalPrice} + '円'"></p>
+			</div>
+		</th:block>
+		<th:block th:if="${itemSelling}">
+			<table th:each="myItem : ${itemSelling}">
+				<div>
+					<a th:href="@{'/items/' + ${myItem.id} + '/detail'}">
+						<img th:if="${myItem.image != null}" th:src="@{'/images/items/' + ${myItem.image}}" alt="商品画像"
+							width="200">
+					</a>
+					<p th:text="${myItem.name}">商品名</p>
+					<p th:text="${myItem.price} + '円'">価格</p>
+					<button class="bookmark-btn" th:attr="data-item-id=${myItem.id}">
+						<!-- ログインユーザーがブックマークしている商品のID一覧に現在の商品IDが含まれていれば ♥ を表示 -->
+						<span th:if="${myItem.soldOut == true}">出品する</span>
+						<!-- 含まれていなければ ♡ を表示 -->
+						<span th:if="${myItem.soldOut == false}">品切れにする</span>
+					</button>
+				</div>
+			</table>
+		</th:block>
+		<th:block th:if="${myReview}">
+			<div th:replace="review/review_list :: body"></div>
+		</th:block>
+		<th:block th:if="${bookmarks}">
+			<div th:replace="bookmark/bookmark_list :: body"></div>
+		</th:block>
+
+	</div>
+	<a href="/items/new">+</a>
+</body>
 
 </html>

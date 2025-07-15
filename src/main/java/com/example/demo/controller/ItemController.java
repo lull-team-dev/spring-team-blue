@@ -4,6 +4,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Item;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
@@ -97,6 +99,15 @@ public class ItemController {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		model.addAttribute("item", item);
 		return "item/item_detail";
+	}
+
+	@GetMapping("/items/{id}/edit")
+	public String itemEdit(@PathVariable("id") Long id, Model model) {
+		Item item = itemRepository.findById(id).get();
+		List<Category> categories = categoryRepository.findAll();
+		model.addAttribute("item", item);
+		model.addAttribute("categories", categories);
+		return "item/item_edit";
 	}
 
 }
