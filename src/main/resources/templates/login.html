@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新規登録</title>
+    <link rel="stylesheet" href="../static/css/styles.css" />
+    <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+  </head>
+  <body class="min-h-screen overflow-y-hidden bg-[#d1f5ff]">
+    <!-- ロゴ部分 -->
+
+    <header
+      class="has-[400px]: bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]"
+    >
+      <h1 class="w-[358px] mx-auto">
+        <img src="../static/img/Frame 2.png" alt="MadeForUロゴ" />
+      </h1>
+    </header>
+
+    <!--ログインフォーム全体 -->
+    <main class="mt-4">
+      <form>
+        <div
+          class="max-w-md mx-auto h-[500px] bg-[var(--bg-form)] shadow-md rounded-[66px] px-16 pt-6 space-y-9 pb-7 flex flex-col"
+        >
+          <h2 class="text-center text-2xl text-[var(--main-color)]">
+            ログイン
+          </h2>
+
+          <!-- メールアドレス -->
+          <div class="mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >メールアドレス<span class="text-red-500">*</span></label
+              >
+              <p class="text-red-500 text-xs ml-2 inline">
+                メールアドレスを入力して下さい
+              </p>
+            </div>
+            <input
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="email"
+            />
+          </div>
+
+          <!-- パスワード -->
+          <div class="mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >パスワード<span class="text-red-500">*</span></label
+              >
+              <p class="text-red-500 text-xs ml-1">
+                パスワードを入力して下さい
+              </p>
+            </div>
+            <input
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="password"
+            />
+          </div>
+
+          <!-- ログインボタン -->
+          <div class="text-right">
+            <button class="primary-button w-30 text-lg" type="button">
+              ログイン
+            </button>
+          </div>
+
+          <a class="text-[var(--main-color)] block mt-auto underline" href=""
+            >新規登録はこちら</a
+          >
+        </div>
+      </form>
+    </main>
+  </body>
+</html>
