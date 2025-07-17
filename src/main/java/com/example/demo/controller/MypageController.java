@@ -66,8 +66,8 @@ public class MypageController {
 				avgScore = total / reviews.size();
 			}
 
-			List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
-			model.addAttribute("unreadChats", unreadChats);
+			List<Chat> Chats = chatService.getUnreadChatsForCurrentUser();
+			model.addAttribute("unreadChats", Chats);
 			model.addAttribute("avgScore", avgScore);
 
 			model.addAttribute("followerCount", followerCount);

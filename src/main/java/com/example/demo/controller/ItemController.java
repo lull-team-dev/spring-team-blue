@@ -96,8 +96,8 @@ public class ItemController {
 			@RequestParam(value = "categoryId", required = false) Integer categoryId,
 			@RequestParam(value = "keyword", required = false) String keyword,
 			Model model) {
-		List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
-		model.addAttribute("unreadChats", unreadChats);
+		List<Chat> Chats = chatService.getUnreadChatsForCurrentUser();
+		model.addAttribute("unreadChats", Chats);
 		itemService.loadItemPage(categoryId, keyword, model);
 
 		return "item/item_list";

@@ -19,7 +19,7 @@
 	</form>
 
 	<p>
-		フォロー中: <span th:text="${followingCount}"></span>人 /
+		フォロー: <span th:text="${followingCount}"></span>人 /
 		フォロワー: <span th:text="${followerCount}"></span>人
 	</p>
 	<a th:href="@{'/mypage/user/' + ${@myAccount.id} + '/following'}">フォロー一覧を見る</a> /
