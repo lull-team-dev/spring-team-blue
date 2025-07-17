@@ -138,8 +138,14 @@ public class MypageController {
 			@RequestParam(value = "password", defaultValue = "") String password,
 			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(value = "profile", defaultValue = "") String profile,
-			@RequestParam(value = "address", defaultValue = "") String address,
-			@RequestParam(value = "tel", defaultValue = "") String tel) {
+			@RequestParam(value = "tel", defaultValue = "") String tel,
+			@RequestParam(name = "zip1", defaultValue = "") String zip1,
+			@RequestParam(name = "zip2", defaultValue = "") String zip2,
+			@RequestParam(name = "prefecture", defaultValue = "") String prefecture,
+			@RequestParam(name = "city", defaultValue = "") String city,
+			@RequestParam(name = "town", defaultValue = "") String town,
+			@RequestParam(name = "building", defaultValue = "") String building
+			) {
 
 		Account UpdateAccount = accountRepository.findById(id).get();
 
@@ -147,7 +153,10 @@ public class MypageController {
 		UpdateAccount.setPassword(password);
 		UpdateAccount.setEmail(email);
 		UpdateAccount.setProfile(profile);
-		UpdateAccount.setAddress(address);
+		UpdateAccount.setPrefecture(prefecture);
+		UpdateAccount.setCity(city);
+		UpdateAccount.setTown(town);
+		UpdateAccount.setBuilding(building);
 		UpdateAccount.setTel(tel);
 
 		accountRepository.save(UpdateAccount);

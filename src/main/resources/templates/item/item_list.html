@@ -1,83 +1,105 @@
 <!-- templates/item/item_list.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>商品一覧</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
+  <body class="bg-[#fffcd8]">
+    <!-- ヘッダー -->
+    <div th:replace="fragments/header_search :: header"></div>
 
-<head>
-	<title>商品一覧</title>
-</head>
+    <!-- ナビゲーション -->
+    <nav
+      class="bg-[#fffcd8] w-[60%] mt-6 mx-auto justify-between px-10 flex space-x-6 text-lg text-gray-700"
+    >
+      <a
+        href="/items"
+        class="border-b-4 text-center w-1/6 bg-[#d1ebd8] border-[#86cdd2] text-[var(--text-items)]"
+        >全て</a
+      >
+      <a
+        th:each="c : ${categories}"
+        th:href="@{'/items?categoryId=' + ${c.id}}"
+        class="text-center w-1/6 text-[var(--text-items)] hover:underline"
+        th:text="${c.name}"
+        >カテゴリー</a
+      >
+    </nav>
 
-<body>
-	<div th:replace="fragments/header_search :: header"></div>
-	<div>
-		<h2>商品一覧</h2>
-		<div class="item-link">
-			<nav>
-				<a href="/items">全商品</a>
-				<a th:each="c:${categories}" th:href="@{'/items?categoryId=' + ${c.id}}">
-					<span th:text="${c.name}" style="padding-left: 10px;"></span>
-				</a>
-			</nav>
-			<div th:each="item : ${items}">
-				<div style="margin-bottom: 20px;">
-					<a th:href="@{'/items/' + ${item.id} + '/detail'}">
-						<img th:if="${item.image != null}" th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"
-							width="200">
-					</a>
-					<p th:text="${item.name}">商品名</p>
-					<p th:text="${item.price} + '円'">価格</p>
+    <!-- 商品一覧 -->
+    <main class="px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
+      <div
+        th:each="item : ${items}"
+        class="relative rounded-[33px] overflow-hidden group block"
+      >
+        <!-- 商品画像 -->
+        <a th:href="@{'/items/' + ${item.id} + '/detail'}">
+          <img
+            th:if="${item.image != null}"
+            th:src="@{'/images/items/' + ${item.image}}"
+            alt="商品画像"
+            class="w-full"
+          />
+        </a>
 
-					 <!-- th:attr="data-item-id=${item.id} ,JavaScriptで Ajax 通信時に使うためのアイテムIDの埋め込み。-->
-					<button class="bookmark-btn" th:attr="data-item-id=${item.id}">
-						<!-- ログインユーザーがブックマークしている商品のID一覧に現在の商品IDが含まれていれば ♥ を表示 -->
-						<span th:if="${bookmarkedItemIds != null and #lists.contains(bookmarkedItemIds, item.id)}">♥</span>
-						<!-- 含まれていなければ ♡ を表示 -->
-						<span th:if="${bookmarkedItemIds == null or !#lists.contains(bookmarkedItemIds, item.id)}">♡</span>
-					</button>
-				</div>
-			</div>
-		</div>
+        <!-- 値段 -->
+        <div
+          class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent"
+        >
+          <span th:text="${item.price} + '円'">¥0</span>
+        </div>
 
-	<script>
-    // ページのHTMLが読み込まれたら実行される（画像の読み込みは待たない）
-    document.addEventListener('DOMContentLoaded', () => {
-      // 全ての「.bookmark-btn」ボタンを取得して、それぞれにクリックイベントを設定
-      document.querySelectorAll('.bookmark-btn').forEach(btn => {
-        btn.addEventListener('click', async (e) => {
-          // ボタンの中のカスタム属性「data-item-id」から、商品IDを取得
-          const itemId = btn.getAttribute('data-item-id');
+        <!-- ホバー時「商品詳細へ →」 -->
+        <div
+          class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+        >
+          商品詳細へ →
+        </div>
 
-          // fetchでサーバーに非同期リクエストを送信（Ajax）
-          const response = await fetch('/bookmarks/toggle-ajax', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            },
-            body: `itemId=${itemId}` // サーバー側で受け取るリクエストの中身
+        <!-- お気に入りボタン -->
+        <button
+          class="absolute top-3 right-3 text-2xl bookmark-btn z-10"
+          th:attr="data-item-id=${item.id}"
+        >
+          <span
+            th:if="${bookmarkedItemIds != null and #lists.contains(bookmarkedItemIds, item.id)}"
+            >♥</span
+          >
+          <span
+            th:if="${bookmarkedItemIds == null or !#lists.contains(bookmarkedItemIds, item.id)}"
+            >♡</span
+          >
+        </button>
+      </div>
+    </main>
+
+    <!-- お気に入り切り替えスクリプト -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".bookmark-btn").forEach((btn) => {
+          btn.addEventListener("click", async (e) => {
+            const itemId = btn.getAttribute("data-item-id");
+            const response = await fetch("/bookmarks/toggle-ajax", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `itemId=${itemId}`,
+            });
+            btn.disabled = true;
+            const result = await response.text();
+            btn.disabled = false;
+            if (result === "unauthenticated") {
+              alert("お気に入り機能を利用するには、ログインしてください");
+              return;
+            }
+            const iconSpan = btn.querySelector("span");
+            iconSpan.textContent = result === "bookmarked" ? "♥" : "♡";
           });
-
-          // 通信中はボタンを無効化
-          btn.disabled = true;
-
-          const result = await response.text(); // サーバーからの応答を受け取る
-
-          btn.disabled = false;
-
-          if (result === 'unauthenticated') {
-            alert('お気に入り機能を利用するには、ログインしてください');
-            return;
-          }
-
-          // ♥ と ♡ を切り替える
-          const iconSpan = btn.querySelector('span');
-          if (result === 'bookmarked') {
-            iconSpan.textContent = '♥';
-          } else {
-            iconSpan.textContent = '♡';
-          }
         });
       });
-    });
-  </script>
-	</body>
-
+    </script>
+  </body>
+</html>

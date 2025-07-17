@@ -1,51 +1,677 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>新規登録</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <!-- <link rel="stylesheet" href="/css/styles.css"> -->
+  </head>
+  <body class="min-h-screen overflow-y-hidden bg-[#d1f5ff]">
+    <!-- ロゴ部分 -->
 
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-</head>
+    <header
+      class="bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]"
+    >
+      <h1 class="w-[358px] mx-auto">
+        <img th:src="@{/images/Frame2.png}" alt="MadeForUロゴ" />
+      </h1>
+    </header>
 
-<body>
-	<div th:replace="fragments/header_account :: header"></div>
-	<h2>新規登録</h2>
-	<form method="post" th:action="@{/account/register}">
-		<div>
-			<div>
-				<p style="color: red;" th:if="${nameMessage}" th:text="${nameMessage}"></p>
-				<p>姓</p>
-				<input type="text" name="last_name" placeholder="山田">
+    <!-- 登録フォーム全体 -->
 
-				<p>名</p>
-				<input type="text" name="first_name" placeholder="花子">
-			</div>
-			<div>
-				<p style="color: red;" th:if="${nickNameMessage}" th:text="${nickNameMessage}"></p>
-				<p>ニックネーム</p>
-				<input type="text" name="nickName" placeholder="ニックネーム">
-			</div>
-			<div>
-				<p style="color: red;" th:if="${emailMessage}" th:text="${emailMessage}"></p>
-				<p>Email</p>
-				<input type="email" name="email" placeholder="メールアドレス">
-			</div>
-			<div>
-				<p style="color: red;" th:if="${passMessage}" th:text="${passMessage}"></p>
-				<p>Password</p>
-				<input type="password" name="password" placeholder="パスワード">
-				<input type="password" name="confirmPass" placeholder="パスワード(確認用)">
-			</div>
-			<div>
-				<p>Adress</p>
-				<input type="address" name="address" placeholder="住所">
-			</div>
-			<div>
-				<p>Tel</p>
-				<input type="tel" name="tel" placeholder="電話番号">
-			</div>
-			<button type="submit">確認画面へ</button>
-		</div>
-	</form>
-</body>
+<<<<<<< Updated upstream
+    <main class="pt-15 z-10 relative perspective-[1000px]">
+=======
+    <main class="mt-4 relative perspective-[1000px]">
+>>>>>>> Stashed changes
+      <form method="post" th:action="@{/account/register}">
+        <!--ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+       ステップ１
+     　ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー-->
+<<<<<<< Updated upstream
 
+        <div
+          id="step1"
+          class="absolute inset-0 mt-10 z-20 mx-auto h-[630px] max-w-lg bg-[var(--bg-form)] shadow-md rounded-[66px] px-16 py-10 space-y-6"
+        >
+          <!-- 姓・名 -->
+          <h2 class="text-center text-2xl text-[var(--main-color)]">
+            新規登録
+          </h2>
+          <div class="flex justify-between mt-8 relative">
+            <span
+              th:text="${nameMessage}"
+              class="absolute -top-5 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+            <!-- 姓 -->
+            <div class="wrapper w-[48%]">
+              <div class="relative pt-6">
+                <input
+                  id="last_name"
+                  name="last_name"
+                  type="text"
+                  placeholder=" "
+                  class="peer form-input"
+                />
+                <label for="last_name" class="form-label"
+                  >姓<span class="text-red-500">*</span></label
+                >
+              </div>
+            </div>
+            <!-- 名 -->
+            <div class="w-[48%] form-group">
+              <input
+                id="first_name"
+                name="first_name"
+                type="text"
+                placeholder=" "
+                class="peer form-input"
+              />
+              <label for="first_name" class="form-label">
+                名<span class="text-red-500">*</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- ニックネーム -->
+          <div class="form-group mt-4 relative">
+            <input
+              name="nickName"
+              id="nickName"
+              class="peer form-input"
+              type="text"
+              placeholder=" "
+            />
+            <label for="nickName" class="form-label">
+              ユーザー名<span class="text-red-500">*</span>
+            </label>
+            <span
+              th:if="${nickNameMessage}"
+              th:text="${nickNameMessage}"
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+          </div>
+
+          <!-- メールアドレス -->
+          <div class="form-group mt-4 relative">
+            <input
+              name="email"
+              id="email"
+              type="email"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="email" class="form-label">
+              メールアドレス<span class="text-red-500">*</span>
+            </label>
+            <span
+              th:if="${emailMessage}"
+              th:text="${emailMessage}"
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+          </div>
+
+          <!-- 電話番号 -->
+          <div class="form-group mt-4 relative">
+            <input
+              name="tel"
+              id="tel"
+              type="text"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="tel" class="form-label">
+              電話番号<span class="text-red-500">*</span>
+            </label>
+            <span
+              th:if="${tellMessage}"
+              th:text="${tellMessage}"
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+          </div>
+
+          <!-- パスワード -->
+          <div class="form-group mt-4 relative">
+            <input
+              name="password"
+              id="password"
+              type="password"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="password" class="form-label">
+              パスワード<span class="text-red-500">*</span>
+            </label>
+            <span
+              th:if="${passMessage}"
+              th:text="${passMessage}"
+              class="absolute -top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+          </div>
+          <!-- パスワード（確認用） -->
+          <div class="form-group mt-4 relative">
+            <input
+              name="confirmPass"
+              id="confirmPass"
+              type="password"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="confirmPass" class="form-label">
+              パスワード（確認用）<span class="text-red-500">*</span>
+            </label>
+            <span
+              th:if="${passwordMismatchMessage}"
+              th:text="${passwordMismatchMessage}"
+              class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+=======
+        <div
+          id="step1"
+          class="absolute inset-0 z-20 max-w-md mx-auto h-[550px] bg-[var(--bg-form)] shadow-md rounded-[66px] px-16 pt-6 space-y-9 pb-7"
+        >
+          <!-- 姓・名 -->
+          <h2 class="text-center text-2xl text-[var(--main-color)]">
+            新規登録
+          </h2>
+          <div class="flex mt-4 relative">
+            <span
+              th:text="${nameMessage}"
+              class="absolute -top-5 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+            <div class="w-[48%] flex flex-col">
+              <div class="flex">
+                <label class="text-sm text-[var(--text-color)] mr-2"
+                  >姓<span class="text-red-500">*</span></label
+                >
+              </div>
+              <input
+                class="border-b text-[var(--text-color)] border-[var(--main-color)] focus:outline-none"
+                type="text"
+                name="last_name"
+                placeholder="山田"
+              />
+            </div>
+            <div class="w-[48%] ml-[4%] flex flex-col">
+              <div class="flex">
+                <label class="text-sm text-[var(--text-color)]"
+                  >名<span class="text-red-500">*</span></label
+                >
+              </div>
+              <input
+                class="border-b text-[var(--text-color)] border-[var(--main-color)] focus:outline-none"
+                type="text"
+                name="first_name"
+                placeholder="花子"
+              />
+            </div>
+          </div>
+
+          <!-- ニックネーム -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >ニックネーム<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${nickNameMessage}"
+                th:text="${nickNameMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="nickName"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="text"
+            />
+          </div>
+
+          <!-- メールアドレス -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >メールアドレス<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${emailMessage}"
+                th:text="${emailMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="email"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="email"
+            />
+          </div>
+
+          <!-- 電話番号 -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >電話番号<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${tellMessage}"
+                th:text="${tellMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="tel"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="text"
+            />
+          </div>
+
+          <!-- パスワード -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >パスワード<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${passMessage}"
+                th:text="${passMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="password"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="password"
+            />
+          </div>
+
+          <!-- パスワード（確認用） -->
+          <div class="flex flex-col mt-4">
+            <div class="flex">
+              <label class="text-sm text-[var(--text-color)]"
+                >パスワード（確認用）<span class="text-red-500">*</span></label
+              >
+              <span
+                th:if="${passwordMismatchMessage}"
+                th:text="${passwordMismatchMessage}"
+                class="text-red-500 text-xs ml-2 inline"
+              ></span>
+            </div>
+            <input
+              name="confirmPass"
+              class="border-b border-[var(--main-color)] focus:outline-none"
+              type="password"
+            />
+>>>>>>> Stashed changes
+          </div>
+
+          <!-- 次へボタン -->
+          <div class="text-right">
+            <button
+              class="text-[var(--main-color)]"
+              type="button"
+              onclick="goToStep2()"
+            >
+              次へ →
+            </button>
+          </div>
+<<<<<<< Updated upstream
+          <div class="flex justify-between mt-8">
+            <a href="/" class="text-sm text-[var(--main-color)] underline"
+              >TOPへ</a
+            >
+            <a
+              th:href="@{/account/login}"
+              class="text-sm text-[var(--main-color)] underline"
+              >登録済みの方はこちら</a
+            >
+          </div>
+=======
+          <a class="text-[var(--main-color)] underline" href=""
+            >登録済みの方はこちら</a
+          >
+>>>>>>> Stashed changes
+        </div>
+
+        <!--ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+         ステップ2
+     　   ーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーーー-->
+
+        <div
+          id="step2"
+<<<<<<< Updated upstream
+          class="absolute inset-0 z-10 mt-10 max-w-lg h-[630px] mx-auto bg-[var(--bg-form)] shadow-md rounded-[66px] px-16 py-10 hidden space-y-6"
+=======
+          class="absolute inset-0 z-10 max-w-md hidden h-[550px] mx-auto bg-[var(--bg-form)] shadow-md rounded-[66px] px-16 pt-6 space-y-6 pb-7"
+>>>>>>> Stashed changes
+        >
+          <h2 class="text-center text-2xl text-[var(--main-color)]">
+            新規登録
+          </h2>
+
+<<<<<<< Updated upstream
+          <div class="flex mt-8 items-center relative space-x-2">
+            <span
+              th:if="${zipMessage}"
+              th:text="${zipMessage}"
+              class="block absolute whitespace-nowrap left-1/2 -translate-x-1/2 -top-6 text-red-500 text-xs"
+            ></span>
+            <label class="text-gray-600" for="zip1"
+=======
+          <span
+            th:if="${zipMessage}"
+            th:text="${zipMessage}"
+            class="block text-red-500 text-xs ml-2"
+          ></span>
+          <div class="flex items-center space-x-2">
+            <label class="text-sm text-[var(--text-color)]"
+>>>>>>> Stashed changes
+              >郵便番号<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+<<<<<<< Updated upstream
+              id="zip1"
+              name="zip1"
+              class="w-16 h-9 border ml-4 rounded-[66px] border-[var(--main-color)] placeholder-gray-400 text-center"
+              maxlength="3"
+              placeholder="123"
+=======
+              name="zip1"
+              class="w-16 border rounded-[66px] border-[var(--main-color)] text-center"
+              maxlength="3"
+>>>>>>> Stashed changes
+            />
+            <span>-</span>
+            <input
+              type="text"
+              name="zip2"
+<<<<<<< Updated upstream
+              class="w-16 border h-9 rounded-2xl border-[var(--main-color)] placeholder-gray-400 text-center"
+              maxlength="4"
+              placeholder="4567"
+            />
+            <button
+              type="button"
+              class="px-3 h-9 ml-2 border rounded-2xl bg-[#baeeff] border-[var(--main-color)] text-[var(--main-color)] cursor-pointer text-sm"
+=======
+              class="w-16 border rounded-2xl border-[var(--main-color)] text-center"
+              maxlength="4"
+            />
+            <button
+              type="button"
+              class="px-3 py-1 ml-2 border rounded-2xl bg-[#baeeff] border-[var(--main-color)] text-[var(--main-color)] cursor-pointer text-sm"
+>>>>>>> Stashed changes
+              id="searchBtn"
+            >
+              検索
+            </button>
+          </div>
+
+<<<<<<< Updated upstream
+          <!-- 都道府県 -->
+          <div class="form-group mt-4 relative">
+            <input
+              id="prefecture"
+              type="text"
+              name="prefecture"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="prefecture" class="form-label">
+              都道府県<span class="text-red-500">*</span>
+            </label>
+            <span
+              th:if="${addressMessage}"
+              th:text="${addressMessage}"
+              class="absolute -top-5 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+            ></span>
+          </div>
+
+          <!-- 市区町村 -->
+          <div class="form-group mt-4">
+            <input
+              id="city"
+              type="text"
+              name="city"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="city" class="form-label">
+              市区町村<span class="text-red-500">*</span>
+            </label>
+          </div>
+
+          <!-- 町域・番地 -->
+          <div class="form-group mt-4">
+            <input
+              id="town"
+              type="text"
+              name="town"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="town" class="form-label">
+              町域・番地<span class="text-red-500">*</span>
+            </label>
+          </div>
+
+          <!-- 建物名など -->
+          <div class="form-group mt-4">
+            <input
+              id="building"
+              type="text"
+              name="building"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="building" class="form-label">建物名など</label>
+          </div>
+
+          <button type="submit" class="ml-auto w-full primary-button">
+            登録
+          </button>
+=======
+          <span
+            th:if="${addressMessage}"
+            th:text="${addressMessage}"
+            class="block text-red-500 text-xs mb-1"
+          ></span>
+          <div>
+            <label class="text-sm text-[var(--text-color)]"
+              >都道府県<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              name="prefecture"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+          <div>
+            <label class="text-sm text-[var(--text-color)]"
+              >市区町村<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              name="city"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+          <div>
+            <label class="text-sm text-[var(--text-color)]"
+              >町域・番地<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              name="town"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+          <div>
+            <label class="text-sm text-[var(--text-color)]">建物名など</label>
+            <input
+              type="text"
+              name="building"
+              class="w-full border-b border-[var(--main-color)]"
+            />
+          </div>
+
+>>>>>>> Stashed changes
+          <div class="flex">
+            <button
+              class="text-left text-[var(--main-color)] cursor-pointer"
+              type="button"
+              onclick="goToStep1()"
+            >
+              ←戻る
+            </button>
+<<<<<<< Updated upstream
+          </div>
+          <div class="flex justify-between mt-8">
+            <a href="/" class="text-sm text-[var(--main-color)] underline"
+              >TOPへ</a
+            >
+            <a
+              th:href="@{/account/login}"
+              class="text-sm text-[var(--main-color)] underline"
+              >登録済みの方はこちら</a
+            >
+          </div>
+=======
+            <button type="submit" class="ml-auto primary-button">登録</button>
+          </div>
+          <a class="text-[var(--main-color)] underline" href="account/login"
+            >登録済みの方はこちら</a
+          >
+>>>>>>> Stashed changes
+        </div>
+      </form>
+    </main>
+
+<<<<<<< Updated upstream
+    <div class="absolute bottom-0 z-0 w-full overflow-hidden">
+      <svg
+        class="w-full h-[120px]"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 24 150 28"
+        preserveAspectRatio="none"
+        shape-rendering="auto"
+      >
+        <defs>
+          <path
+            id="gentle-wave"
+            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 
+           58-18 88-18 58 18 88 18 v44h-352z"
+          />
+        </defs>
+        <g class="wave-parallax">
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="0"
+            fill="rgba(59,154,186,0.3)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="3"
+            fill="rgba(59,154,186,0.2)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="5"
+            fill="rgba(59,154,186,0.15)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="7"
+            fill="rgba(59,154,186,0.25)"
+          />
+        </g>
+      </svg>
+    </div>
+
+=======
+>>>>>>> Stashed changes
+    <script>
+      const step1 = document.getElementById("step1");
+      const step2 = document.getElementById("step2");
+
+      function goToStep2() {
+<<<<<<< Updated upstream
+        step1.classList.add("hidden");
+=======
+        step1.classList.add("hidden"); // ←これが必要
+>>>>>>> Stashed changes
+        step2.classList.remove("hidden");
+      }
+      function goToStep1() {
+        step2.classList.add("hidden");
+        step1.classList.remove("hidden");
+      }
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchBtn = document.getElementById("searchBtn");
+        const zip1 = document.querySelector('input[name="zip1"]');
+        const zip2 = document.querySelector('input[name="zip2"]');
+
+        const pref = document.querySelector('input[name="prefecture"]');
+        const city = document.querySelector('input[name="city"]');
+        const town = document.querySelector('input[name="town"]');
+
+        searchBtn.addEventListener("click", async () => {
+          const zipcode = zip1.value + zip2.value;
+
+          if (!/^\d{7}$/.test(zipcode)) {
+            alert("郵便番号は7桁の数字で入力してください");
+            return;
+          }
+
+          try {
+            const res = await fetch(
+              `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`
+            );
+            const data = await res.json();
+
+            if (data.results) {
+              const result = data.results[0];
+              pref.value = result.address1; // 都道府県
+              city.value = result.address2; // 市区町村
+<<<<<<< Updated upstream
+
+              [pref, city, town].forEach((input) => {
+                input.classList.add("filled"); // 入力値があるから filled クラスをつける
+              });
+=======
+              town.value = result.address3; // 町域
+>>>>>>> Stashed changes
+            } else {
+              alert("該当する住所が見つかりませんでした");
+            }
+          } catch (err) {
+            alert("通信エラーが発生しました");
+            console.error(err);
+          }
+        });
+      });
+<<<<<<< Updated upstream
+
+      document.querySelectorAll(".form-input").forEach((input) => {
+        const toggleFilledClass = () => {
+          if (input.value.trim()) {
+            input.classList.add("filled");
+          } else {
+            input.classList.remove("filled");
+          }
+        };
+        input.addEventListener("input", toggleFilledClass);
+        toggleFilledClass(); // 初期状態チェック
+      });
+=======
+>>>>>>> Stashed changes
+    </script>
+  </body>
 </html>

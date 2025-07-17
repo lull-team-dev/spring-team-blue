@@ -30,7 +30,11 @@ public class Account {
 	private String profile;
 
 	@Column(nullable = true)
-	private String address;
+	private String zip; // 郵便番号（123-4567）
+	private String prefecture; // 都道府県
+	private String city; // 市区町村
+	private String town; // 町名
+	private String building; // 建物名（任意）
 
 	private String tel;
 
@@ -41,7 +45,7 @@ public class Account {
 	}
 
 	public Account(Long id, String name, String nickname, String email, String password, String profile,
-			String address, String tel) {
+			String address, String tel, String zip, String prefecture, String town, String city, String building) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -49,8 +53,11 @@ public class Account {
 		this.email = email;
 		this.password = password;
 		this.profile = profile;
-		this.address = address;
-		this.tel = tel;
+		this.zip = zip;
+		this.prefecture = prefecture;
+		this.city = city;
+		this.town = town;
+		this.building = building;
 	}
 
 	// getter
@@ -78,9 +85,6 @@ public class Account {
 		return profile;
 	}
 
-	public String getAddress() {
-		return address;
-	}
 
 	public String getTel() {
 		return tel;
@@ -115,9 +119,6 @@ public class Account {
 		this.profile = profile;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
 
 	public void setTel(String tel) {
 		this.tel = tel;
@@ -125,5 +126,45 @@ public class Account {
 
 	public void setPaymentMethod(String paymentMethod) {
 		this.paymentMethod = paymentMethod;
+	}
+
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
+	}
+
+	public String getPrefecture() {
+		return prefecture;
+	}
+
+	public void setPrefecture(String prefecture) {
+		this.prefecture = prefecture;
+	}
+
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getTown() {
+		return town;
+	}
+
+	public void setTown(String town) {
+		this.town = town;
+	}
+
+	public String getBuilding() {
+		return building;
+	}
+
+	public void setBuilding(String building) {
+		this.building = building;
 	}
 }

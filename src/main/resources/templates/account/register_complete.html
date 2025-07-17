@@ -1,14 +1,79 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" th:replace="layout/base :: layout(~{::content})">
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+  <body class="min-h-screen relative overflow-y-hidden bg-[#d1f5ff]">
+    <header
+      class="bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]"
+    >
+      <h1 class="w-[358px] mx-auto">
+        <img th:src="@{/images/Frame2.png}" alt="MadeForUロゴ" />
+      </h1>
+    </header>
 
-	<body>
-		<div th:replace="fragments/header_account :: header"></div>
-		登録完了画面
-	</body>
+    <div
+      class="bg-white/60 backdrop-blur-sm rounded-[40px] px-10 py-12 mt-20 mx-auto shadow-md w-full max-w-md text-center"
+    >
+      <h2 class="text-2xl font-semibold text-[var(--main-color)]">登録完了</h2>
+      <p class="mt-6 text-gray-700 text-sm leading-relaxed">
+        アカウントの登録が完了しました。<br />
+        ログイン画面よりログインしてください。
+      </p>
 
+      <a
+        href="/account/login"
+        class="mt-8 inline-block bg-[var(--main-color)] hover:bg-[#3a89a6] text-white font-semibold py-2 px-8 rounded-full transition duration-300"
+      >
+        ログイン画面へ
+      </a>
+    </div>
+
+    <div class="absolute bottom-0 z-0 w-full overflow-hidden">
+      <svg
+        class="w-full h-[120px]"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 24 150 28"
+        preserveAspectRatio="none"
+        shape-rendering="auto"
+      >
+        <defs>
+          <path
+            id="gentle-wave"
+            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 
+           58-18 88-18 58 18 88 18 v44h-352z"
+          />
+        </defs>
+        <g class="wave-parallax">
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="0"
+            fill="rgba(59,154,186,0.3)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="3"
+            fill="rgba(59,154,186,0.2)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="5"
+            fill="rgba(59,154,186,0.15)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="7"
+            fill="rgba(59,154,186,0.25)"
+          />
+        </g>
+      </svg>
+    </div>
+  </body>
 </html>
