@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Account;
 import com.example.demo.entity.Bookmark;
+import com.example.demo.entity.Category;
 import com.example.demo.entity.Item;
 import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
@@ -34,10 +35,10 @@ public class ItemController {
 
 	@Autowired
 	ItemRepository itemRepository;
-	
+
 	@Autowired
 	BookmarkRepository bookmarkRepository;
-	
+
 	@Autowired
 	AccountRepository accountRepository;
 
@@ -103,15 +104,19 @@ public class ItemController {
 			@RequestParam(value = "keyword", required = false) String keyword,
 			Model model) {
 		itemService.loadItemPage(categoryId, keyword, model);
-		Account user = accountRepository.findById(myAccount.getId()).orElse(null);
-		List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
-		List<Long> bookmarkedItemIds = bookmarks.stream()
-		    .map(b -> b.getItem().getId())
-		    .collect(Collectors.toList());
 
-		model.addAttribute("bookmarkedItemIds", bookmarkedItemIds);
-		 return "item/item_list";
-		
+		if (myAccount.getId() != null) {
+			Account user = accountRepository.findById(myAccount.getId()).orElse(null);
+			if (user != null) {
+				List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+				List<Long> bookmarkedItemIds = bookmarks.stream()
+						.map(b -> b.getItem().getId())
+						.collect(Collectors.toList());
+				model.addAttribute("bookmarkedItemIds", bookmarkedItemIds);
+			}
+		}
+
+		return "item/item_list";
 	}
 
 	// 商品詳細
@@ -120,6 +125,15 @@ public class ItemController {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		model.addAttribute("item", item);
 		return "item/item_detail";
+	}
+
+	@GetMapping("/items/{id}/edit")
+	public String itemEdit(@PathVariable("id") Long id, Model model) {
+		Item item = itemRepository.findById(id).get();
+		List<Category> categories = categoryRepository.findAll();
+		model.addAttribute("item", item);
+		model.addAttribute("categories", categories);
+		return "item/item_edit";
 	}
 
 }
