@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Account;
+import com.example.demo.entity.History;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Order;
 import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.HistoryRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.OrderRepository;
 
@@ -26,18 +28,16 @@ public class OrderController {
 
 	@Autowired
 	OrderRepository orderRepository;
-
 	@Autowired
 	HttpSession session;
-
 	@Autowired
 	MyAccount myAccount;
-
 	@Autowired
 	AccountRepository accountRepository;
-
 	@Autowired
 	ItemRepository itemRepository;
+	@Autowired
+	HistoryRepository historyRepository;
 
 	// 商品購入ページを表示（売り切れならリダイレクト）
 	@GetMapping("/order/{itemId}")
@@ -102,11 +102,13 @@ public class OrderController {
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();
 
-		if (item.isSoldOut()) {
+		if (item.isSoldOut() == true) {
 			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
 			return "order/order_error";
 		}
 
+		History history = new History(account, item, LocalDateTime.now(), item.getPrice());
+		historyRepository.save(history);
 		item.setSoldOut(true);
 		itemRepository.save(item);
 

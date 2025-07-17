@@ -60,6 +60,17 @@
       <a th:href="@{/account/logout}" class="text-sm text-white hover:underline"
         >ログアウト</a
       >
+      <details>
+        <summary>通知</summary>
+        <ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
+          <li>
+            <a
+              th:href="@{'/chat?chatId=' + ${chat.id}}"
+              th:text=" ${chat.item.name} + 'に新規メッセージ'"
+            ></a>
+          </li>
+        </ul>
+      </details>
     </th:block>
   </div>
 </header>

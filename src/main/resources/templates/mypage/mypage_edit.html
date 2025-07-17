@@ -12,6 +12,7 @@
 		<form method="post" action="/mypage/update">
 			<input type="hidden" name="id" th:value="${account.id}">
 			<label>名前</label><input type="text" name="name" th:value="${account.name}"><br>
+			<label>ユーザー名</label><input type="text" name="name" th:value="${account.nickname}"><br>
 			<label>メール</label><input type="email" name="email" th:value="${account.email}"><br>
 			<label>パスワード</label><input type="password" name="password" th:value="${account.password}"><br>
 			<label>自己紹介</label><input type="plofile" name="profile" th:value="${account.profile}"><br>

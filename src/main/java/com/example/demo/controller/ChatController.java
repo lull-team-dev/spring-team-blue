@@ -99,9 +99,17 @@ public class ChatController {
 			@RequestParam(name = "chatId") Long chatId,
 			Model model) {
 		Chat chatRoom = chatRepository.findById(chatId).orElseThrow();
+		Account account = accountRepository.findById(myAccount.getId()).get();
 		model.addAttribute("chat", chatRoom);
 		model.addAttribute("item", chatRoom.getItem());
 		List<Message> messageLogs = messageRepository.findByChat(chatRoom);
+
+		for (Message msg : messageLogs) {
+			if (msg.isRead() == false && msg.getSender() != account) {
+				msg.setRead(true);
+			}
+		}
+		messageRepository.saveAll(messageLogs);
 
 		model.addAttribute("messageLogs", messageLogs);
 		return "chats/chatMessage";

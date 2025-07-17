@@ -36,6 +36,9 @@ public class Message {
 	// 送信日時
 	private LocalDateTime sentAt = LocalDateTime.now();
 
+	@Column(name = "is_read", nullable = false)
+	private boolean isRead = false;
+
 	public Message() {
 	}
 
@@ -67,6 +70,10 @@ public class Message {
 		return sentAt;
 	}
 
+	public boolean isRead() {
+		return isRead;
+	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -85,6 +92,14 @@ public class Message {
 
 	public void setSentAt(LocalDateTime sentAt) {
 		this.sentAt = sentAt;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public void setRead(boolean isRead) {
+		this.isRead = isRead;
 	}
 
 }
