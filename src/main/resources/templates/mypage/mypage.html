@@ -3,12 +3,16 @@
 
 <head>
 	<meta charset="UTF-8" />
+	
 	<title>マイページ</title>
+	<link rel="stylesheet" href="/css/toggle.css">
+
 </head>
 
 <body>
+
 	<div th:replace="fragments/header_account :: header"></div>
-	<h2>マイページ</h2>
+	<h2>[[${@myAccount.nickname}]]さんのマイページ</h2>
 
 	<form method="get" action="/mypage/update">
 		<button>プロフィール編集</button>
@@ -22,8 +26,7 @@
 	<a th:href="@{'/mypage/user/' + ${@myAccount.id} + '/followers'}">フォロワー一覧を見る</a><br>
 
 	<!-- ← ここが導線 -->
-	<p>出品中の商品一覧のリンク</p>
-
+	<p>------------------------</p>
 	<div>
 		<h3>あなたの評価</h3>
 		<span>評価：</span>
@@ -46,22 +49,48 @@
 			</div>
 		</th:block>
 		<th:block th:if="${itemSelling}">
-			<table th:each="myItem : ${itemSelling}">
-				<div>
+				<div th:each="myItem : ${itemSelling}">
 					<a th:href="@{'/items/' + ${myItem.id} + '/detail'}">
 						<img th:if="${myItem.image != null}" th:src="@{'/images/items/' + ${myItem.image}}" alt="商品画像"
 							width="200">
 					</a>
 					<p th:text="${myItem.name}">商品名</p>
 					<p th:text="${myItem.price} + '円'">価格</p>
-					<button class="bookmark-btn" th:attr="data-item-id=${myItem.id}">
-						<!-- ログインユーザーがブックマークしている商品のID一覧に現在の商品IDが含まれていれば ♥ を表示 -->
-						<span th:if="${myItem.soldOut == true}">出品する</span>
-						<!-- 含まれていなければ ♡ を表示 -->
-						<span th:if="${myItem.soldOut == false}">品切れにする</span>
-					</button>
+					<!-- アイテムごとのトグルボタン -->
+
+							<label class="switch">
+							  <input type="checkbox"
+							         class="soldout-toggle"
+							         th:data-id="${myItem.id}"
+									 th:checked="${!myItem.soldOut ? 'checked' : null}" />
+							  <span class="slider"></span>
+							</label>
+						<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+						<script>
+						  $(function () {
+						    $(".soldout-toggle").on("change", function () {
+						      const itemId = $(this).data("id");
+							  const soldOut = !$(this).is(":checked"); // ←ここで反転
+
+						      $.ajax({
+						        url: "/item/toggle-soldout",
+						        method: "POST",
+						        data: {
+						          itemId: itemId,
+						          soldOut: soldOut
+						        },
+						        success: function (response) {
+						          console.log("出品状態更新成功:", response);
+						        },
+						        error: function (xhr) {
+						          alert("更新失敗: " + xhr.responseText);
+						        }
+						      });
+						    });
+						  });
+						</script>
+
 				</div>
-			</table>
 		</th:block>
 		<th:block th:if="${myReview}">
 			<div th:replace="review/review_list :: body"></div>

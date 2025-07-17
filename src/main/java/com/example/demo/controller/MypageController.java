@@ -13,16 +13,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.entity.Account;
 import com.example.demo.entity.Bookmark;
+import com.example.demo.entity.Chat;
 import com.example.demo.entity.History;
 import com.example.demo.entity.Item;
 import com.example.demo.entity.Review;
 import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.BookmarkRepository;
+import com.example.demo.repository.ChatRepository;
 import com.example.demo.repository.FollowRepository;
 import com.example.demo.repository.HistoryRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.repository.ReviewRepository;
+import com.example.demo.service.ChatService;
 
 @Controller
 @RequestMapping("/mypage")
@@ -42,6 +45,10 @@ public class MypageController {
 	FollowRepository followRepository;
 	@Autowired
 	BookmarkRepository bookmarkRepository;
+	@Autowired
+	ChatRepository chatRepository;
+	@Autowired
+	ChatService chatService;
 
 	// マイページ
 	@GetMapping("")
@@ -58,6 +65,9 @@ public class MypageController {
 				double total = reviews.stream().mapToInt(r -> r.getScore()).sum();
 				avgScore = total / reviews.size();
 			}
+
+			List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
+			model.addAttribute("unreadChats", unreadChats);
 			model.addAttribute("avgScore", avgScore);
 
 			model.addAttribute("followerCount", followerCount);
@@ -99,6 +109,9 @@ public class MypageController {
 				double total = reviews.stream().mapToInt(r -> r.getScore()).sum();
 				avgScore = total / reviews.size();
 			}
+
+			List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
+			model.addAttribute("unreadChats", unreadChats);
 			model.addAttribute("avgScore", avgScore);
 
 			model.addAttribute("followerCount", followerCount);

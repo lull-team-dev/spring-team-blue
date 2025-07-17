@@ -12,8 +12,9 @@
 		<div th:replace="fragments/header_user :: header"></div>
 
 		<h2>ユーザー詳細</h2>
-		<p>ユーザー名: <span th:text="${account.name}"></span></p>
-		<p>メール: <span th:text="${account.email}"></span></p>
+		<p>ユーザー名: <span th:text="${account.nickname}"></span></p>
+		<p>自己紹介: <span th:text="${account.profile}"></span></p>
+		
 		<p>平均評価: <span th:text="${avgScore}">未評価</span></p>
 
 		<p>
@@ -60,10 +61,7 @@
 			</ul>
 		</div>
 
-		<!-- レビュー投稿リンク -->
-		<p>
-			<a th:href="@{'/review/form/' + ${account.id}}" class="btn btn-primary">レビューを書く</a>
-		</p>
+
 
 		<a href="/">← 商品一覧へ</a>
 
