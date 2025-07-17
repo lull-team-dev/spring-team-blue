@@ -17,8 +17,9 @@
 			</div>
 
 			<div>
-				<p>出品者:<span th:text="${item.account.name}"></span>
-					<a th:href="@{/mypage/user/{id}/detail(id=${item.account.id})}">出品者プロフィールを見る</a>
+				<p>出品者:<span th:text="${item.account.nickname}"></span>
+					<a th:if="${@myAccount.id != item.account.id}" th:href="@{/mypage/user/{id}/detail(id=${item.account.id})}">出品者プロフィールを見る</a>
+					<a th:if="${@myAccount.id == item.account.id}" th:href="@{/mypage}">マイページ</a>
 				</p>
 				<p>商品名:<span th:text="${item.name}"></span></p>
 				<p>商品詳細:<br><span th:text="${item.memo}"></span></p>

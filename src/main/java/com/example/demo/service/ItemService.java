@@ -74,4 +74,12 @@ public class ItemService {
 		itemRepository.save(item);
 	}
 
+	@Transactional
+	public void toggleSoldOut(Long itemId, Boolean soldOut) {
+		Item item = itemRepository.findById(itemId)
+				.orElseThrow(() -> new IllegalArgumentException("該当商品が見つかりません"));
+		item.setSoldOut(soldOut);
+		itemRepository.save(item);
+	}
+
 }

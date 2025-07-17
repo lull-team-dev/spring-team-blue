@@ -104,6 +104,7 @@ CREATE TABLE messages (
   sender_id INTEGER NOT NULL,
   message TEXT NOT NULL,
   sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  is_read BOOLEAN DEFAULT false,
   FOREIGN KEY (chat_id) REFERENCES chats(id) ON DELETE CASCADE,
   FOREIGN KEY (sender_id) REFERENCES users(id)
 );
