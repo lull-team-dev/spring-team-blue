@@ -14,56 +14,69 @@
     <nav
       class="bg-[#fffcd8] w-[60%] mt-6 mx-auto justify-between px-10 flex space-x-6 text-lg text-gray-700"
     >
+      <!-- 全てカテゴリ -->
       <a
-        href="/items"
-        class="border-b-4 text-center w-1/6 bg-[#d1ebd8] border-[#86cdd2] text-[var(--text-items)]"
+        th:href="@{/items}"
+        th:classappend="${selectedCategoryId == null} ? ' no-underline border-b-4 bg-[#d1ebd8] border-[#86cdd2]' : ''"
+        class="text-center w-1/8 text-[var(--text-items)]"
         >全て</a
       >
+
+      <!-- 各カテゴリー -->
       <a
         th:each="c : ${categories}"
         th:href="@{'/items?categoryId=' + ${c.id}}"
-        class="text-center w-1/6 text-[var(--text-items)] hover:underline"
+        th:classappend="${selectedCategoryId == c.id} ? ' border-b-4 bg-[#d1ebd8]  border-[#86cdd2]' : ''"
+        class="text-center w-1/6 no-underline hover:no-underline text-[var(--text-items)]"
         th:text="${c.name}"
         >カテゴリー</a
       >
     </nav>
 
     <!-- 商品一覧 -->
-    <main class="px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
+    <main class="px-10 mt-20 py-6 grid grid-cols-3 gap-10 w-[70%] mx-auto">
       <div
         th:each="item : ${items}"
         class="relative rounded-[33px] overflow-hidden group block"
       >
         <!-- 商品画像 -->
         <a th:href="@{'/items/' + ${item.id} + '/detail'}">
-          <img
+          <!-- <img
             th:if="${item.image != null}"
             th:src="@{'/images/items/' + ${item.image}}"
             alt="商品画像"
             class="w-full"
+          /> -->
+          <img
+            th:if="${item.image != null}"
+            th:src="@{/images/items/dryflower_wreath.png}"
+            alt="商品画像"
+            class="w-full"
           />
+
+          <!-- 値段 -->
+          <div
+            class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent"
+          >
+            <span th:text="${item.price} + '円'">¥0</span>
+          </div>
+
+          <!-- ホバー時「商品詳細へ →」 -->
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          >
+            商品詳細へ →
+          </div>
         </a>
-
-        <!-- 値段 -->
-        <div
-          class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent"
-        >
-          <span th:text="${item.price} + '円'">¥0</span>
-        </div>
-
-        <!-- ホバー時「商品詳細へ →」 -->
-        <div
-          class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-        >
-          商品詳細へ →
-        </div>
 
         <!-- お気に入りボタン -->
         <button
           class="absolute top-3 right-3 text-2xl bookmark-btn z-10"
           th:attr="data-item-id=${item.id}"
+          aria-label="お気に入りに追加または解除"
         >
           <span
+            class="bg-red-500"
             th:if="${bookmarkedItemIds != null and #lists.contains(bookmarkedItemIds, item.id)}"
             >♥</span
           >

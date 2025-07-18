@@ -427,6 +427,11 @@
         input.addEventListener("input", toggleFilledClass);
         toggleFilledClass(); // 初期状態チェック
       });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("form");
+        form.style.minHeight = "630px";
+      });
     </script>
   </body>
 </html>
