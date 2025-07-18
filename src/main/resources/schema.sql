@@ -18,7 +18,11 @@ nickname TEXT NOT NULL,
 email TEXT NOT NULL UNIQUE,
 password TEXT NOT NULL,
 profile TEXT,
-address TEXT,
+zip VARCHAR(8),               
+prefecture TEXT,              
+city TEXT,                    
+town TEXT,                    
+building TEXT,            
 tel TEXT,
 payment_method VARCHAR(50) 
 );
