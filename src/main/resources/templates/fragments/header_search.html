@@ -1,38 +1,76 @@
-<header>
-	<div class="header-container">
-		<!-- 左：ロゴ -->
-		<div class="logo">
-			<a th:href="@{/}">Handmade Market</a>
-		</div>
+<header
+  class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 py-2 flex justify-between items-center"
+>
+  <!-- 左：ロゴ -->
+  <div class="logo">
+    <a th:href="@{/}">
+      <img src="../static/img/Frame 2.png" class="w-[200px]" alt="ロゴ" />
+    </a>
+  </div>
 
-		<!-- 中央：検索フォーム -->
-		<div class="search-box">
-			<form method="get" th:action="@{/items}">
-				<input type="text" name="keyword" th:value="${param.keyword}" placeholder="お探しのものはありますか？">
-				<button type="submit">検索</button>
-			</form>
-		</div>
+  <!-- 中央：検索フォーム -->
+  <div class="search-box w-1/2 mx-4">
+    <form
+      method="get"
+      th:action="@{/items}"
+      class="flex items-center border border-blue-400 rounded-lg px-3 py-2 bg-[#a3dee5]"
+    >
+      <input
+        type="text"
+        name="keyword"
+        th:value="${param.keyword}"
+        placeholder="お探しのものはありますか？"
+        class="bg-transparent outline-none text-gray-700 placeholder-gray-500 w-full"
+      />
+      <button type="submit" class="ml-2 text-gray-600 hover:text-gray-800">
+        <img src="../static/img/icon.png" class="w-5 opacity-50" alt="検索" />
+      </button>
+    </form>
+  </div>
 
-		<!-- 右：ユーザー関連リンク（ログイン状態で出し分けることも可能） -->
-		<div class="user-links">
-			<th:block th:if="${session.account == null}">
-				<a th:href="@{/account/login}">ログイン</a>
-				<a th:href="@{/account/register}">新規登録</a>
-			</th:block>
-			<th:block th:if="${session.account != null}">
-				<a th:href="@{/mypage}">マイページ</a>
-				<a th:href="@{/account/logout}">ログアウト</a>
-				<details>
-					<summary>通知</summary>
-					<ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
-						<li>
-							<a th:href="@{'/chat?chatId=' + ${chat.id}}"
-								th:text=" ${chat.item.name} + 'に新規メッセージ'"></a>
-						</li>
-					</ul>
+  <!-- 右：ユーザー関連 -->
+  <div class="flex items-center space-x-4">
+    <!-- ログインしていない場合 -->
+    <th:block th:if="${session.account == null}">
+      <a th:href="@{/account/login}" class="text-sm text-white hover:underline"
+        >ログイン</a
+      >
+      <a
+        th:href="@{/account/register}"
+        class="text-sm text-white hover:underline"
+        >新規登録</a
+      >
+    </th:block>
 
-				</details>
-			</th:block>
-		</div>
-	</div>
+    <!-- ログインしている場合 -->
+    <th:block th:if="${session.account != null}">
+      <div class="flex flex-col items-center">
+        <img
+          src="../static/img/pan 1.png"
+          alt="ユーザー"
+          class="w-10 h-10 rounded-full border border-white"
+        />
+        <p class="text-white text-sm" th:text="${session.account.name}">
+          ユーザー名
+        </p>
+      </div>
+      <a th:href="@{/mypage}" class="text-sm text-white hover:underline"
+        >マイページ</a
+      >
+      <a th:href="@{/account/logout}" class="text-sm text-white hover:underline"
+        >ログアウト</a
+      >
+      <details>
+        <summary>通知</summary>
+        <ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
+          <li>
+            <a
+              th:href="@{'/chat?chatId=' + ${chat.id}}"
+              th:text=" ${chat.item.name} + 'に新規メッセージ'"
+            ></a>
+          </li>
+        </ul>
+      </details>
+    </th:block>
+  </div>
 </header>

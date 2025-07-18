@@ -84,65 +84,97 @@ public class AccountController {
 	@PostMapping("/register")
 	public String register(@RequestParam(name = "last_name", defaultValue = "") String lastName,
 			@RequestParam(name = "first_name", defaultValue = "") String firstName,
-			@RequestParam(name = "nickName", defaultValue = "") String nickName,
+			@RequestParam(name = "nickName", defaultValue = "") String nickname,
 			@RequestParam(name = "email", defaultValue = "") String email,
 			@RequestParam(name = "password", defaultValue = "") String password,
 			@RequestParam(name = "confirmPass", defaultValue = "") String confirmPass,
-			@RequestParam(name = "address", defaultValue = "") String address,
+			@RequestParam(name = "zip1", defaultValue = "") String zip1,
+			@RequestParam(name = "zip2", defaultValue = "") String zip2,
+			@RequestParam(name = "prefecture", defaultValue = "") String prefecture,
+			@RequestParam(name = "city", defaultValue = "") String city,
+			@RequestParam(name = "town", defaultValue = "") String town,
+			@RequestParam(name = "building", defaultValue = "") String building,
 			@RequestParam(name = "tel", defaultValue = "") String tel,
+
 			Model model,
 			RedirectAttributes redirectAttributes) {
 
+		boolean hasError = false;
 		Account addAccount = new Account();
-		String fullName;
 
-		if (lastName.isEmpty() || firstName.isEmpty() || nickName.isEmpty() || email.isEmpty()
-				|| password.isEmpty() || confirmPass.isEmpty()) {
-			//姓名入力チェック
-			if (lastName.isEmpty() || firstName.isEmpty()) {
-				model.addAttribute("nameMessage", "姓名は必ず入力してください。");
-			}
-			//ニックネーム入力チェック
-			if (nickName.isEmpty()) {
-				model.addAttribute("nickNameMessage", "ニックネームを入力してください");
-			}
-			//メール入力チェック
-			if (email.isEmpty()) {
-				model.addAttribute("emailMessage", "メールアドレスの入力が必要です。");
-			}
-			//パスワード入力チェック
-			if (password.isEmpty() || confirmPass.isEmpty()) {
-				model.addAttribute("passMessage", "パスワードを入力してください");
-			}
-			return "account/register";
-		} else {
-
-			fullName = lastName + firstName;
-			addAccount.setName(fullName);
-
-			addAccount.setNickname(nickName);
-
-			//メールの登録有無
-			Account mailCheck = accountRepository.findByEmail(email);
-
-			if (mailCheck != null) {
-				model.addAttribute("emailMessage", "入力いただいたメールアドレスはすでに登録済みです。");
-				return "account/register";
-			}
-
-			if (!password.equals(confirmPass)) {
-				model.addAttribute("passMessage", "パスワードが一致しませんでした。");
-				return "account/register";
-			}
-
-			addAccount.setEmail(email);
-			addAccount.setPassword(password);
-			addAccount.setAddress(address);
-			addAccount.setTel(tel);
-
-			redirectAttributes.addFlashAttribute("account", addAccount);
-			return "redirect:/account/register/confirm";
+		// 姓名入力チェック
+		if (lastName.isEmpty() || firstName.isEmpty()) {
+			model.addAttribute("nameMessage", "姓名は必ず入力してください。");
+			hasError = true;
 		}
+		// ニックネーム入力チェック
+		if (nickname.isEmpty()) {
+			model.addAttribute("nickNameMessage", "ニックネームを入力してください");
+			hasError = true;
+		}
+		// メール入力チェック
+		if (email.isEmpty()) {
+			model.addAttribute("emailMessage", "メールアドレスを入力してください");
+			hasError = true;
+		}
+		// パスワード入力チェック
+		if (password.isEmpty() || confirmPass.isEmpty()) {
+			model.addAttribute("passMessage", "パスワードを入力してください");
+		} else if (!password.equals(confirmPass)) {
+			model.addAttribute("passwordMismatchMessage", "パスワードが一致しませんでした。");
+			hasError = true;
+		}
+
+		// 郵便番号チェック
+		if (zip1.isEmpty() || zip2.isEmpty()) {
+			model.addAttribute("zipMessage", "郵便番号をすべて入力してください");
+			hasError = true;
+		} else if (!zip1.matches("\\d{3}") || !zip2.matches("\\d{4}")) {
+			model.addAttribute("zipMessage", "郵便番号は「123-4567」の形式で入力してください");
+			hasError = true;
+		}
+
+		// 住所チェック
+		if (prefecture.isEmpty() || city.isEmpty() || town.isEmpty()) {
+			model.addAttribute("addressMessage", "住所（都道府県・市区町村・町域）をすべて入力してください");
+			hasError = true;
+		}
+
+		if (hasError) {
+			return "account/register";
+		}
+
+		// メールの登録有無
+		Account mailCheck = accountRepository.findByEmail(email);
+
+		if (mailCheck != null) {
+			model.addAttribute("emailMessage", "入力いただいたメールアドレスはすでに登録済みです。");
+			return "account/register";
+		}
+
+		// 登録データセット
+		String fullName = lastName + firstName;
+		String fullZip = zip1 + "-" + zip2;
+
+		addAccount.setName(fullName);
+		addAccount.setNickname(nickname);
+		addAccount.setEmail(email);
+		addAccount.setPassword(password);
+		addAccount.setZip(fullZip);
+		addAccount.setPrefecture(prefecture);
+		addAccount.setCity(city);
+		addAccount.setTown(town);
+		addAccount.setBuilding(building);
+		addAccount.setTel(tel);
+
+		redirectAttributes.addFlashAttribute("account", addAccount);
+		return "redirect:/account/register/confirm";
+	}
+
+	// 確認画面
+	@GetMapping("/register/confirm")
+	public String showConfirmation(@ModelAttribute("account") Account account) {
+		return "account/register_confirm";
 	}
 
 	// 確認画面
@@ -156,7 +188,7 @@ public class AccountController {
 	public String registerComplete(@ModelAttribute(name = "account") Account account,
 			Model model) {
 		accountRepository.save(account);
-		return "redirect:/account/login";
+		return "redirect:/account/register_complete";
 	}
 
 }

@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.demo.entity.Account;
+import com.example.demo.entity.Bookmark;
 import com.example.demo.entity.Category;
-import com.example.demo.entity.Chat;
 import com.example.demo.entity.Item;
+import com.example.demo.model.MyAccount;
+import com.example.demo.repository.AccountRepository;
+import com.example.demo.repository.BookmarkRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
 import com.example.demo.service.ChatService;
@@ -34,6 +39,15 @@ public class ItemController {
 
 	@Autowired
 	ItemRepository itemRepository;
+
+	@Autowired
+	BookmarkRepository bookmarkRepository;
+
+	@Autowired
+	AccountRepository accountRepository;
+
+	@Autowired
+	MyAccount myAccount;
 
 	@Autowired
 	ItemService itemService;
@@ -99,6 +113,17 @@ public class ItemController {
 		List<Chat> Chats = chatService.getUnreadChatsForCurrentUser();
 		model.addAttribute("unreadChats", Chats);
 		itemService.loadItemPage(categoryId, keyword, model);
+
+		if (myAccount.getId() != null) {
+			Account user = accountRepository.findById(myAccount.getId()).orElse(null);
+			if (user != null) {
+				List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+				List<Long> bookmarkedItemIds = bookmarks.stream()
+						.map(b -> b.getItem().getId())
+						.collect(Collectors.toList());
+				model.addAttribute("bookmarkedItemIds", bookmarkedItemIds);
+			}
+		}
 
 		return "item/item_list";
 	}
