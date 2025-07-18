@@ -38,8 +38,6 @@ package-lock.json
 postcss.config.mjs
 tailwind.config.js
 package.json
-# Tailwind の元CSS
-src/main/resources/static/css/input.css
 # 開発環境のwatch用ビルドファイルなど
 dist/
 *.css.map

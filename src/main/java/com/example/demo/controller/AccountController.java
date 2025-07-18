@@ -177,18 +177,14 @@ public class AccountController {
 		return "account/register_confirm";
 	}
 
-	// 確認画面
-	@GetMapping("/register/confirm")
-	public String showConfirmation(@ModelAttribute("account") Account account) {
-		return "account/register_confirm";
-	}
+
 
 	// 登録完了 → ログイン画面へ
 	@PostMapping("/register/complete")
 	public String registerComplete(@ModelAttribute(name = "account") Account account,
 			Model model) {
 		accountRepository.save(account);
-		return "redirect:/account/register_complete";
+		return "account/register_complete";
 	}
 
 }
