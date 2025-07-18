@@ -1,0 +1,265 @@
+@import "tailwindcss";
+
+:root {
+  --main-color: #3b9aba;
+  --text-color: #828484;
+  --bg-form: #edfffe;
+  --text-items: #7c6254;
+}
+
+
+
+
+@layer components {
+  .form-group {
+    @apply relative pt-6;
+  }
+
+  .form-input {
+    @apply block w-full cursor-pointer border-b-1 bg-transparent  text-sm text-[var(--text-color)] focus:outline-none focus:ring-0;
+    @apply border-[var(--main-color)] focus:border-blue-600;
+  }
+
+
+  .form-label {
+    @apply absolute left-0 top-2.5 text-sm text-gray-500 transition-all
+      peer-placeholder-shown:top-4
+      peer-placeholder-shown:text-base
+      peer-placeholder-shown:text-gray-400
+      peer-focus:top-0
+      peer-focus:text-sm
+      peer-focus:text-blue-600;
+  }
+
+    .form-input:focus + .form-label,
+  .form-input.filled + .form-label {
+    @apply top-0 text-xs ;
+  }
+
+  .primary-button {
+    @apply bg-[var(--main-color)] cursor-pointer text-white px-4 py-2 rounded-lg hover:bg-indigo-500 transition;
+  }
+
+  .star-five {
+    @apply relative block my-12 w-0 h-0 text-red-700;
+    border-right: 50px solid transparent;
+    border-bottom: 70px solid red;
+    border-left: 50px solid transparent;
+    transform: rotate(35deg);
+  }
+
+  .star-five::before {
+    content: "";
+    @apply absolute block;
+    border-bottom: 80px solid red;
+    border-left: 30px solid transparent;
+    border-right: 30px solid transparent;
+    top: -45px;
+    left: -65px;
+    transform: rotate(-35deg);
+  }
+
+  .star-five::after {
+    content: "";
+    @apply absolute block;
+    border-right: 100px solid transparent;
+    border-bottom: 70px solid red;
+    border-left: 100px solid transparent;
+    top: 3px;
+    left: -105px;
+    transform: rotate(-70deg);
+  }
+}
+
+@layer utilities {
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-left {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(-400px);
+    }
+  }
+
+  .slide-left {
+    animation: slide-left 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes slide-right {
+    0% {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    to {
+      opacity: 0;
+      transform: translateX(400px);
+    }
+  }
+
+  .slide-right {
+    animation: slide-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  @keyframes flip-vertical-left {
+    0% {
+      transform: rotateY(0);
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+      transform: rotateY(-360deg);
+    }
+  }
+
+  .flip-vertical-left {
+    transform-origin: left center;
+    animation: flip-vertical-left 1.3s ease 0.4s both;
+  }
+
+  @keyframes cutOpen {
+    0% {
+      transform: rotate(20deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes cutClose {
+    0% {
+      transform: rotate(-20deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @keyframes choki {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(20deg);
+    }
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+
+  @layer utilities {
+    .animate-choki {
+      animation: choki 0.5s ease-in-out forwards;
+    }
+  }
+
+  .animate-cut-open {
+    animation: cutOpen 0.5s ease-in-out infinite alternate;
+  }
+
+  .animate-cut-close {
+    animation: cutClose 0.5s ease-in-out infinite alternate;
+  }
+}
+
+.sample {
+  position:relative;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0, 0, 0, 0.2);
+  margin:0 auto;
+  width:100vw;
+  height:300px;
+  background-color:#fff;
+}
+
+.sample::before {
+  content: "";
+  position: absolute;
+  top: -150%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  clip-path: ellipse(150% 100% at 50% 100%);
+  background-color: #3b82f6; /* Tailwindのblue-500 */
+  animation: waveRotate 6s linear infinite;
+  z-index: 0;
+}
+
+@keyframes wave-move {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+
+@layer utilities {
+  @keyframes waveParallax {
+    0% {
+      transform: translate3d(-90px, 0, 0);
+    }
+    100% {
+      transform: translate3d(85px, 0, 0);
+    }
+  }
+
+  .wave-parallax > use {
+    animation: waveParallax 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+  }
+
+  .wave-parallax > use:nth-child(1) {
+    animation-delay: -2s;
+    animation-duration: 7s;
+  }
+  .wave-parallax > use:nth-child(2) {
+    animation-delay: -3s;
+    animation-duration: 10s;
+  }
+  .wave-parallax > use:nth-child(3) {
+    animation-delay: -4s;
+    animation-duration: 13s;
+  }
+  .wave-parallax > use:nth-child(4) {
+    animation-delay: -5s;
+    animation-duration: 20s;
+  }
+}
+
+
+
+
+@-moz-keyframes elasticInput {
+  50% {
+    d: path("M2,2 C21,17 46,25 74,25 C102,25 118,25 120,25");
+  }
+}
+@-webkit-keyframes elasticInput {
+  50% {
+    d: path("M2,2 C21,17 46,25 74,25 C102,25 118,25 120,25");
+  }
+}
+@-o-keyframes elasticInput {
+  50% {
+    d: path("M2,2 C21,17 46,25 74,25 C102,25 118,25 120,25");
+  }
+}
+@keyframes elasticInput {
+  50% {
+    d: path("M2,2 C21,17 46,25 74,25 C102,25 118,25 120,25");
+  }
+}
+
+
+

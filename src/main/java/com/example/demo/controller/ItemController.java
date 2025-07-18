@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.example.demo.entity.Account;
 import com.example.demo.entity.Bookmark;
 import com.example.demo.entity.Category;
+import com.example.demo.entity.Chat;
 import com.example.demo.entity.Item;
 import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
