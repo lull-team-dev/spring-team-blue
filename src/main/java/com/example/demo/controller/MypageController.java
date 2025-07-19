@@ -136,6 +136,7 @@ public class MypageController {
 	public String updateMypage(@RequestParam(value = "id", defaultValue = "") Long id,
 			@RequestParam(value = "name", defaultValue = "") String name,
 			@RequestParam(value = "password", defaultValue = "") String password,
+			@RequestParam(value = "confirmPass", defaultValue = "") String confirmPass,
 			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(value = "profile", defaultValue = "") String profile,
 			@RequestParam(value = "tel", defaultValue = "") String tel,
@@ -144,10 +145,15 @@ public class MypageController {
 			@RequestParam(name = "prefecture", defaultValue = "") String prefecture,
 			@RequestParam(name = "city", defaultValue = "") String city,
 			@RequestParam(name = "town", defaultValue = "") String town,
-			@RequestParam(name = "building", defaultValue = "") String building
-			) {
+			@RequestParam(name = "building", defaultValue = "") String building, Model model) {
 
 		Account UpdateAccount = accountRepository.findById(id).get();
+
+		// パスワード入力チェック
+		if (!password.equals(confirmPass)) {
+			model.addAttribute("passwordMismatchMessage", "パスワードが一致しませんでした。");
+			return "mypage/mypage_edit";
+		}
 
 		UpdateAccount.setName(name);
 		UpdateAccount.setPassword(password);

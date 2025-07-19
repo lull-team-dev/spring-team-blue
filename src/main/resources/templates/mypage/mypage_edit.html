@@ -1,27 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
 
-	<body>
-		<h2>ユーザー情報の編集</h2>
+<body>
+	<h2>ユーザー情報の編集</h2>
 
-		<form method="post" action="/mypage/update">
-			<input type="hidden" name="id" th:value="${account.id}">
-			<label>名前</label><input type="text" name="name" th:value="${account.name}"><br>
-			<label>ユーザー名</label><input type="text" name="name" th:value="${account.nickname}"><br>
-			<label>メール</label><input type="email" name="email" th:value="${account.email}"><br>
-			<label>パスワード</label><input type="password" name="password" th:value="${account.password}"><br>
-			<label>自己紹介</label><input type="plofile" name="profile" th:value="${account.profile}"><br>
-			<label>住所</label><input type="address" name="address" th:value="${account.address}"><br>
-			<label></label><input type="tel" name="tel" th:value="${account.tel}"><br>
-			<button type="submit">更新する</button>
-		</form>
+	<form method="post" action="/mypage/update">
+		<p>プロフィール</p>
+		<input type="hidden" name="id" th:value="${account.id}">
+		<label>ユーザー名</label>
+		<input type="text" name="name" th:value="${account.nickname}"><br>
+		<label>自己紹介</label>
+		<input type="plofile" name="profile" th:value="${account.profile}"><br>
 
-		<p><a href="/mypage">← マイページに戻る</a></p>
-	</body>
+		<p>個人情報</p>
+		<label>名前</label>
+		<input type="text" name="name" th:value="${account.name}"><br>
+		<label>メール</label>
+		<input type="email" name="email" th:value="${account.email}"><br>
+		<label>電話番号</label>
+		<input type="tel" name="tel" th:value="${account.tel}"><br>
+		<label>パスワード</label>
+		<input type="password" name="password"><br>
+		<input type="password" name="confirmPass"><br>
+		<p>住所</p>
+		<lavel>郵便番号</lavel>
+		<input type="address" name="address" th:value="${account.zip}"><br>
+		<input type="address" name="address" th:value="${account.prefecture}"><br>
+		<input type="address" name="address" th:value="${account.city}"><br>
+		<input type="address" name="address" th:value="${account.town}"><br>
+		<input type="address" name="address" th:value="${account.building}"><br>
+		<button type="submit">更新する</button>
+	</form>
+
+	<p><a href="/mypage">← マイページに戻る</a></p>
+</body>
 
 </html>

@@ -32,9 +32,9 @@ INSERT INTO categories (name) VALUES
 
 -- 商品初期データ
 INSERT INTO items (user_id, category_id, name, image, memo, price, sold_out) VALUES
-(1, 1, 'ママとおそろいブレスレット', 'bracelet_momkid.png', '親子でおそろいのデザインです', 2200, TRUE),
-(1, 1, 'ベビーカーカラークリップ', 'babycar_clip.png', '育児に便利なアクセサリー', 1600, FALSE),
-(1, 2, 'くまさん刺繍ポーチ', 'kuma_pouch.png', 'おむつ入れにも使える優しい色合い', 1800, TRUE),
+(1, 4, 'ママとおそろいブレスレット', 'bracelet_momkid.png', '親子でおそろいのデザインです', 2200, TRUE),
+(1, 4, 'ベビーカーカラークリップ', 'babycar_clip.png', '育児に便利なアクセサリー', 1600, FALSE),
+(1, 4, 'くまさん刺繍ポーチ', 'kuma_pouch.png', 'おむつ入れにも使える優しい色合い', 1800, TRUE),
 (3, 3, 'ドライフラワー付きガラス瓶', 'dryflower_glass.png', '置くだけでおしゃれなインテリア', 2300, FALSE),
 (3, 3, '刺繍入りタオルハンカチ', 'towel_embroidery.png', '毎日使いたくなる優しい風合い', 1200, TRUE),
 (3, 3, '手作りルームミスト', 'room_mist.png', '自宅で使っているお気に入りの香りです', 1900, FALSE),
@@ -49,7 +49,9 @@ INSERT INTO items (user_id, category_id, name, image, memo, price, sold_out) VAL
 (10, 3, '手びねりの湯呑みペア', 'ceramic_cups.png', '素朴な風合いの一点もの', 2000, TRUE),
 (11, 3, 'ドライフラワーボトル', 'flower_bottle.png', '季節の花を閉じ込めました', 1800, FALSE),
 (13, 2, 'リメイクデニムトート', 'remake_tote.png', 'ポケット付きで実用的', 3900, TRUE),
-(14, 3, '手作り木製スマホスピーカー', 'wood_speaker.png', '電源不要で自然な音質', 2200, FALSE);
+(14, 3, '手作り木製スマホスピーカー', 'wood_speaker.png', '電源不要で自然な音質', 2200, FALSE),
+(1, 5, 'オーダーメイドギフト券', 'gift_ticket.png', '贈り物に最適なオーダーメイド対応券', 3000, FALSE);
+
 
 INSERT INTO history (user_id, item_id, date, total_price) VALUES
 (2, 1, '2025-07-01 10:20:00', 2200),
