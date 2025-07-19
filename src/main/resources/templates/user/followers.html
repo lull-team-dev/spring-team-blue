@@ -3,26 +3,55 @@
 
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>フォロワー一覧</title>
-	<link rel="stylesheet" th:href="@{/css/style.css}" />
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 
-<body>
-	<div th:replace="fragments/header_user :: header"></div>
+<body class="min-h-screen overflow-y-hidden bg-[#d1f5ff]">
 
-	<h3 th:text="${account.nickname} + 'さんのフォロワー一覧'">フォロワー</h3>
-	<ul>
-		<li th:each="follow : ${followers}">
-			<a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}"
-				th:text="${follow.follower.name}">ユーザー名</a>
-		</li>
-	</ul>
-	<th:block th:if="${@myAccount.id != account.id}">
-		<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
-	</th:block>
-	<th:block th:if="${@myAccount.id == account.id}">
-		<a th:href="@{/mypage}">← マイページに戻る</a>
-	</th:block>
+	<header class="has-[400px]: bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]">
+		<h1 class="w-[358px] mx-auto">
+			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
+		</h1>
+		</h1>
+	</header>
+
+	<main>
+
+		<!-- プロフィールの部分 -->
+		<div class="relative p-4 mt-[80px] bg-[#dfcbaf]">
+
+			<!-- プロフィールアイコン -->
+			<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt=""
+				class="absolute -top-[70%] right-[20%] w-[150px] h-[150px] rounded-full border-2 border-none shadow-[5px_5px_3px_rgba(0,0,0,0.3)]">
+
+			<h2 class="text-white ml-[5%] tracking-widest text-4xl font-bold">MyPage</h2>
+			<div class="flex justify-between items-end">
+				<div class="ml-[10%] text-4xl text-white">[[${@myAccount.nickname}]]さん</div>
+
+				<div class="w-14 mr-[5%]">
+					<a th:href="@{/mypage/update}">
+						<img src="/images/content/setting.png" alt="設定アイコン" />
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<h3 th:text="${account.nickname} + 'さんのフォロワー一覧'">フォロワー</h3>
+		<ul>
+			<li th:each="follow : ${followers}">
+				<a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}" th:text="${follow.follower.name}">ユーザー名</a>
+			</li>
+		</ul>
+		<th:block th:if="${@myAccount.id != account.id}">
+			<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
+		</th:block>
+		<th:block th:if="${@myAccount.id == account.id}">
+			<a th:href="@{/mypage}">← マイページに戻る</a>
+		</th:block>
+
+	</main>
 </body>
 
 </html>
