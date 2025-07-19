@@ -33,10 +33,8 @@ out/
 .vscode/
 # Node 関連
 node_modules/
-package-lock.json
 # Tailwind の設定ファイル（リモートでは使わない）
-postcss.config.mjs
-tailwind.config.js
+
 
 # 開発環境のwatch用ビルドファイルなど
 dist/
