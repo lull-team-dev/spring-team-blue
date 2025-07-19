@@ -37,7 +37,6 @@ package-lock.json
 # Tailwind の設定ファイル（リモートでは使わない）
 postcss.config.mjs
 tailwind.config.js
-package.json
 
 # 開発環境のwatch用ビルドファイルなど
 dist/
