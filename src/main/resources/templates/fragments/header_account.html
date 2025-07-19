@@ -1,22 +1,37 @@
 <div th:fragment="header">
-	<header>
-		ログイン画面・新規登録・マイページ用ヘッダー
-		<nav>
-			<a href="/">トップ</a>
-			<th:block th:if="${session.account != null}">
-				<a th:href="@{/account/logout}">ログアウト</a>
-				<details>
-					<summary>通知</summary>
-					<ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
-						<li>
-							<a th:href="@{'/chat?chatId=' + ${chat.id}}"
-								th:text=" ${chat.item.name} + 'に新規メッセージ'"></a>
-						</li>
-					</ul>
+  <link rel="stylesheet" href="/css/input.css" />
+  <header
+    class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 py-2 flex justify-between"
+  >
+    <h1 class="w-1/4">
+      <a th:href="@{/items}">
+        <img src="/images/content/logo.png" alt="ロゴ" />
+      </a>
+    </h1>
 
-				</details>
-			</th:block>
-
-		</nav>
-	</header>
+    <div class="flex items-center justify-end">
+      <div class="w-[6%] mr-[5px]">
+        <a class="block hover:animate-bounce" th:href="@{/account/logout}">
+          <img title="ログアウト" class="opacity-60" src="/images/content/logout.png" />
+        </a>
+      </div>
+      <details class="group">
+        <summary class="list-none hover:animate-bounce">
+          <img title="通知" src="/images/content/bell.png" />
+        </summary>
+        <ul
+          class="bg-white list-none"
+          th:if="${unreadChats}"
+          th:each="chat :${unreadChats}"
+        >
+          <li>
+            <a
+              th:href="@{'/chat?chatId=' + ${chat.id}}"
+              th:text=" ${chat.item.name} + 'に新規メッセージ'"
+            ></a>
+          </li>
+        </ul>
+      </details>
+    </div>
+  </header>
 </div>
