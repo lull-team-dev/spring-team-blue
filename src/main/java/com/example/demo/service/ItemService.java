@@ -51,6 +51,8 @@ public class ItemService {
 				}
 			}
 		}
+		// カテゴリーIDによってスタイルを変更したいため追加
+		model.addAttribute("selectedCategoryId", categoryId);
 		model.addAttribute("items", itemList);
 
 	}

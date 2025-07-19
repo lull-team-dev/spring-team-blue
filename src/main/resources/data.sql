@@ -26,6 +26,7 @@ INSERT INTO users (name, nickname, email, password, profile, zip, prefecture, ci
 ('比嘉舞', 'まいまい', 'mai@example.com', 'mai777', '石鹸作りにハマってます！天然素材100％にこだわってます。', '901-2126', '沖縄県', '浦添市', '宮城', 'SOAP301', '090-8282-8282', 'クレジット'),
 ('大嶋一成', 'イッセー', 'issei@example.com', 'issei123', '革財布職人です。オーダーも可。', '580-0013', '大阪府', '松原市', '丹南町', '', '080-9191-0000', '銀行振込');
 
+
 -- カテゴリー初期データ
 INSERT INTO categories (name) VALUES
 ('アクセサリー'), ('バッグ・財布'), ('雑貨'), ('キッズ'), ('その他');

@@ -1,27 +1,28 @@
 <!-- fragments/header_guest.html -->
 <div th:fragment="header">
-	<header>
-		ユーザー名を表示させるヘッダー
-		<nav>
-			<a href="/">トップ</a>
-			<th:block th:if="${session.account == null}">
-				<a th:href="@{/account/login}">ログイン</a>
-				<a th:href="@{/account/register}">新規登録</a>
-			</th:block>
-			<th:block th:if="${session.account != null}">
-				<a th:href="@{/mypage}">マイページ</a>
-				<a th:href="@{/account/logout}">ログアウト</a>
-				<details>
-					<summary>通知</summary>
-					<ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
-						<li>
-							<a th:href="@{'/chat?chatId=' + ${chat.id}}"
-								th:text=" ${chat.item.name} + 'に新規メッセージ'"></a>
-						</li>
-					</ul>
-
-				</details>
-			</th:block>
-		</nav>
-	</header>
+  <header>
+    ユーザー名を表示させるヘッダー
+    <nav>
+      <a href="/">トップ</a>
+      <th:block th:if="${session.account == null}">
+        <a th:href="@{/account/login}">ログイン</a>
+        <a th:href="@{/account/register}">新規登録</a>
+      </th:block>
+      <th:block th:if="${session.account != null}">
+        <a th:href="@{/mypage}">マイページ</a>
+        <a th:href="@{/account/logout}">ログアウト</a>
+        <details>
+          <summary>通知</summary>
+          <ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
+            <li>
+              <a
+                th:href="@{'/chat?chatId=' + ${chat.id}}"
+                th:text=" ${chat.item.name} + 'に新規メッセージ'"
+              ></a>
+            </li>
+          </ul>
+        </details>
+      </th:block>
+    </nav>
+  </header>
 </div>
