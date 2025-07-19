@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "postcss src/main/resources/static/css/input.css -o src/main/resources/static/css/styles.css --watch"
+    "build": "postcss src/main/resources/static/css/input.css -o src/main/resources/static/css/styles.css",
+    "watch": "postcss src/main/resources/static/css/input.css -o src/main/resources/static/css/styles.css --watch"
   },
   "repository": {
     "type": "git",
