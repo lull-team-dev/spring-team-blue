@@ -69,27 +69,60 @@ public class ItemController {
 			@RequestParam("price") Integer price,
 			@RequestParam("category_id") Long categoryId,
 			@RequestParam("memo") String memo,
-			@RequestParam("image_file") MultipartFile imageFile) {
+			@RequestParam("image_file") MultipartFile imageFile,
+			Model model) {
+
+		boolean hasError = false;
+
+		// 商品名チェック
+		if (itemName == null || itemName.trim().isEmpty()) {
+			model.addAttribute("itemNameMessage", "商品名を入力してください");
+			hasError = true;
+		} else if (itemName.length() > 50) {
+			model.addAttribute("itemNameMessage", "商品名は50文字以内で入力してください");
+			hasError = true;
+		}
+
+		// 金額チェック
+		if (price == null || price <= 0) {
+			model.addAttribute("priceMessage", "価格は1円以上を入力してください");
+			hasError = true;
+		}
+
+		// カテゴリチェック
+		if (categoryId == null || categoryId == 0) {
+			model.addAttribute("categoryMessage", "カテゴリを選択してください");
+			hasError = true;
+		}
+
+		// メモの文字数制限（任意）
+		if (memo.length() > 500) {
+			model.addAttribute("memoMessage", "メモは500文字以内で入力してください");
+			hasError = true;
+		}
+
+		// 画像チェック
+		if (imageFile == null || imageFile.isEmpty()) {
+			model.addAttribute("imageMessage", "画像を選択してください");
+			hasError = true;
+		}
+
+		if (hasError) {
+			// カテゴリ再取得して返す（ないと再表示できない）
+			model.addAttribute("categories", categoryRepository.findAll());
+			return "item/item_new";
+		}
 
 		try {
-			// ✅ 保存先の絶対パス（static/images/items）
 			String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
-			Files.createDirectories(Paths.get(uploadDir)); // フォルダが無ければ作成
-
-			// ✅ ファイル名（重複防止にUUIDつけてもよい）
+			Files.createDirectories(Paths.get(uploadDir));
 			String originalFilename = imageFile.getOriginalFilename();
 			Path filePath = Paths.get(uploadDir, originalFilename);
-
-			// ✅ 画像ファイル保存
 			imageFile.transferTo(filePath.toFile());
 
-			// 仮ユーザーID
-			Long userId = (long) 1;
-
-			// ✅ 画像ファイル名を保存（パスは不要）
+			Long userId = myAccount.getId(); // ←本来ログインユーザーID
 			itemService.saveNewItem(itemName, originalFilename, price, memo, userId, categoryId);
 
-			// ✅ 商品詳細に遷移するように変更も可能（任意）
 			return "redirect:/submit/complete";
 
 		} catch (Exception e) {
@@ -157,6 +190,78 @@ public class ItemController {
 			return ResponseEntity.ok("更新成功");
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("更新失敗: " + e.getMessage());
+		}
+	}
+
+	//商品編集処理
+	@PostMapping("/items/{id}/edit")
+	public String updateItem(
+			@PathVariable("id") Long itemId,
+			@RequestParam("item_name") String itemName,
+			@RequestParam("price") Integer price,
+			@RequestParam("category_id") Long categoryId,
+			@RequestParam("memo") String memo,
+			@RequestParam("image_file") MultipartFile imageFile,
+			Model model) {
+
+		boolean hasError = false;
+
+		// バリデーション
+		if (itemName == null || itemName.trim().isEmpty()) {
+			model.addAttribute("itemNameMessage", "商品名を入力してください");
+			hasError = true;
+		} else if (itemName.length() > 50) {
+			model.addAttribute("itemNameMessage", "商品名は50文字以内で入力してください");
+			hasError = true;
+		}
+
+		if (price == null || price <= 0) {
+			model.addAttribute("priceMessage", "価格は1円以上を入力してください");
+			hasError = true;
+		}
+
+		if (categoryId == null || categoryId == 0) {
+			model.addAttribute("categoryMessage", "カテゴリを選択してください");
+			hasError = true;
+		}
+
+		if (memo.length() > 500) {
+			model.addAttribute("memoMessage", "メモは500文字以内で入力してください");
+			hasError = true;
+		}
+
+		// 元データ取得
+		Item item = itemRepository.findById(itemId).orElseThrow();
+
+		if (hasError) {
+			model.addAttribute("item", item);
+			model.addAttribute("categories", categoryRepository.findAll());
+			return "item/item_edit";
+		}
+
+		try {
+			String imageFilename = item.getImage(); // デフォルトは元の画像名
+			if (imageFile != null && !imageFile.isEmpty()) {
+				String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
+				Files.createDirectories(Paths.get(uploadDir));
+				imageFilename = imageFile.getOriginalFilename();
+				Path filePath = Paths.get(uploadDir, imageFilename);
+				imageFile.transferTo(filePath.toFile());
+			}
+
+			item.setName(itemName);
+			item.setPrice(price);
+			item.setMemo(memo);
+			item.setImage(imageFilename);
+			item.setCategory(categoryRepository.findById(categoryId).orElseThrow());
+
+			itemRepository.save(item);
+
+			return "redirect:/items/" + itemId + "/detail";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
 		}
 	}
 
