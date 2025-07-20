@@ -114,14 +114,38 @@ public class ItemController {
 		}
 
 		try {
+			// 保存ディレクトリ作成
 			String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
 			Files.createDirectories(Paths.get(uploadDir));
+
+			// ファイル名取得とチェック
 			String originalFilename = imageFile.getOriginalFilename();
+			if (originalFilename == null || originalFilename.isBlank()) {
+				model.addAttribute("imageMessage", "有効な画像ファイルを選択してください");
+				model.addAttribute("categories", categoryRepository.findAll());
+				return "item/item_new";
+			}
+
+			// 上書き防止（同名ファイルがある場合は連番を付与）
 			Path filePath = Paths.get(uploadDir, originalFilename);
+			String baseName = originalFilename.contains(".")
+					? originalFilename.substring(0, originalFilename.lastIndexOf('.'))
+					: originalFilename;
+			String extension = originalFilename.contains(".")
+					? originalFilename.substring(originalFilename.lastIndexOf('.'))
+					: "";
+
+			int count = 1;
+			while (Files.exists(filePath)) {
+				filePath = Paths.get(uploadDir, baseName + "_" + count + extension);
+				count++;
+			}
+
 			imageFile.transferTo(filePath.toFile());
 
+			// 保存処理
 			Long userId = myAccount.getId();
-			itemService.saveNewItem(itemName, originalFilename, price, memo, userId, categoryId);
+			itemService.saveNewItem(itemName, filePath.getFileName().toString(), price, memo, userId, categoryId);
 
 			return "redirect:/submit/complete";
 
