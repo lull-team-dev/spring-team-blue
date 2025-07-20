@@ -40,8 +40,8 @@ dist/
 *.tsbuildinfo
 tailwind.config.js
 postcss.config.js
+src/main/resources/static/css/styles.css
 **/styles.css
-
 # 開発環境のwatch用ビルドファイルなど
 dist/
 *.css.map
