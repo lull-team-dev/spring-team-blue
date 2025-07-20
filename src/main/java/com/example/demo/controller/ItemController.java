@@ -66,7 +66,7 @@ public class ItemController {
 	@PostMapping("items/submit")
 	public String submitItem(
 			@RequestParam("item_name") String itemName,
-			@RequestParam("price") Integer price,
+			@RequestParam("price") String priceStr,
 			@RequestParam("category_id") Long categoryId,
 			@RequestParam("memo") String memo,
 			@RequestParam("image_file") MultipartFile imageFile,
@@ -74,7 +74,7 @@ public class ItemController {
 
 		boolean hasError = false;
 
-		// 商品名チェック
+		// 商品名バリデーション
 		if (itemName == null || itemName.trim().isEmpty()) {
 			model.addAttribute("itemNameMessage", "商品名を入力してください");
 			hasError = true;
@@ -83,32 +83,32 @@ public class ItemController {
 			hasError = true;
 		}
 
-		// 金額チェック
-		if (price == null || price <= 0) {
-			model.addAttribute("priceMessage", "価格は1円以上を入力してください");
+		// 価格バリデーション
+		Integer price = null;
+		try {
+			price = Integer.parseInt(priceStr);
+			if (price <= 0) {
+				model.addAttribute("priceMessage", "価格は1円以上を入力してください");
+				hasError = true;
+			}
+		} catch (NumberFormatException e) {
+			model.addAttribute("priceMessage", "価格は数値で入力してください");
 			hasError = true;
 		}
 
-		// カテゴリチェック
+		// カテゴリバリデーション
 		if (categoryId == null || categoryId == 0) {
 			model.addAttribute("categoryMessage", "カテゴリを選択してください");
 			hasError = true;
 		}
 
-		// メモの文字数制限（任意）
-		if (memo.length() > 500) {
-			model.addAttribute("memoMessage", "メモは500文字以内で入力してください");
-			hasError = true;
-		}
-
-		// 画像チェック
+		// 画像バリデーション（必須）
 		if (imageFile == null || imageFile.isEmpty()) {
 			model.addAttribute("imageMessage", "画像を選択してください");
 			hasError = true;
 		}
 
 		if (hasError) {
-			// カテゴリ再取得して返す（ないと再表示できない）
 			model.addAttribute("categories", categoryRepository.findAll());
 			return "item/item_new";
 		}
@@ -120,7 +120,7 @@ public class ItemController {
 			Path filePath = Paths.get(uploadDir, originalFilename);
 			imageFile.transferTo(filePath.toFile());
 
-			Long userId = myAccount.getId(); // ←本来ログインユーザーID
+			Long userId = myAccount.getId();
 			itemService.saveNewItem(itemName, originalFilename, price, memo, userId, categoryId);
 
 			return "redirect:/submit/complete";
@@ -206,7 +206,7 @@ public class ItemController {
 
 		boolean hasError = false;
 
-		// バリデーション
+		// 商品名チェック
 		if (itemName == null || itemName.trim().isEmpty()) {
 			model.addAttribute("itemNameMessage", "商品名を入力してください");
 			hasError = true;
@@ -215,22 +215,18 @@ public class ItemController {
 			hasError = true;
 		}
 
+		// 価格チェック
 		if (price == null || price <= 0) {
 			model.addAttribute("priceMessage", "価格は1円以上を入力してください");
 			hasError = true;
 		}
 
+		// カテゴリチェック
 		if (categoryId == null || categoryId == 0) {
 			model.addAttribute("categoryMessage", "カテゴリを選択してください");
 			hasError = true;
 		}
 
-		if (memo.length() > 500) {
-			model.addAttribute("memoMessage", "メモは500文字以内で入力してください");
-			hasError = true;
-		}
-
-		// 元データ取得
 		Item item = itemRepository.findById(itemId).orElseThrow();
 
 		if (hasError) {
@@ -240,7 +236,7 @@ public class ItemController {
 		}
 
 		try {
-			String imageFilename = item.getImage(); // デフォルトは元の画像名
+			String imageFilename = item.getImage(); // デフォルトで既存の画像
 			if (imageFile != null && !imageFile.isEmpty()) {
 				String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
 				Files.createDirectories(Paths.get(uploadDir));

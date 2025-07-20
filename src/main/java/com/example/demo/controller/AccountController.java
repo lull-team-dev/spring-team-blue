@@ -95,7 +95,6 @@ public class AccountController {
 	}
 
 	// 登録 → 確認画面へリダイレクト
-	// 登録 → 確認画面へリダイレクト
 	@PostMapping("/register")
 	public String register(
 			@RequestParam(name = "last_name", defaultValue = "") String lastName,

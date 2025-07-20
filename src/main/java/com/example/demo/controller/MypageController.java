@@ -175,6 +175,12 @@ public class MypageController {
 		} else if (!email.matches("^[\\w+\\-.]+@[a-z\\d\\-.]+\\.[a-z]{2,6}$")) {
 			model.addAttribute("emailMessage", "メールアドレスの形式が正しくありません");
 			hasError = true;
+		} else {
+			Account existing = accountRepository.findByEmail(email);
+			if (existing != null && !existing.getId().equals(id)) {
+				model.addAttribute("emailMessage", "このメールアドレスは既に使用されています");
+				hasError = true;
+			}
 		}
 		if (password.isEmpty() || password.length() < 6) {
 			model.addAttribute("passwordMessage", "パスワードは6文字以上で入力してください");
