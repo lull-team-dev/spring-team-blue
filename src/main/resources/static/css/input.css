@@ -1,9 +1,13 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP&display=swap');
+
 
 :root {
   --main-color: #3b9aba;/* ボタンの色など */
   --header-bg-color:#82cddd;/* ヘッダー背景 */
-  --main-bg-color:#ffffff; /* 基本の背景色 */
+  --main-bg-color:#FFFDDA; /* 基本の背景色 */
+  /* --main-bg-color:#FFFF;  */
+  /* --main-bg-color:#82cddd;  */
   --top-color:#d1f5ff;/* ログイン関連の背景 */
   --bg-form: #edfffe;  /* フォームの背景色      */
   --text-color: #828484;
@@ -11,12 +15,15 @@
 }
 
 
+@layer base {
+  html {
+    font-family: 'Noto Serif JP', serif;
+    color: #7C6254;
+  }
+}
 
 
 @layer components {
-
-
-
 
 
 
@@ -32,7 +39,7 @@
 
 
   .form-label {
-    @apply absolute left-0 top-2.5 text-sm text-gray-500 transition-all
+    @apply absolute left-0 top-2.5 text-sm text-[#7C6254] transition-all
       peer-placeholder-shown:top-4
       peer-placeholder-shown:text-base
       peer-placeholder-shown:text-gray-400
@@ -40,6 +47,12 @@
       peer-focus:text-sm
       peer-focus:text-blue-600;
   }
+
+
+  /* selectに値が入っていたら filled 扱い */
+select.filled + .form-label {
+  @apply top-0 text-sm text-blue-600;
+}
 
     .form-input:focus + .form-label,
   .form-input.filled + .form-label {

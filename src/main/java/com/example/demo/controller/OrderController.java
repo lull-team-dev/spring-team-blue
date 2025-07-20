@@ -60,28 +60,62 @@ public class OrderController {
 	public String showDoOrder(
 			@RequestParam("zip1") String zip1,
 			@RequestParam("zip2") String zip2,
-			@RequestParam("address") String address,
+			@RequestParam("prefecture") String prefecture,
+			@RequestParam("city") String city,
+			@RequestParam("town") String town,
+			@RequestParam(value = "building", required = false) String building,
 			@RequestParam("payment_method") String paymentMethod,
 			@RequestParam("item_id") Long itemId,
 			Model model) {
 
+		StringBuilder errors = new StringBuilder();
+
+		// ▼ 入力バリデーション
+
+		if (prefecture == null || prefecture.trim().isEmpty()) {
+			model.addAttribute("prefectureMessage", "都道府県を入力してください");
+		}
+		if (city == null || city.trim().isEmpty()) {
+			model.addAttribute("cityMessage", "市区町村を入力してください");
+		}
+		if (town == null || town.trim().isEmpty()) {
+			model.addAttribute("townMessage", "町域・番地を入力してください");
+		}
+		if (paymentMethod == null || paymentMethod.trim().isEmpty()) {
+			model.addAttribute("paymentMethodMessage", "支払い方法を選択してください");
+		}
+
+		// エラーがある場合はフォームに戻す
+		if (model.asMap().containsKey("zipMessage") ||
+				model.asMap().containsKey("prefectureMessage") ||
+				model.asMap().containsKey("cityMessage") ||
+				model.asMap().containsKey("townMessage") ||
+				model.asMap().containsKey("paymentMethodMessage")) {
+
+			Item item = itemRepository.findById(itemId).orElseThrow();
+			Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
+
+			model.addAttribute("item", item);
+			model.addAttribute("account", account);
+
+			return "order/order_form";
+		}
+
 		String postalCode = zip1 + zip2;
+		String address = prefecture + " " + city + " " + town;
+		if (building != null && !building.isEmpty()) {
+			address += " " + building;
+		}
 
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();
-
-		// 売り切れチェック（念のため）
-		if (item.isSoldOut()) {
-			model.addAttribute("errorMessage", "この商品は既に売り切れました。");
-			return "order/order_error";
-		}
 
 		Order order = new Order();
 		order.setAccount(account);
 		order.setItem(item);
 		order.setOrderDate(LocalDateTime.now());
 		order.setTotalPrice(item.getPrice());
-		order.setStatus((short) 0); // 仮状態
+		order.setStatus((short) 0);
 		order.setPostalCode(postalCode);
 		order.setDeliveryAddress(address);
 		order.setDeliveryTel(account.getTel());

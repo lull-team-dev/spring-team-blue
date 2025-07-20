@@ -6,7 +6,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
   </head>
 
-  <body class="pt-[100px]">
+  <body class="pt-[100px] min-h-screen bg-[var(--main-bg-color)]">
     <style>
       .fade-in-up {
         opacity: 0;
@@ -75,6 +75,7 @@
     >
       <div
         th:each="item : ${items}"
+        th:if="${item.account.id != @myAccount.id}"
         class="relative item-card fade-in-up rounded-[33px] overflow-hidden group block transition transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-105 hover:z-10"
       >
         <!-- 商品画像 -->
@@ -91,6 +92,14 @@
             alt="商品画像"
             class="w-full"
           />
+
+          <!-- 売り切れラベル -->
+          <div
+            th:if="${item.soldOut}"
+            class="absolute top-5 -left-10 w-[160px] text-center bg-red-600 text-white text-sm font-bold py-1 rotate-[-45deg] shadow-lg z-20"
+          >
+            SOLD OUT
+          </div>
 
           <!-- 値段 -->
           <div

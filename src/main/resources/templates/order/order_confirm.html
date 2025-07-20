@@ -1,28 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<meta charset="UTF-8">
-	<title>注文内容の確認</title>
-</head>
-<body>
-	<h2>注文内容の確認</h2>
+  <head>
+    <meta charset="UTF-8" />
+    <title>注文内容の確認</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body
+    class="bg-[var(--main-bg-color)] min-h-screen flex items-center justify-center"
+  >
+    <div th:replace="fragments/header_user :: header"></div>
+    <div
+      class="w-4/12 bg-white rounded-3xl px-10 py-8 shadow-[0_0_8px_rgba(221,179,142,0.5)] border border-[#eddccc]"
+    >
+      <h2 class="text-center text-xl font-semibold mb-6">注文内容の確認</h2>
 
-	<p>商品名：<span th:text="${item.name}"></span></p>
-	<p>金額：<span th:text="${item.price} + '円'"></span></p>
-	<p>郵便番号：<span th:text="${order.postalCode}"></span></p>
-	<p>配送先住所：<span th:text="${order.deliveryAddress}"></span></p>
-	<p>電話番号：<span th:text="${order.deliveryTel}"></span></p>
-	<p>支払い方法：<span th:text="${order.paymentMethod}"></span></p>
+      <div class="space-y-4 text-sm text-[var(--text-color)]">
+        <p><strong>商品名：</strong><span th:text="${item.name}"></span></p>
+        <p>
+          <strong>金額：</strong><span th:text="${item.price + '円'}"></span>
+        </p>
+        <p>
+          <strong>郵便番号：</strong><span th:text="${order.postalCode}"></span>
+        </p>
+        <p>
+          <strong>配送先住所：</strong
+          ><span th:text="${order.deliveryAddress}"></span>
+        </p>
+        <p>
+          <strong>電話番号：</strong
+          ><span th:text="${order.deliveryTel}"></span>
+        </p>
+        <p>
+          <strong>支払い方法：</strong
+          ><span th:text="${order.paymentMethod}"></span>
+        </p>
+      </div>
 
-	<form method="post" action="/order/confirm/complete">
-		<input type="hidden" name="address" th:value="${order.deliveryAddress}" />
-		<input type="hidden" name="payment_method" th:value="${order.paymentMethod}" />
-		<input type="hidden" name="itemId" th:value="${item.id}" />
-		<input type="hidden" name="postalCode" th:value="${order.postalCode}" />
+      <form
+        method="post"
+        action="/order/confirm/complete"
+        class="mt-6 space-y-2"
+      >
+        <input
+          type="hidden"
+          name="address"
+          th:value="${order.deliveryAddress}"
+        />
+        <input
+          type="hidden"
+          name="payment_method"
+          th:value="${order.paymentMethod}"
+        />
+        <input type="hidden" name="itemId" th:value="${item.id}" />
+        <input type="hidden" name="postalCode" th:value="${order.postalCode}" />
 
-		<button type="submit">注文を確定</button>
-	</form>
+        <button type="submit" class="w-full py-2 primary-button">
+          注文を確定
+        </button>
+      </form>
 
-	<a th:href="@{'/order/' + ${item.id}}">← 入力画面に戻る</a>
-</body>
+      <div class="mt-4 text-center">
+        <a
+          th:href="@{'/order/' + ${item.id}}"
+          class="text-sm text-blue-500 hover:underline"
+          >← 入力画面に戻る</a
+        >
+      </div>
+    </div>
+  </body>
 </html>
