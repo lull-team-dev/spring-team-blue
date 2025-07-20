@@ -1,9 +1,12 @@
 @import "tailwindcss";
 
 :root {
-  --main-color: #3b9aba;
+  --main-color: #3b9aba;/* ボタンの色など */
+  --header-bg-color:#82cddd;/* ヘッダー背景 */
+  --main-bg-color:#ffffff; /* 基本の背景色 */
+  --top-color:#d1f5ff;/* ログイン関連の背景 */
+  --bg-form: #edfffe;  /* フォームの背景色      */
   --text-color: #828484;
-  --bg-form: #edfffe;
   --text-items: #7c6254;
 }
 
@@ -11,6 +14,13 @@
 
 
 @layer components {
+
+
+
+
+
+
+
   .form-group {
     @apply relative pt-6;
   }
@@ -263,3 +273,15 @@
 
 
 
+.fade-in-up {
+    @apply opacity-0 translate-y-6 transition duration-700 ease-out;
+  }
+
+  .fade-in-up-active {
+    @apply opacity-100 translate-y-0;
+  }
+
+
+
+
+  

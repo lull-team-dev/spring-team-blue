@@ -58,11 +58,14 @@ public class OrderController {
 	// 購入確認画面を表示
 	@PostMapping("/order/confirm")
 	public String showDoOrder(
-			@RequestParam("postal_code") String postalCode,
+			@RequestParam("zip1") String zip1,
+			@RequestParam("zip2") String zip2,
 			@RequestParam("address") String address,
 			@RequestParam("payment_method") String paymentMethod,
 			@RequestParam("item_id") Long itemId,
 			Model model) {
+
+		String postalCode = zip1 + zip2;
 
 		Account account = accountRepository.findById(myAccount.getId()).orElseThrow();
 		Item item = itemRepository.findById(itemId).orElseThrow();

@@ -34,8 +34,14 @@ out/
 # Node 関連
 node_modules/
 # Tailwind の設定ファイル（リモートでは使わない）
-
-
+node_modules/
+dist/
+*.css.map
+*.tsbuildinfo
+tailwind.config.js
+postcss.config.js
+src/main/resources/static/css/styles.css
+**/styles.css
 # 開発環境のwatch用ビルドファイルなど
 dist/
 *.css.map
