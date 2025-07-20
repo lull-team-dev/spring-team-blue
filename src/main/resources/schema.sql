@@ -24,7 +24,8 @@ city TEXT,
 town TEXT,                    
 building TEXT,            
 tel TEXT,
-payment_method VARCHAR(50) 
+payment_method VARCHAR(50),
+icon TEXT
 );
 
 -- カテゴリーテーブル
