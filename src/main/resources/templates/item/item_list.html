@@ -6,38 +6,76 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
   </head>
 
-  <body class="bg-[#fffcd8]">
+  <body class="pt-[100px]">
+    <style>
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(1.5rem);
+        transition: all 0.7s ease-out;
+      }
+      .fade-in-up-active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
     <!-- ヘッダー -->
     <div th:replace="fragments/header_search :: header"></div>
 
     <!-- ナビゲーション -->
-    <nav
-      class="bg-[#fffcd8] w-[60%] mt-6 mx-auto justify-between px-10 flex space-x-6 text-lg text-gray-700"
-    >
-      <!-- 全てカテゴリ -->
-      <a
-        th:href="@{/items}"
-        th:classappend="${selectedCategoryId == null} ? ' no-underline border-b-4 bg-[#d1ebd8] border-[#86cdd2]' : ''"
-        class="text-center w-1/8 text-[var(--text-items)]"
-        >全て</a
-      >
 
-      <!-- 各カテゴリー -->
-      <a
-        th:each="c : ${categories}"
-        th:href="@{'/items?categoryId=' + ${c.id}}"
-        th:classappend="${selectedCategoryId == c.id} ? ' border-b-4 bg-[#d1ebd8]  border-[#86cdd2]' : ''"
-        class="text-center w-1/6 no-underline hover:no-underline text-[var(--text-items)]"
-        th:text="${c.name}"
-        >カテゴリー</a
+    <nav
+      class="relative border-b-[5px] border-[#ccc] bg-[#FFFDDA] text-[var(--text-items)] mt-6"
+    >
+      <ul
+        class="absolute left-[10%] w-[80%] table table-fixed m-0 p-0 text-center"
       >
+        <!-- 全てカテゴリ -->
+        <li
+          class="table-cell"
+          th:classappend="${selectedCategoryId == null} ?
+          ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' :
+          ' hover:border-t-[5px] hover:border-[#006a6c]'"
+        >
+          <a
+            th:href="@{/items}"
+            class="block w-full h-full py-[10px] transition-colors"
+            th:classappend="${selectedCategoryId == null} ?
+           ' text-[#0068b7] hover:text-[#ee7800] hover:bg-[#ffedab]' :
+           ' hover:text-[#006a6c] hover:bg-[#d1f5ff]'"
+          >
+            全て
+          </a>
+        </li>
+
+        <!-- 各カテゴリー -->
+        <li
+          class="table-cell"
+          th:each="c : ${categories}"
+          th:classappend="${selectedCategoryId == c.id} ?
+          ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' :
+          ' hover:border-t-[5px] hover:border-[#006a6c]'"
+        >
+          <a
+            th:href="@{'/items?categoryId=' + ${c.id}}"
+            class="block w-full h-full py-[10px] transition-colors"
+            th:classappend="${selectedCategoryId == c.id} ?
+           ' text-[#0068b7] hover:text-[#ee7800] hover:bg-[#ffedab]' :
+           ' hover:text-[#006a6c] hover:bg-[#d1f5ff]'"
+            th:text="${c.name}"
+          >
+            カテゴリー
+          </a>
+        </li>
+      </ul>
     </nav>
 
     <!-- 商品一覧 -->
-    <main class="px-10 mt-20 py-6 grid grid-cols-3 gap-10 w-[70%] mx-auto">
+    <main
+      class="mt-20 py-6 grid grid-cols-3 gap-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
       <div
         th:each="item : ${items}"
-        class="relative rounded-[33px] overflow-hidden group block"
+        class="relative item-card fade-in-up rounded-[33px] overflow-hidden group block transition transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-105 hover:z-10"
       >
         <!-- 商品画像 -->
         <a th:href="@{'/items/' + ${item.id} + '/detail'}">
@@ -58,6 +96,7 @@
           <div
             class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent"
           >
+            <span th:text="${item.name}"></span>
             <span th:text="${item.price} + '円'">¥0</span>
           </div>
 
@@ -76,7 +115,7 @@
           aria-label="お気に入りに追加または解除"
         >
           <span
-            class="bg-red-500"
+            class="text-red-500"
             th:if="${bookmarkedItemIds != null and #lists.contains(bookmarkedItemIds, item.id)}"
             >♥</span
           >
@@ -109,8 +148,34 @@
               return;
             }
             const iconSpan = btn.querySelector("span");
-            iconSpan.textContent = result === "bookmarked" ? "♥" : "♡";
+            if (result === "bookmarked") {
+              iconSpan.textContent = "♥";
+              iconSpan.classList.add("text-red-500");
+            } else {
+              iconSpan.textContent = "♡";
+              iconSpan.classList.remove("text-red-500");
+            }
           });
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("fade-in-up-active");
+                observer.unobserve(entry.target); // 一度だけアニメーション
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        document.querySelectorAll(".item-card").forEach((el) => {
+          observer.observe(el);
         });
       });
     </script>

@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
   </head>
-  <body class="min-h-screen relative overflow-y-hidden bg-[#d1f5ff]">
+  <body class="min-h-screen relative overflow-y-hidden bg-[var(--top-color)]">
     <header
       class="bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]"
     >
       <h1 class="w-[358px] mx-auto">
-        <img th:src="@{/images/Frame2.png}" alt="MadeForUロゴ" />
+        <img th:src="@{/images/content/Frame2.png}" alt="MadeForUロゴ" />
       </h1>
     </header>
 
@@ -71,31 +71,33 @@
             ログイン
           </button>
         </div>
-
-        <a
-          class="text-[var(--main-color)] block mt-auto underline"
-          th:href="@{/account/register}"
-        >
-          新規登録はこちら
-        </a>
+        <div class="flex justify-between">
+          <a href="/" class="text-[var(--main-color)] text-right underline"
+            >TOPへ</a
+          >
+          <a
+            class="text-[var(--main-color)] block mt-auto underline"
+            th:href="@{/account/register}"
+          >
+            新規登録はこちら
+          </a>
+        </div>
       </form>
     </main>
 
-    <!-- 波アニメーション-->
-    <div class="absolute bottom-0 z-0 w-full overflow-hidden">
+    <!-- 波アニメーション -->
+    <div class="absolute bottom-[-1px] left-0 w-full overflow-hidden">
       <svg
         class="w-full h-[120px]"
         xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
         viewBox="0 24 150 28"
         preserveAspectRatio="none"
-        shape-rendering="auto"
       >
         <defs>
           <path
             id="gentle-wave"
             d="M-160 44c30 0 58-18 88-18s 58 18 88 18 
-           58-18 88-18 58 18 88 18 v44h-352z"
+             58-18 88-18 58 18 88 18 v44h-352z"
           />
         </defs>
         <g class="wave-parallax">

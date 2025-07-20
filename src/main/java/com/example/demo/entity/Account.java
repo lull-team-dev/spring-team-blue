@@ -41,6 +41,9 @@ public class Account {
 	@Column(name = "payment_method", nullable = true)
 	private String paymentMethod;
 
+	@Column(nullable = true)
+	private String icon; // 画像ファイル名
+
 	public Account() {
 	}
 
@@ -85,13 +88,29 @@ public class Account {
 		return profile;
 	}
 
-
 	public String getTel() {
 		return tel;
 	}
 
 	public String getPaymentMethod() {
 		return paymentMethod;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public String getAddress() {
+		StringBuilder sb = new StringBuilder();
+		if (prefecture != null)
+			sb.append(prefecture);
+		if (city != null)
+			sb.append(city);
+		if (town != null)
+			sb.append(town);
+		if (building != null && !building.isEmpty())
+			sb.append(building);
+		return sb.toString();
 	}
 
 	// setter
@@ -118,7 +137,6 @@ public class Account {
 	public void setProfile(String profile) {
 		this.profile = profile;
 	}
-
 
 	public void setTel(String tel) {
 		this.tel = tel;
@@ -166,5 +184,9 @@ public class Account {
 
 	public void setBuilding(String building) {
 		this.building = building;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 }

@@ -135,6 +135,7 @@ public class MypageController {
 	@PostMapping("/update")
 	public String updateMypage(@RequestParam(value = "id", defaultValue = "") Long id,
 			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "nickname", defaultValue = "") String nickname,
 			@RequestParam(value = "password", defaultValue = "") String password,
 			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(value = "profile", defaultValue = "") String profile,
@@ -144,22 +145,89 @@ public class MypageController {
 			@RequestParam(name = "prefecture", defaultValue = "") String prefecture,
 			@RequestParam(name = "city", defaultValue = "") String city,
 			@RequestParam(name = "town", defaultValue = "") String town,
-			@RequestParam(name = "building", defaultValue = "") String building
-			) {
+			@RequestParam(name = "building", defaultValue = "") String building,
+			Model model) {
 
-		Account UpdateAccount = accountRepository.findById(id).get();
+		boolean hasError = false;
 
-		UpdateAccount.setName(name);
-		UpdateAccount.setPassword(password);
-		UpdateAccount.setEmail(email);
-		UpdateAccount.setProfile(profile);
-		UpdateAccount.setPrefecture(prefecture);
-		UpdateAccount.setCity(city);
-		UpdateAccount.setTown(town);
-		UpdateAccount.setBuilding(building);
-		UpdateAccount.setTel(tel);
+		// 入力保持用
+		Account input = new Account();
+		input.setId(id);
+		input.setName(name);
+		input.setPassword(password);
+		input.setEmail(email);
+		input.setProfile(profile);
+		input.setTel(tel);
+		input.setPrefecture(prefecture);
+		input.setCity(city);
+		input.setTown(town);
+		input.setBuilding(building);
+		input.setZip(zip1 + "-" + zip2);
+		model.addAttribute("account", input);
 
-		accountRepository.save(UpdateAccount);
+		// バリデーション
+		if (name.isEmpty()) {
+			model.addAttribute("nameMessage", "名前を入力してください");
+			hasError = true;
+		}
+		if (email.isEmpty()) {
+			model.addAttribute("emailMessage", "メールアドレスを入力してください");
+			hasError = true;
+		} else if (!email.matches("^[\\w+\\-.]+@[a-z\\d\\-.]+\\.[a-z]{2,6}$")) {
+			model.addAttribute("emailMessage", "メールアドレスの形式が正しくありません");
+			hasError = true;
+		} else {
+			Account existing = accountRepository.findByEmail(email);
+			if (existing != null && !existing.getId().equals(id)) {
+				model.addAttribute("emailMessage", "このメールアドレスは既に使用されています");
+				hasError = true;
+			}
+		}
+		if (password.isEmpty() || password.length() < 6) {
+			model.addAttribute("passwordMessage", "パスワードは6文字以上で入力してください");
+			hasError = true;
+		}
+		if (!tel.matches("\\d{10,11}") && !tel.matches("\\d{2,4}-\\d{2,4}-\\d{3,4}")) {
+			model.addAttribute("telMessage", "電話番号の形式が正しくありません");
+			hasError = true;
+		}
+		if (zip1.isEmpty() || zip2.isEmpty()) {
+			model.addAttribute("zipMessage", "郵便番号を入力してください");
+			hasError = true;
+		} else if (!zip1.matches("\\d{3}") || !zip2.matches("\\d{4}")) {
+			model.addAttribute("zipMessage", "郵便番号は「123-4567」の形式で入力してください");
+			hasError = true;
+		}
+		if (prefecture.isEmpty() || city.isEmpty() || town.isEmpty()) {
+			model.addAttribute("addressMessage", "住所（都道府県・市区町村・町域）をすべて入力してください");
+			hasError = true;
+		}
+
+		if (hasError) {
+			return "mypage/mypage_edit";
+		}
+
+		// 更新処理
+		Account updateAccount = accountRepository.findById(id).orElse(null);
+		if (updateAccount != null) {
+			updateAccount.setName(name);
+			updateAccount.setNickname(nickname);
+			updateAccount.setPassword(password);
+			updateAccount.setEmail(email);
+			updateAccount.setProfile(profile);
+			updateAccount.setTel(tel);
+			updateAccount.setPrefecture(prefecture);
+			updateAccount.setCity(city);
+			updateAccount.setTown(town);
+			updateAccount.setBuilding(building);
+			updateAccount.setZip(zip1 + "-" + zip2);
+			accountRepository.save(updateAccount);
+
+			myAccount.updateFrom(updateAccount);
+			myAccount.setNickname(nickname);
+			myAccount.setName(name);
+			myAccount.setEmail(email);
+		}
 
 		return "redirect:/mypage";
 	}

@@ -1,56 +1,69 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+  </head>
+  <body>
+    <form method="post" action="/items/submit" enctype="multipart/form-data">
+      <label>商品名</label
+      ><input type="text" name="item_name" th:value="${item.name}" /><br />
+      <label>価格</label
+      ><input type="number" name="price" th:value="${item.price}" /><br />
+      <label>画像アップロード</label
+      ><input
+        type="file"
+        id="imageFile"
+        name="image_file"
+        accept="image/*"
+      /><br />
+      <img
+        id="preview"
+        th:if="${item.image}"
+        th:src="@{'/images/items/' + ${item.image}}"
+        alt="プレビュー画像"
+        style="max-width: 200px; max-height: 200px"
+      />
+      <label>商品説明</label
+      ><input type="text" name="memo" th:value="${item.memo}" /><br />
+      <label>カテゴリー</label>
+      <select name="category_id">
+        <option
+          th:each="cat : ${categories}"
+          th:value="${cat.id}"
+          th:text="${cat.name}"
+          th:selected="${cat.id == item.category.id}"
+        ></option></select
+      ><br />
+      <button type="submit">登録する</button>
+    </form>
 
-	<form method="post" action="/items/submit" enctype="multipart/form-data">
-		<label>商品名</label><input type="text" name="item_name" th:value="${item.name}"><br>
-		<label>価格</label><input type="number" name="price" th:value="${item.price}"><br>
-		<label>画像アップロード</label><input type="file" id="imageFile" name="image_file" accept="image/*"><br>
-		<img id="preview" th:if="${item.image}" th:src="@{'/images/items/' + ${item.image}}"
-		     alt="プレビュー画像" style="max-width: 200px; max-height: 200px;">
-		<label>商品説明</label><input type="text" name="memo" th:value="${item.memo}"><br>
-		<label>カテゴリー</label>
-		<select name="category_id">
-			<option th:each="cat : ${categories}"
-			        th:value="${cat.id}"
-			        th:text="${cat.name}"
-			        th:selected="${cat.id == item.category.id}">
-			</option>
-		</select><br>
-		<button type="submit">登録する</button>
-	</form>
-	
-	<a th:href="@{/mypage}">← マイページに戻る</a>
-	
-	<script>
-	  const imageFile = document.getElementById('imageFile');
-	  const preview = document.getElementById('preview');
+    <a th:href="@{/mypage}">← マイページに戻る</a>
 
-	  // 既存画像の初期URLを保持しておく
-	  const originalSrc = preview ? preview.src : '';
+    <script>
+      const imageFile = document.getElementById("imageFile");
+      const preview = document.getElementById("preview");
 
-	  imageFile.addEventListener('change', function(e) {
-	    const file = e.target.files[0];
-	    if (file) {
-	      const reader = new FileReader();
-	      reader.onload = function(e) {
-	        preview.src = e.target.result;
-	        preview.style.display = 'block';
-	      }
-	      reader.readAsDataURL(file);
-	    } else {
-	      // 選択がキャンセルされた場合：元の画像に戻す（または非表示にする）
-	      preview.src = originalSrc;
-	      if (!originalSrc) {
-	        preview.style.display = 'none';
-	      }
-	    }
-	  });
-	</script>
-</body>
+      // 既存画像の初期URLを保持しておく
+      const originalSrc = preview ? preview.src : "";
 
+      imageFile.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            preview.src = e.target.result;
+            preview.style.display = "block";
+          };
+          reader.readAsDataURL(file);
+        } else {
+          // 選択がキャンセルされた場合：元の画像に戻す（または非表示にする）
+          preview.src = originalSrc;
+          if (!originalSrc) {
+            preview.style.display = "none";
+          }
+        }
+      });
+    </script>
+  </body>
 </html>
