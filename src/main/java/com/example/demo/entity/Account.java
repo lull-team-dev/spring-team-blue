@@ -100,6 +100,19 @@ public class Account {
 		return icon;
 	}
 
+	public String getAddress() {
+		StringBuilder sb = new StringBuilder();
+		if (prefecture != null)
+			sb.append(prefecture);
+		if (city != null)
+			sb.append(city);
+		if (town != null)
+			sb.append(town);
+		if (building != null && !building.isEmpty())
+			sb.append(building);
+		return sb.toString();
+	}
+
 	// setter
 	public void setId(Long id) {
 		this.id = id; // Integer → Long に変換

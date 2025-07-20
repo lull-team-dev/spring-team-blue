@@ -135,6 +135,7 @@ public class MypageController {
 	@PostMapping("/update")
 	public String updateMypage(@RequestParam(value = "id", defaultValue = "") Long id,
 			@RequestParam(value = "name", defaultValue = "") String name,
+			@RequestParam(value = "nickname", defaultValue = "") String nickname,
 			@RequestParam(value = "password", defaultValue = "") String password,
 			@RequestParam(value = "email", defaultValue = "") String email,
 			@RequestParam(value = "profile", defaultValue = "") String profile,
@@ -210,6 +211,7 @@ public class MypageController {
 		Account updateAccount = accountRepository.findById(id).orElse(null);
 		if (updateAccount != null) {
 			updateAccount.setName(name);
+			updateAccount.setNickname(nickname);
 			updateAccount.setPassword(password);
 			updateAccount.setEmail(email);
 			updateAccount.setProfile(profile);
@@ -220,6 +222,11 @@ public class MypageController {
 			updateAccount.setBuilding(building);
 			updateAccount.setZip(zip1 + "-" + zip2);
 			accountRepository.save(updateAccount);
+
+			myAccount.updateFrom(updateAccount);
+			myAccount.setNickname(nickname);
+			myAccount.setName(name);
+			myAccount.setEmail(email);
 		}
 
 		return "redirect:/mypage";
