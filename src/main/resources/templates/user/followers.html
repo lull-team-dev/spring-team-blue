@@ -40,7 +40,7 @@
 		<div class="w-3/5 mx-auto">
 			<div th:each="follow : ${followers}">
 				<div
-					class="flex mb-6 py-4 px-6 gap-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm hover:bg-[#efe2d1] hover:shadow-md transition duration-300 mx-auto">
+					class="flex mb-6 py-4 px-6 gap-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm mx-auto">
 					<div>
 						<a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}">
 							<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
