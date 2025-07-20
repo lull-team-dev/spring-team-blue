@@ -8,9 +8,9 @@
 	<link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 
-<body class="min-h-screen overflow-y-hidden bg-[#d1f5ff]">
+<body class="min-h-screen bg-[#fffcd8]">
 
-	<header class="has-[400px]: bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]">
+	<header class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 flex justify-between items-center">
 		<h1 class="w-[358px] mx-auto">
 			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
 		</h1>
@@ -20,17 +20,16 @@
 	<main>
 
 		<!-- プロフィールの部分 -->
-		<div class="relative p-4 mt-[80px] bg-[#dfcbaf]">
+		<div class="relative p-4 mt-[80px] mb-[60px] bg-[#dfcbaf]">
 
 			<!-- プロフィールアイコン -->
-			<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt=""
-				class="absolute -top-[70%] right-[20%] w-[150px] h-[150px] rounded-full border-2 border-none shadow-[5px_5px_3px_rgba(0,0,0,0.3)]">
-
-			<h2 class="text-white ml-[5%] tracking-widest text-4xl font-bold">MyPage</h2>
+			<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+				class="absolute -top-[50%] right-[24%] w-[124px] h-[124px] rounded-full border-2 border-none shadow-[5px_5px_3px_rgba(0,0,0,0.3)]">
+			<h2 class="text-white ml-[10%] tracking-widest text-4xl font-bold">[[${account.nickname}]]さんの</h2>
 			<div class="flex justify-between items-end">
-				<div class="ml-[10%] text-4xl text-white">[[${@myAccount.nickname}]]さん</div>
+				<div class="ml-[12%] text-4xl text-white">フォロワー一覧</div>
 
-				<div class="w-14 mr-[5%]">
+				<div class="w-14 mr-[10%]">
 					<a th:href="@{/mypage/update}">
 						<img src="/images/content/setting.png" alt="設定アイコン" />
 					</a>
@@ -38,12 +37,29 @@
 			</div>
 		</div>
 
-		<h3 th:text="${account.nickname} + 'さんのフォロワー一覧'">フォロワー</h3>
-		<ul>
-			<li th:each="follow : ${followers}">
-				<a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}" th:text="${follow.follower.name}">ユーザー名</a>
-			</li>
-		</ul>
+		<div class="w-3/5 mx-auto">
+			<div th:each="follow : ${followers}">
+				<div
+					class="flex mb-6 py-4 px-6 gap-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm hover:bg-[#efe2d1] hover:shadow-md transition duration-300 mx-auto">
+					<div>
+						<a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}">
+							<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+								class="w-[80px] h-[80px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
+						</a>
+					</div>
+					<div class="flex flex-col justify-center">
+						<div class="mb-1">
+							<a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}"
+								class="text-xl font-bold text-[#6b4f3a] hover:underline">
+								[[${follow.follower.name}]]
+							</a>
+						</div>
+						<div>[[${follow.follower.profile}]]</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<th:block th:if="${@myAccount.id != account.id}">
 			<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
 		</th:block>
