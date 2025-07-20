@@ -80,7 +80,7 @@ public class MypageController {
 	@GetMapping("/{id}")
 	public String showMoreMypage(@PathVariable(name = "id") Long id, Model model) {
 		Account account = accountRepository.findById(myAccount.getId()).get();
-
+		model.addAttribute("currentTab", id);
 		if (id == 1) {
 			List<History> historys = historyRepository.findByAccount(account);
 			model.addAttribute("historys", historys);

@@ -1,27 +1,32 @@
 <!-- fragments/header_guest.html -->
 <div th:fragment="header">
-	<header>
-		ユーザー名を表示させるヘッダー
+	<header class="bg-[linear-gradient(to_bottom,_#82cddd_90%,_#fff_100%)] px-8 py-2 flex justify-between">
 		<nav>
-			<a href="/">トップ</a>
-			<th:block th:if="${session.account == null}">
-				<a th:href="@{/account/login}">ログイン</a>
-				<a th:href="@{/account/register}">新規登録</a>
-			</th:block>
-			<th:block th:if="${session.account != null}">
-				<a th:href="@{/mypage}">マイページ</a>
-				<a th:href="@{/account/logout}">ログアウト</a>
-				<details>
-					<summary>通知</summary>
-					<ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
-						<li>
-							<a th:href="@{'/chat?chatId=' + ${chat.id}}"
-								th:text=" ${chat.item.name} + 'に新規メッセージ'"></a>
-						</li>
-					</ul>
+			<h1 class="w-1/4">
+				<a th:href="@{/items}">
+					<img src="/images/content/logo.png" alt="ロゴ" />
+				</a>
+			</h1>
+			<div class="flex items-center justify-end">
+				<th:block th:if="${session.account == null}">
+					<a th:href="@{/account/login}">ログイン</a>
+					<a th:href="@{/account/register}">新規登録</a>
+				</th:block>
+				<th:block th:if="${session.account != null}">
+					<a th:href="@{/mypage}">マイページ</a>
+					<a th:href="@{/account/logout}">ログアウト</a>
+					<details>
+						<summary>通知</summary>
+						<ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
+							<li>
+								<a th:href="@{'/chat?chatId=' + ${chat.id}}"
+									th:text=" ${chat.item.name} + 'に新規メッセージ'"></a>
+							</li>
+						</ul>
 
-				</details>
-			</th:block>
+					</details>
+				</th:block>
+			</div>
 		</nav>
 	</header>
 </div>
