@@ -1,10 +1,10 @@
 <header
-  class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 py-2 flex justify-between items-center"
+  class="fixed top-0 left-0 w-full z-50 h-[100px] bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)] px-8 py-3 flex justify-between items-center"
 >
   <!-- 左：ロゴ -->
 
   <a th:href="@{/}" class="w-1/7">
-    <img th:src="@{/images/Frame2.png}" alt="MadeForUロゴ" />
+    <img th:src="@{/images/content/logo.png}" alt="MadeForUロゴ" />
   </a>
 
   <!-- 中央：検索フォーム -->
@@ -12,7 +12,7 @@
     <form
       method="get"
       th:action="@{/items}"
-      class="flex items-center border border-blue-400 rounded-lg px-3 py-2 bg-[#a3dee5]"
+      class="flex items-center border border-blue-400 rounded-lg px-3 py-2 bg-white"
     >
       <input
         type="text"
@@ -35,48 +35,71 @@
   </div>
 
   <!-- 右：ユーザー関連 -->
-  <div class="flex items-center space-x-4">
-    <!-- ログインしていない場合 -->
-    <th:block th:if="${session.account == null}">
-      <a th:href="@{/account/login}" class="text-sm text-white hover:underline"
-        >ログイン</a
-      >
-      <a
-        th:href="@{/account/register}"
-        class="text-sm text-white hover:underline"
-        >新規登録</a
-      >
-    </th:block>
+  <div class="flex items-center ml-4 space-x-4">
+    <!-- 右：ユーザー関連 -->
+    <div class="flex items-center space-x-4 ml-auto">
+      <!-- ログインしていない場合 -->
+      <th:block th:if="${session.account == null}">
+        <a
+          th:href="@{/account/login}"
+          class="text-sm text-white hover:underline primary-button"
+          >ログイン</a
+        >
+        <a
+          th:href="@{/account/register}"
+          class="text-sm bg- text-white primary-button hover:underline"
+          >新規登録</a
+        >
+      </th:block>
 
-    <!-- ログインしている場合 -->
-    <th:block th:if="${session.account != null}">
-      <div class="flex flex-col items-center">
-        <img
-          th:src="@{/images/items/image.png}"
-          alt="ユーザー"
-          class="w-18 rounded-full border border-white"
-        />
-        <p class="text-white text-sm" th:text="${session.account.name}">
-          ユーザー名
-        </p>
-      </div>
-      <a th:href="@{/mypage}" class="text-sm text-white hover:underline"
-        >マイページ</a
-      >
-      <a th:href="@{/account/logout}" class="text-sm text-white hover:underline"
-        >ログアウト</a
-      >
-      <details>
-        <summary>通知</summary>
-        <ul th:if="${unreadChats}" th:each="chat :${unreadChats}">
-          <li>
-            <a
-              th:href="@{'/chat?chatId=' + ${chat.id}}"
-              th:text=" ${chat.item.name} + 'に新規メッセージ'"
-            ></a>
-          </li>
-        </ul>
-      </details>
-    </th:block>
+      <!-- ログインしている場合 -->
+      <th:block th:if="${session.account != null}">
+        <a
+          th:href="@{/mypage}"
+          class="flex flex-col items-center text-sm text-white hover:underline"
+        >
+          <img
+            th:src="@{/images/items/image.png}"
+            alt="ユーザー"
+            class="w-15 mt-2 rounded-full border border-white"
+          />
+          <p
+            class="text-[var(--text-items)] mt-0.5 text-sm"
+            th:text="${session.account.name}"
+          ></p>
+        </a>
+
+        <!--  通知とログアウト-->
+        <div class="flex items-center space-x-4 ml-4">
+          <a class="block group" th:href="@{/account/logout}">
+            <img
+              title="ログアウト"
+              class="opacity-60 w-10 transition-transform duration-200 ease-in-out group-hover:animate-bounce"
+              src="/images/content/logout.png"
+            />
+          </a>
+
+          <details class="group">
+            <summary
+              class="list-none group-hover:animate-bounce cursor-pointer"
+            >
+              <img title="通知" class="w-10" src="/images/content/bell.png" />
+            </summary>
+            <ul
+              class="bg-white list-none"
+              th:if="${unreadChats}"
+              th:each="chat : ${unreadChats}"
+            >
+              <li>
+                <a
+                  th:href="@{'/chat?chatId=' + ${chat.id}}"
+                  th:text="${chat.item.name} + 'に新規メッセージ'"
+                ></a>
+              </li>
+            </ul>
+          </details>
+        </div>
+      </th:block>
+    </div>
   </div>
 </header>
