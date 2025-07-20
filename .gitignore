@@ -33,7 +33,6 @@ out/
 .vscode/
 # Node 関連
 node_modules/
-package-lock.json
 # Tailwind の設定ファイル（リモートでは使わない）
 node_modules/
 dist/
@@ -42,6 +41,7 @@ dist/
 tailwind.config.js
 postcss.config.js
 src/main/resources/static/css/styles.css
+**/styles.css
 # 開発環境のwatch用ビルドファイルなど
 dist/
 *.css.map
