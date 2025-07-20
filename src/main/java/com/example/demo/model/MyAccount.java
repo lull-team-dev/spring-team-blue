@@ -8,11 +8,11 @@ import org.springframework.web.context.annotation.SessionScope;
 public class MyAccount {
 
 	private Long id;
-
 	private String name;
 	private String nickname;
+	private String icon; // ← アイコン画像ファイル名
 
-	//getter
+	// getter
 	public Long getId() {
 		return id;
 	}
@@ -25,7 +25,11 @@ public class MyAccount {
 		return nickname;
 	}
 
-	//setter
+	public String getIcon() {
+		return icon;
+	}
+
+	// setter
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -38,4 +42,7 @@ public class MyAccount {
 		this.nickname = nickname;
 	}
 
+	public void setIcon(String icon) {
+		this.icon = icon;
+	}
 }

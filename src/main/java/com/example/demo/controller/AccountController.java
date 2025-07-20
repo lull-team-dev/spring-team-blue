@@ -61,6 +61,7 @@ public class AccountController {
 		myAccount.setId(account.getId());
 		myAccount.setName(account.getName());
 		myAccount.setNickname(account.getNickname());
+		myAccount.setIcon(account.getIcon());
 		session.setAttribute("account", myAccount);
 
 		// 🔽 セッションに保存されたリダイレクト先があるならそこへ
