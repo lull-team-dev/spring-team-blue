@@ -35,10 +35,13 @@ out/
 node_modules/
 package-lock.json
 # Tailwind の設定ファイル（リモートでは使わない）
-postcss.config.mjs
+node_modules/
+dist/
+*.css.map
+*.tsbuildinfo
 tailwind.config.js
-package.json
-
+postcss.config.js
+src/main/resources/static/css/styles.css
 # 開発環境のwatch用ビルドファイルなど
 dist/
 *.css.map
