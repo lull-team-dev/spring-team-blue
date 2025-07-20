@@ -1,26 +1,72 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8">
-  <title>フォロー一覧</title>
-  <link rel="stylesheet" th:href="@{/css/style.css}" />
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>フォロー一覧</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body>
-  <div th:replace="fragments/header_user :: header"></div>
 
-  <h3 th:text="${account.nickname} + 'さんのフォロー一覧'">フォロー中</h3>
-  <ul>
-    <li th:each="follow : ${following}">
-      <a th:href="@{'/mypage/user/' + ${follow.followed.id} + '/detail'}"
-         th:text="${follow.followed.name}">ユーザー名</a>
-    </li>
-  </ul>
+<body class="min-h-screen bg-[#fffcd8]">
 
-  <th:block th:if="${@myAccount.id != account.id}">
-  	<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
-  </th:block>
-  <th:block th:if="${@myAccount.id == account.id}">
-  	<a th:href="@{/mypage}">← マイページに戻る</a>
-  </th:block>
+	<header class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 flex justify-between items-center">
+		<h1 class="w-[358px] mx-auto">
+			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
+		</h1>
+	</header>
+
+	<main>
+
+		<!-- プロフィールの部分 -->
+		<div class="relative p-4 mt-[80px] mb-[60px] bg-[#dfcbaf]">
+
+			<!-- プロフィールアイコン -->
+			<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+				class="absolute -top-[50%] right-[24%] w-[124px] h-[124px] rounded-full border-2 border-none shadow-[5px_5px_3px_rgba(0,0,0,0.3)]">
+			<h2 class="text-white ml-[10%] tracking-widest text-4xl font-bold">[[${account.nickname}]]さんの</h2>
+			<div class="flex justify-between items-end">
+				<div class="ml-[12%] text-4xl text-white">フォロー一覧</div>
+
+				<div class="w-14 mr-[10%]">
+					<a th:href="@{/mypage/update}">
+						<img src="/images/content/setting.png" alt="設定アイコン" />
+					</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="w-3/5 mx-auto">
+			<div th:each="follow : ${following}">
+				<div
+					class="flex mb-6 py-4 px-6 gap-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm hover:bg-[#efe2d1] hover:shadow-md transition duration-300 mx-auto">
+					<div>
+						<a th:href="@{'/mypage/user/' + ${follow.followed.id} + '/detail'}">
+							<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+								class="w-[80px] h-[80px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
+						</a>
+					</div>
+					<div class="flex flex-col justify-center">
+						<div class="mb-1">
+							<a th:href="@{'/mypage/user/' + ${follow.followed.id} + '/detail'}"
+								class="text-xl font-bold text-[#6b4f3a] hover:underline">
+								[[${follow.followed.name}]]
+							</a>
+						</div>
+						<div>[[${follow.followed.profile}]]</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<th:block th:if="${@myAccount.id != account.id}">
+			<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
+		</th:block>
+		<th:block th:if="${@myAccount.id == account.id}">
+			<a th:href="@{/mypage}">← マイページに戻る</a>
+		</th:block>
+
+	</main>
 </body>
+
 </html>
