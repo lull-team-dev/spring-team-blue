@@ -16,4 +16,8 @@ public interface ItemRepository extends JpaRepository<Item, Long> {
 	List<Item> findByAccount(Account account);
 
 	List<Item> findByNameContaining(String keyword);
+
+	List<Item> findByAccountIdNot(Long accountId);
+
+	List<Item> findByCategoryIdAndAccountIdNot(Integer categoryId, Long accountId);
 }

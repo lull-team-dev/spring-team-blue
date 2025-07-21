@@ -9,26 +9,20 @@
   <body>
     <div th:replace="fragments/header_user :: header"></div>
     <div
-      class="min-h-screen bg-[var(--top-color)] flex items-center justify-center"
+      class="min-h-screen bg-[var(--main-bg-color)] flex items-center justify-center"
     >
       <div
-        class="bg-[var(--bg-form)] rounded-3xl px-10 py-8 w-[340px] shadow-md"
+        class="rounded-3xl mt-12 px-10 py-8 w-4/12 bg-[#ffffff] shadow-[0_0_8px_rgba(221,179,142,0.5)] border border-[#eddccc]"
       >
-        <h2 class="text-center text-xl font-semibold text-[#1976d2] mb-6">
-          配送情報の入力
-        </h2>
-        <form
-          method="post"
-          action="/order/confirm"
-          class="space-y-4 text-sm text-gray-700"
-        >
-          <div class="flex mt-8 items-center relative space-x-2">
+        <h2 class="text-center text-xl font-semibold mb-6">配送情報の入力</h2>
+        <form method="post" action="/order/confirm" class="space-y-4 text-s">
+          <div class="flex mt-8 items-center justify-center relative space-x-2">
             <span
               th:if="${zipMessage}"
               th:text="${zipMessage}"
               class="block absolute whitespace-nowrap left-1/2 -translate-x-1/2 -top-6 text-red-500 text-xs"
             ></span>
-            <label class="" for="zip1"
+            <label class="text-center" for="zip1"
               >郵便番号<span class="text-red-500">*</span></label
             >
             <input
@@ -49,7 +43,7 @@
             />
             <button
               type="button"
-              class="px-3 h-9 ml-2 border rounded-2xl bg-[#baeeff] border-[var(--main-color)] text-[var(--main-color)] cursor-pointer text-sm"
+              class="px-3 h-9 primary-button ml-2 rounded-2xl"
               id="searchBtn"
             >
               検索
@@ -66,6 +60,11 @@
             />
             <label for="prefecture" class="form-label">
               都道府県<span class="text-red-500">*</span>
+              <span
+                th:if="${prefectureMessage}"
+                th:text="${prefectureMessage}"
+                class="text-xs text-red-500 ml-2"
+              ></span>
             </label>
           </div>
 
@@ -81,6 +80,11 @@
             />
             <label for="city" class="form-label">
               市区町村<span class="text-red-500">*</span>
+              <span
+                th:if="${cityMessage}"
+                th:text="${cityMessage}"
+                class="text-xs text-red-500 ml-2"
+              ></span>
             </label>
           </div>
 
@@ -96,6 +100,11 @@
             />
             <label for="town" class="form-label">
               町域・番地<span class="text-red-500">*</span>
+              <span
+                th:if="${townMessage}"
+                th:text="${townMessage}"
+                class="text-xs text-red-500 ml-2"
+              ></span>
             </label>
           </div>
 
@@ -109,20 +118,34 @@
               placeholder=" "
               class="peer form-input"
             />
-            <label for="building" class="form-label"> 建物名など </label>
+            <label for="building" class="form-label">
+              建物名など
+              <span
+                th:if="${buildingMessage}"
+                th:text="${buildingMessage}"
+                class="text-xs text-red-500 ml-2"
+              ></span>
+            </label>
           </div>
 
           <!-- 支払い方法 -->
-          <div class="form-group mt-4">
-            <label for="payment_method" class="form-label">支払い方法</label>
+          <div class="form-group mt-4 relative">
             <select
               id="payment_method"
               name="payment_method"
-              class="peer form-input"
+              class="form-input peer appearance-none"
             >
-              <option value="クレジット">クレジットカード</option>
+              <option value="クレジット" selected>クレジットカード</option>
               <option value="代金引換">代金引換</option>
             </select>
+            <label for="payment_method" class="form-label">
+              支払い方法<span class="text-red-500">*</span>
+              <span
+                th:if="${paymentMethodMessage}"
+                th:text="${paymentMethodMessage}"
+                class="text-xs text-red-500 ml-2"
+              ></span>
+            </label>
           </div>
 
           <!-- 電話 -->
@@ -135,7 +158,14 @@
               placeholder=" "
               class="peer form-input"
             />
-            <label for="tel" class="form-label">電話番号</label>
+            <label for="tel" class="form-label">
+              電話番号
+              <span
+                th:if="${telMessage}"
+                th:text="${telMessage}"
+                class="text-xs text-red-500 ml-2"
+              ></span>
+            </label>
           </div>
 
           <!-- メール -->
@@ -148,67 +178,29 @@
               placeholder=" "
               class="peer form-input"
             />
-            <label for="email" class="form-label">メールアドレス</label>
+            <label for="email" class="form-label">
+              メールアドレス
+              <span
+                th:if="${emailMessage}"
+                th:text="${emailMessage}"
+                class="text-xs text-red-500 ml-2"
+              ></span>
+            </label>
           </div>
 
           <!-- 隠し項目 -->
           <input type="hidden" name="item_id" th:value="${item.id}" />
-          <input type="hidden" name="address" id="addressHidden" />
+          <input
+            type="hidden"
+            name="address"
+            id="addressHidden"
+            th:value="${account.prefecture != null ? account.prefecture : ''} + ' ' + ${account.city != null ? account.city : ''} + ' ' + ${account.town != null ? account.town : ''} + ' ' + ${account.building != null ? account.building : ''}"
+          />
 
           <!-- ボタン -->
-          <button
-            type="submit"
-            class="w-full mt-6 py-2 rounded-lg bg-[#1976d2] text-white font-semibold hover:bg-[#1565c0]"
-          >
-            登録
-          </button>
+          <button type="submit" class="w-full mt-6 primary-button">登録</button>
         </form>
       </div>
-    </div>
-
-    <div class="absolute bottom-0 z-0 w-full overflow-hidden">
-      <svg
-        class="w-full h-[120px]"
-        xmlns="http://www.w3.org/2000/svg"
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        viewBox="0 24 150 28"
-        preserveAspectRatio="none"
-        shape-rendering="auto"
-      >
-        <defs>
-          <path
-            id="gentle-wave"
-            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 
-           58-18 88-18 58 18 88 18 v44h-352z"
-          />
-        </defs>
-        <g class="wave-parallax">
-          <use
-            xlink:href="#gentle-wave"
-            x="48"
-            y="0"
-            fill="rgba(59,154,186,0.4)"
-          />
-          <use
-            xlink:href="#gentle-wave"
-            x="48"
-            y="3"
-            fill="rgba(59,154,186,0.25)"
-          />
-          <use
-            xlink:href="#gentle-wave"
-            x="48"
-            y="5"
-            fill="rgba(59,154,186,0.15)"
-          />
-          <use
-            xlink:href="#gentle-wave"
-            x="48"
-            y="7"
-            fill="rgba(59,154,186,0.3)"
-          />
-        </g>
-      </svg>
     </div>
 
     <script>
@@ -252,6 +244,23 @@
           }
         });
       });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".form-input").forEach((input) => {
+          const updateFilled = () => {
+            if (input.value && input.value.trim() !== "") {
+              input.classList.add("filled");
+            } else {
+              input.classList.remove("filled");
+            }
+          };
+
+          updateFilled(); // 初期状態でチェック
+
+          input.addEventListener("input", updateFilled); // input系（text）
+          input.addEventListener("change", updateFilled); // select系
+        });
+      });
     </script>
 
     <script>
@@ -259,18 +268,29 @@
         const form = document.querySelector("form");
         const addressHidden = document.getElementById("addressHidden");
 
-        form.addEventListener("submit", () => {
-          const pref = document.querySelector('input[name="prefecture"]').value;
-          const city = document.querySelector('input[name="city"]').value;
-          const town = document.querySelector('input[name="town"]').value;
-          const building = document.querySelector(
-            'input[name="building"]'
-          ).value;
+        form.addEventListener("submit", (e) => {
+          const pref = document
+            .querySelector('input[name="prefecture"]')
+            .value.trim();
+          const city = document
+            .querySelector('input[name="city"]')
+            .value.trim();
+          const town = document
+            .querySelector('input[name="town"]')
+            .value.trim();
+          const building = document
+            .querySelector('input[name="building"]')
+            .value.trim();
 
           const address = [pref, city, town, building]
-            .filter(Boolean)
+            .filter((part) => part !== "")
             .join(" ");
-          addressHidden.value = address;
+
+          if (address === "") {
+            addressHidden.value = "";
+          } else {
+            addressHidden.value = address;
+          }
         });
       });
     </script>

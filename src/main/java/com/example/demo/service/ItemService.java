@@ -12,6 +12,7 @@ import org.springframework.ui.Model;
 import com.example.demo.entity.Account;
 import com.example.demo.entity.Category;
 import com.example.demo.entity.Item;
+import com.example.demo.model.MyAccount;
 import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
@@ -21,6 +22,9 @@ public class ItemService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+
+	@Autowired
+	private MyAccount myAccount;
 
 	@Autowired
 	private ItemRepository itemRepository;
@@ -34,16 +38,35 @@ public class ItemService {
 		List<Category> categoryList = categoryRepository.findAll();
 		model.addAttribute("categories", categoryList);
 
-		// 商品一覧取得（絞り込みあり）
 		List<Item> itemList = new ArrayList<>();
 
-		if (categoryId == null && keyword == null) {
-			itemList = itemRepository.findAll();
-		} else {
-			if (categoryId != null) {
-				itemList = itemRepository.findByCategoryId(categoryId);
+		// ログイン中のユーザーIDを取得
+		Long currentUserId = myAccount.getId();
+
+		if (currentUserId != null) {
+			// ログイン時 → 自分以外の出品のみ
+			if (categoryId == null && (keyword == null || keyword.isBlank())) {
+				itemList = itemRepository.findByAccountIdNot(currentUserId);
+			} else if (categoryId != null && (keyword == null || keyword.isBlank())) {
+				itemList = itemRepository.findByCategoryIdAndAccountIdNot(categoryId, currentUserId);
+			} else {
+				// キーワード検索結果から自分の出品を除外
+				List<Item> keywordMatched = itemRepository.findByNameContaining(keyword);
+				itemList = keywordMatched.stream()
+						.filter(item -> !item.getAccount().getId().equals(currentUserId))
+						.toList();
+				if (itemList.isEmpty()) {
+					model.addAttribute("message", "お探しの商品は見つかりませんでした");
+					itemList = itemRepository.findByAccountIdNot(currentUserId);
+				}
 			}
-			if (keyword != null) {
+		} else {
+			// 未ログイン時
+			if (categoryId == null && (keyword == null || keyword.isBlank())) {
+				itemList = itemRepository.findAll();
+			} else if (categoryId != null && (keyword == null || keyword.isBlank())) {
+				itemList = itemRepository.findByCategoryId(categoryId);
+			} else {
 				itemList = itemRepository.findByNameContaining(keyword);
 				if (itemList.isEmpty()) {
 					model.addAttribute("message", "お探しの商品は見つかりませんでした");
@@ -51,10 +74,9 @@ public class ItemService {
 				}
 			}
 		}
-		// カテゴリーIDによってスタイルを変更したいため追加
+
 		model.addAttribute("selectedCategoryId", categoryId);
 		model.addAttribute("items", itemList);
-
 	}
 
 	// 商品を保存（新規追加）
@@ -72,6 +94,22 @@ public class ItemService {
 
 		item.setAccount(account);
 		item.setCategory(category);
+
+		itemRepository.save(item);
+	}
+
+	@Transactional
+	public void updateItem(Long id, String name, Integer price, Long categoryId, String memo, String imageFileName) {
+		Item item = itemRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("該当商品が見つかりません"));
+
+		item.setName(name);
+		item.setPrice(price);
+		item.setMemo(memo);
+		item.setCategory(categoryRepository.findById(categoryId).orElse(null));
+		if (imageFileName != null && !imageFileName.isBlank()) {
+			item.setImage(imageFileName);
+		}
 
 		itemRepository.save(item);
 	}

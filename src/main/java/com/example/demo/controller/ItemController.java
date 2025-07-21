@@ -62,6 +62,36 @@ public class ItemController {
 		return "item/item_new";
 	}
 
+	@PostMapping("/items/{id}/edit")
+	public String updateItem(
+			@PathVariable("id") Long id,
+			@RequestParam("item_name") String itemName,
+			@RequestParam("price") Integer price,
+			@RequestParam("category_id") Long categoryId,
+			@RequestParam("memo") String memo,
+			@RequestParam(value = "image_file", required = false) MultipartFile imageFile) {
+		try {
+			String imageFileName = null;
+
+			if (imageFile != null && !imageFile.isEmpty()) {
+				String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
+				Files.createDirectories(Paths.get(uploadDir));
+
+				imageFileName = imageFile.getOriginalFilename();
+				Path filePath = Paths.get(uploadDir, imageFileName);
+				imageFile.transferTo(filePath.toFile());
+			}
+
+			itemService.updateItem(id, itemName, price, categoryId, memo, imageFileName);
+
+			return "redirect:/items/" + id + "/detail";
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
+		}
+	}
+
 	// 商品登録完了 → 完了画面へリダイレクト
 	@PostMapping("items/submit")
 	public String submitItem(
