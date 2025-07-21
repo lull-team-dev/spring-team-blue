@@ -5,7 +5,11 @@
     <title>Insert title here</title>
   </head>
   <body>
-    <form method="post" action="/items/submit" enctype="multipart/form-data">
+    <form
+      th:action="@{'/items/' + ${item.id} + '/edit'}"
+      method="post"
+      enctype="multipart/form-data"
+    >
       <label>商品名</label
       ><input type="text" name="item_name" th:value="${item.name}" /><br />
       <label>価格</label
