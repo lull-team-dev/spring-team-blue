@@ -12,7 +12,7 @@ function setConnected(connected) {
   } else {
     $("#conversation").hide();
   }
-  $("#message").html("");
+  /** $("#message").html(""); //メッセージが消えるのでコメントアウト */
 }
 
 // 接続を行う。
