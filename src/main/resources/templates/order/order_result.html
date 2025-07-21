@@ -1,17 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>注文完了</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
-<head>
-	<meta charset="UTF-8">
-	<title>Insert title here</title>
-</head>
+  <body
+    class="bg-[var(--main-bg-color)] min-h-screen flex items-center justify-center"
+  >
+    <div th:replace="fragments/header_user :: header"></div>
+    <div
+      class="w-2/5 bg-white rounded-3xl px-10 py-8 shadow-[0_0_8px_rgba(221,179,142,0.5)] border border-[#eddccc]"
+    >
+      <h2 class="text-center text-xl font-semibold mb-4">
+        ご注文ありがとうございました！
+      </h2>
 
-<body>
-	<h2>ご注文ありがとうございました！</h2>
-	<p>注文が完了しました。</p>
-	<a th:href="@{/items}">商品一覧へ戻る</a>
-	<!-- レビュー投稿リンク -->
-	<a th:href="@{'/review/form/' + ${item.account.id}}" class="btn btn-primary">レビューを書く</a>
-</body>
+      <p class="text-center mb-6 text-sm text-gray-700">
+        注文が正常に完了しました。
+      </p>
 
+      <div class="flex flex-col space-y-3">
+        <!-- 商品一覧へ -->
+        <a
+          th:href="@{/items}"
+          class="w-3/5 mx-auto text-center py-2 rounded-lg bg-[#f3f4f6] text-[#333] hover:bg-[#e0e7ff] font-medium transition"
+        >
+          商品一覧へ戻る
+        </a>
+
+        <!-- レビュー投稿へ -->
+        <a
+          th:href="@{'/review/form/' + ${item.account.id}}"
+          class="w-3/5 mx-auto primary-button text-center"
+        >
+          レビューを書く
+        </a>
+      </div>
+    </div>
+  </body>
 </html>
