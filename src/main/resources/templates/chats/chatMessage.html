@@ -3,44 +3,106 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>チャット</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
 	<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 	<script src="/js/chat.js"></script>
-
 </head>
 
-<body>
+<body class="min-h-screen bg-[#fffcd8]">
 
-	<label for="name">名前:</label>
-	<span name="clientName" th:text="${chat.client.nickname}"></span>
-	<label for="name">名前:</label>
-	<span name="ownerName" th:text="${chat.owner.nickname}"></span>
+	<header class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 flex justify-between items-center">
+		<h1 class="w-[358px] mx-auto">
+			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
+		</h1>
+	</header>
 
-	<form class="form-inline">
-		<input type="hidden" id="itemId" name="itemId" th:value="${item.id}">
-		<input type="hidden" id="chatId" name="chatId" th:value=${chat.id}>
-		<input type="hidden" id="myAccountId" name="myAccountId" th:value="${@myAccount.id}">
+	<main class="max-w-4xl mx-auto p-8">
 
-		<div class="form-group">
-			<input type="hidden" name="name" id="name" th:value="${@myAccount.nickname}">
+		<!-- チャット参加者情報 -->
+		<div class="mb-8 p-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm">
+			<div class="text-center">
+				<h2 class="text-2xl font-bold text-[#6b4f3a] mb-4">チャット参加者</h2>
+				<div class="flex gap-16 justify-center space-x-8">
+					<div class="flex gap-3 items-center text-center">
+						<div>
+							<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+								class="w-[80px] h-[80px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
+						</div>
+						<div>
+							<div class="text-sm text-gray-600 mb-1">お客様</div>
+							<span name="clientName" class="text-lg font-semibold text-[#6b4f3a]"
+								th:text="${chat.client.nickname}"></span>
+						</div>
+					</div>
+					<div class="flex gap-3 items-center text-center">
+						<div>
+							<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+								class="w-[80px] h-[80px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
+						</div>
+						<div>
+							<div class="text-sm text-gray-600 mb-1">出品者</div>
+							<span name="ownerName" class="text-lg font-semibold text-[#6b4f3a]"
+								th:text="${chat.owner.nickname}"></span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-		<div class="form-group">
-			<label for="name">メッセージ:</label>
-			<input type="text" id="statement" placeholder="Your Message">
-		</div>
-		<button id="send" type="submit">送信</button>
-	</form>
-	<!-- ここではチャットの内容をテーブルとして表示 -->
-	<table  th:each="messageLog:${messageLogs}">
-		<td  th:text="${messageLog.sender.nickname}+':'+${messageLog.message}"></td>
-	</table>
-	<table>
-		<tbody id="message"></tbody>
-	</table>
 
-	<form th:action="@{/items/{id}/detail(id=${item.id})}" method="get">
-		<button>チャットを終了する</button>
-	</form>
+		<!-- チャットメッセージエリア -->
+		<div class="mb-8 p-6 rounded-2xl bg-white border border-[#d4bfa3] shadow-sm">
+			<h3 class="text-xl font-bold text-[#6b4f3a] mb-4">メッセージ履歴</h3>
+
+			<!-- 既存のメッセージログ -->
+			<div class="space-y-4 mb-6 h-[250px] overflow-y-auto border border-[#d4bfa3] rounded-xl p-4 bg-[#f8f4e6]"
+				id="message">
+				<div th:each="messageLog : ${messageLogs}" class="flex mb-2"
+					th:classappend="${messageLog.sender.id == @myAccount.id} ? 'justify-end' : 'justify-start'">
+
+					<div class="inline-block min-w-64 max-w-[80%] p-3 rounded-xl border border-[#ccc] shadow-sm"
+						th:classappend="${messageLog.sender.id == @myAccount.id} ? 'bg-[#BAEFFF]' : 'bg-[#ECFEFE]'">
+						<div class="text-sm text-gray-600 mb-1" th:text="${messageLog.sender.nickname}"></div>
+						<div class="whitespace-pre-wrap" th:text="${messageLog.message}"></div>
+					</div>
+
+				</div>
+			</div>
+
+			<!-- メッセージ送信フォーム -->
+			<div class="mb-8 p-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm">
+				<form class="form-inline">
+					<input type="hidden" id="itemId" name="itemId" th:value="${item.id}">
+					<input type="hidden" id="chatId" name="chatId" th:value=${chat.id}>
+					<input type="hidden" id="myAccountId" name="myAccountId" th:value="${@myAccount.id}">
+					<input type="hidden" name="name" id="name" th:value="${@myAccount.nickname}">
+
+					<div class="flex gap-4 items-end">
+						<div class="flex-1">
+							<label for="statement" class="block text-sm font-semibold text-[#6b4f3a] mb-2">メッセージを入力</label>
+							<input type="text" id="statement" placeholder="メッセージを入力してください..." required
+								class="w-full p-3 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent">
+						</div>
+						<button id="send" type="submit"
+							class="bg-[var(--main-color)] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#3a89a6] transition-colors duration-200">
+							送信
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<!-- チャット終了ボタン -->
+			<div class="text-center">
+				<form th:action="@{/items/{id}/detail(id=${item.id})}" method="get">
+					<button
+						class="bg-[#FFB69E] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#ffa88c] transition-colors duration-300">
+						チャットを終了する
+					</button>
+				</form>
+			</div>
+
+	</main>
 </body>
