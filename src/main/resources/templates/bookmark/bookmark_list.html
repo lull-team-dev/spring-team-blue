@@ -10,13 +10,14 @@
 <body>
 
 	<div class="text-center">
-		<h3>お気に入りリスト</h3>
+		<h3 class="font-bold">お気に入りリスト</h3>
 
-		<div class="flex justify-center px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
 			<!-- お気に入りが空の場合の表示 -->
-			<div th:if="${bookmarks.isEmpty()}">
-				<p>お気に入りに登録された商品はありません。</p>
+			<div class="flex justify-center " th:if="${bookmarks.isEmpty()}">
+				<img class="w-5 mr-[3px] " th:src="@{/images/content/attention.svg}">
+				<p class="text-red content-center"> お気に入りに登録された商品はありません。</p>
 			</div>
+		<div class="flex justify-center px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
 
 			<!-- お気に入りの商品を一覧で表示 -->
 			<div th:if="${!bookmarks.isEmpty()}" th:each="bookmark : ${bookmarks}"

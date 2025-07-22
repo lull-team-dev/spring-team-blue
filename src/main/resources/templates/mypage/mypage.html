@@ -96,9 +96,9 @@
 		</ul>
 	</nav>
 
-	<div class="mt-[5%]">
+	<div class="mt-[5%] text-center">
 		<th:block th:if="${historys}">
-			<h3>購入履歴</h3>
+			<h3 class="font-bold">購入履歴</h3>
 			<div th:each="history : ${historys}">
 				<p th:text="${#temporals.format(history.date, 'yyyy/MM/dd')}"></p>
 				<p th:text="${history.item.name}"></p>
@@ -106,7 +106,7 @@
 			</div>
 		</th:block>
 		<th:block th:if="${itemSelling}">
-			<he>出品作品</he>
+			<h3 class="font-bold">出品作品</h3>
 			<div class="px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
 				<div th:each="myItem : ${itemSelling}">
 					<div class="relative rounded-[33px] overflow-hidden group block">
