@@ -1,27 +1,116 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>プロフィール編集</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
 
-	<body>
-		<h2>ユーザー情報の編集</h2>
+<body class="min-h-screen bg-[#fffcd8]">
 
-		<form method="post" action="/mypage/update">
-			<input type="hidden" name="id" th:value="${account.id}">
-			<label>名前</label><input type="text" name="name" th:value="${account.name}"><br>
-			<label>ユーザー名</label><input type="text" name="name" th:value="${account.nickname}"><br>
-			<label>メール</label><input type="email" name="email" th:value="${account.email}"><br>
-			<label>パスワード</label><input type="password" name="password" th:value="${account.password}"><br>
-			<label>自己紹介</label><input type="plofile" name="profile" th:value="${account.profile}"><br>
-			<label>住所</label><input type="address" name="address" th:value="${account.address}"><br>
-			<label></label><input type="tel" name="tel" th:value="${account.tel}"><br>
-			<button type="submit">更新する</button>
-		</form>
+	<header class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 flex justify-between items-center">
+		<h1 class="w-[358px] mx-auto">
+			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
+		</h1>
+	</header>
 
-		<p><a href="/mypage">← マイページに戻る</a></p>
-	</body>
+	<main class="max-w-4xl mx-auto p-8">
+
+		<div class="text-center mb-12">
+			<h1 class="text-4xl font-bold text-[#6b4f3a] tracking-widest">プロフィール編集</h1>
+			<div class="mt-4 text-lg text-[var(--text-color)]">ユーザー情報を編集できます</div>
+		</div>
+
+		<!-- 編集フォーム -->
+		<div class="p-8 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-lg">
+			<form method="post" action="/mypage/update" class="space-y-8">
+				<input type="hidden" name="id" th:value="${account.id}">
+
+				<div class="pb-8 border-b border-b-[#d4bfa3]">
+					<h3 class="text-2xl font-bold text-[#6b4f3a] mb-6">基本情報</h3>
+
+					<div class="grid gap-6">
+						<div class="form-group">
+							<label for="name" class="block text-sm font-semibold text-[#6b4f3a] mb-2">名前 <span
+									class="text-red-500">*</span></label>
+							<input type="text" id="name" name="name" th:value="${account.name}" required
+								class="w-full p-4 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent">
+						</div>
+
+						<div class="form-group">
+							<label for="nickname" class="block text-sm font-semibold text-[#6b4f3a] mb-2">ニックネーム <span
+									class="text-red-500">*</span></label>
+							<input type="text" id="nickname" name="nickname" th:value="${account.nickname}" required
+								class="w-full p-4 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent">
+						</div>
+
+						<div class="form-group">
+							<label for="email" class="block text-sm font-semibold text-[#6b4f3a] mb-2">メールアドレス <span
+									class="text-red-500">*</span></label>
+							<input type="email" id="email" name="email" th:value="${account.email}" required
+								class="w-full p-4 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent">
+						</div>
+
+						<div class="form-group">
+							<label for="password" class="block text-sm font-semibold text-[#6b4f3a] mb-2">パスワード <span
+									class="text-red-500">*</span></label>
+							<input type="password" id="password" name="password" th:value="${account.password}" required
+								class="w-full p-4 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent">
+						</div>
+					</div>
+				</div>
+
+				<div class="pb-8 border-b border-b-[#d4bfa3]">
+					<h3 class="text-2xl font-bold text-[#6b4f3a] mb-6">詳細情報</h3>
+
+					<div class="grid gap-6">
+						<div class="form-group">
+							<label for="profile" class="block text-sm font-semibold text-[#6b4f3a] mb-2">自己紹介</label>
+							<textarea id="profile" name="profile" rows="4" th:text="${account.profile}"
+								class="w-full p-4 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent resize-none"
+								placeholder="自己紹介を入力してください"></textarea>
+						</div>
+
+						<div class="form-group">
+							<label for="address" class="block text-sm font-semibold text-[#6b4f3a] mb-2">住所</label>
+							<input type="text" id="address" name="address" th:value="${account.address}"
+								class="w-full p-4 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent"
+								placeholder="例: 東京都渋谷区...">
+						</div>
+
+						<div class="form-group">
+							<label for="tel" class="block text-sm font-semibold text-[#6b4f3a] mb-2">電話番号</label>
+							<input type="tel" id="tel" name="tel" th:value="${account.tel}"
+								class="w-full p-4 border border-[#d4bfa3] rounded-xl bg-white focus:outline-none focus:ring-2 focus:ring-[var(--main-color)] focus:border-transparent"
+								placeholder="例: 090-1234-5678">
+						</div>
+					</div>
+				</div>
+
+				<div class="flex justify-center gap-8 pt-6">
+					<a href="/mypage"
+						class="w-[160px] bg-[#FFB69E] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#ffa88c] transition-colors duration-300 text-center">
+						キャンセル
+					</a>
+					<button type="submit"
+						class="w-[160px] bg-[var(--main-color)] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#3a89a6] transition-colors duration-200">
+						更新する
+					</button>
+				</div>
+			</form>
+		</div>
+
+		<div class="text-center mt-8">
+			<p class="text-gray-600">
+				<a href="/mypage" class="text-[var(--main-color)] hover:underline font-semibold">
+					← マイページに戻る
+				</a>
+			</p>
+		</div>
+
+	</main>
+</body>
 
 </html>
