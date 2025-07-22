@@ -1,27 +1,142 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
 
-	<body>
-		<h2>ユーザー情報の編集</h2>
+<body>
 
-		<form method="post" action="/mypage/update">
-			<input type="hidden" name="id" th:value="${account.id}">
-			<label>名前</label><input type="text" name="name" th:value="${account.name}"><br>
-			<label>ユーザー名</label><input type="text" name="name" th:value="${account.nickname}"><br>
-			<label>メール</label><input type="email" name="email" th:value="${account.email}"><br>
-			<label>パスワード</label><input type="password" name="password" th:value="${account.password}"><br>
-			<label>自己紹介</label><input type="plofile" name="profile" th:value="${account.profile}"><br>
-			<label>住所</label><input type="address" name="address" th:value="${account.address}"><br>
-			<label></label><input type="tel" name="tel" th:value="${account.tel}"><br>
-			<button type="submit">更新する</button>
-		</form>
+	<diV class="min-h-screen bg-[var(--top-color)] flex items-center justify-center">
+		<div class="bg-[var(--bg-form)] rounded-3xl px-10 py-8 w-auto shadow-md">
+			<h2 class="text-center text-xl font-semibold text-[#1976d2] mb-6">ユーザー情報の編集</h2>
 
-		<p><a href="/mypage">← マイページに戻る</a></p>
-	</body>
+			<form method="post" action="/mypage/update" class="space-y-4 text-sm text-gray-700">
+				<div class="flex flex-col mt-8 items-center relative space-x-2">
+					<input type="hidden" name="id" th:value="${account.id}">
+
+
+						<p class="font-semibold text-[#1976d2] mb-6">プロフィール編集</p>
+						<label>ユーザー名</label>
+						<input type="text" name="name" th:value="${account.nickname}" class="peer form-input"><br>
+						<label>自己紹介</label>
+						<input type="plofile" name="profile" th:value="${account.profile}" class="peer form-input"><br>
+						<lavel>アイコン</lavel>
+<!--						<input-->
+<!--						        type="file"-->
+<!--						        id="imageFile"-->
+<!--						        name="account_image"-->
+<!--						        accept="image/*"-->
+<!--						      /><br />-->
+<!--						      <img-->
+<!--						        id="preview"-->
+<!--						        th:if="${account.icon}"-->
+<!--						        th:src="@{'/images/icon/' + ${account.icon}}"-->
+<!--						        alt="プレビュー画像"-->
+<!--						        style="max-width: 200px; max-height: 200px"-->
+<!--						      />-->
+
+						<details>
+							<summary class="font-semibold text-[#1976d2] mb-6">個人情報編集</summary>
+							<label>名前</label>
+							<input type="text" name="name" th:value="${account.name}" class="peer form-input"><br>
+							<label>メール</label>
+							<input type="email" name="email" th:value="${account.email}" class="peer form-input"><br>
+							<label>電話番号</label>
+							<input type="tel" name="tel" th:value="${account.tel}" class="peer form-input"><br>
+							<label>パスワード</label>
+							<input type="password" name="password" th:value="${account.password}"
+								class="peer form-input"><br>
+						</details>
+
+						<details>
+							<summary class="font-semibold text-[#1976d2] mb-6">お届け先住所</summary>
+							<label class="" for="zip1">郵便番号<span class="text-red-500">*</span></label>
+							<input type="text" id="zip1" name="zip1"
+								class="w-16 h-9 border ml-4 rounded-[66px] border-[var(--main-color)] placeholder-gray-400 text-center"
+								maxlength="3" placeholder="123" />
+							<span>-</span>
+							<input type="text" name="zip2"
+								class="w-16 border h-9 rounded-2xl border-[var(--main-color)] placeholder-gray-400 text-center"
+								maxlength="4" placeholder="4567" />
+							<button type="button"
+								class="px-3 h-9 ml-2 border rounded-2xl bg-[#baeeff] border-[var(--main-color)] text-[var(--main-color)] cursor-pointer text-sm"
+								id="searchBtn">
+								検索
+							</button>
+
+							<div class="form-group mt-4">
+								<label for="prefecture" class="form-label">
+									都道府県<span class="text-red-500">*</span>
+								</label>
+								<input id="prefecture" type="text" name="prefecture" th:value="${account.prefecture}"
+									placeholder=" " class="peer form-input" />
+							</div>
+
+							<!-- 市区町村 -->
+							<div class="form-group mt-4">
+								<label for="city" class="form-label">
+									市区町村<span class="text-red-500">*</span>
+								</label>
+								<input id="city" type="text" name="city" th:value="${account.city}" placeholder=" "
+									class="peer form-input" />
+							</div>
+
+							<!-- 町域・番地 -->
+							<div class="form-group mt-4">
+								<label for="town" class="form-label">
+									町域・番地<span class="text-red-500">*</span>
+								</label>
+								<input id="town" type="text" name="town" th:value="${account.town}" placeholder=" "
+									class="peer form-input" />
+							</div>
+
+							<!-- 建物名 -->
+							<div class="form-group mt-4">
+								<label for="building" class="form-label"> 建物名など </label>
+								<input id="building" type="text" name="building" th:value="${account.building}"
+									placeholder=" " class="peer form-input" />
+							</div>
+						</details>
+
+				</div>
+
+				<button type="submit"
+					class="w-full mt-6 py-2 rounded-lg bg-[#1976d2] text-white font-semibold hover:bg-[#1565c0]">更新する</button>
+			</form>
+		</div>
+		<p class="text-lg  block w-auto justify-self-start">
+			<a class=" relative inline-block group underline-animate" href="/mypage">← マイページに戻る</a>
+		</p>
+	</diV>
+
+	<script>
+	  const imageFile = document.getElementById("imageFile");
+	  const preview = document.getElementById("preview");
+
+	  // 既存画像の初期URLを保持しておく
+	  const originalSrc = preview ? preview.src : "";
+
+	  imageFile.addEventListener("change", function (e) {
+	    const file = e.target.files[0];
+	    if (file) {
+	      const reader = new FileReader();
+	      reader.onload = function (e) {
+	        preview.src = e.target.result;
+	        preview.style.display = "block";
+	      };
+	      reader.readAsDataURL(file);
+	    } else {
+	      // 選択がキャンセルされた場合：元の画像に戻す（または非表示にする）
+	      preview.src = originalSrc;
+	      if (!originalSrc) {
+	        preview.style.display = "none";
+	      }
+	    }
+	  });
+	</script>
+</body>
 
 </html>

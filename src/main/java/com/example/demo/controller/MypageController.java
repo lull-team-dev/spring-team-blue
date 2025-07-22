@@ -113,6 +113,7 @@ public class MypageController {
 			List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
 			model.addAttribute("unreadChats", unreadChats);
 			model.addAttribute("avgScore", avgScore);
+			model.addAttribute("currentTab", id);
 
 			model.addAttribute("followerCount", followerCount);
 			model.addAttribute("followingCount", followingCount);
@@ -144,8 +145,7 @@ public class MypageController {
 			@RequestParam(name = "prefecture", defaultValue = "") String prefecture,
 			@RequestParam(name = "city", defaultValue = "") String city,
 			@RequestParam(name = "town", defaultValue = "") String town,
-			@RequestParam(name = "building", defaultValue = "") String building
-			) {
+			@RequestParam(name = "building", defaultValue = "") String building) {
 
 		Account UpdateAccount = accountRepository.findById(id).get();
 
