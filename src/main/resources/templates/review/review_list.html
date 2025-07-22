@@ -1,14 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>レビュー一覧</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
-<body>
-  <h1>レビュー一覧ページ</h1>
-  <div th:each="review : ${myReview}">
-	<p th:text="${review.reviewer.nickname} + 'さん'"></p> <span th:text="'評価：' + ${review.score}"></span>
-	<p th:text="${review.reviewText}"></p>
-  </div>
+
+<body class="min-h-screen bg-[#fffcd8]">
+
+  <main class="max-w-5xl mx-auto p-8">
+
+    <!-- ページタイトル -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl font-bold text-[var(--main-color)]">レビュー一覧</h1>
+      <div class="mt-4 text-lg text-[var(--text-color)]">出品した商品のレビューが確認できます</div>
+    </div>
+
+    <div class="space-y-6">
+      <div th:each="review : ${myReview}"
+        class="p-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm transition duration-300">
+
+        <div class="flex items-center justify-between mb-4 pb-4 border-b border-b-[#d4bfa3]">
+          <div class="flex items-center gap-4">
+            <div class="w-[60px] h-[60px] rounded-full bg-[#e7d8c6] flex items-center justify-center">
+              <img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="レビュアーアイコン"
+                class="w-[50px] h-[50px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
+            </div>
+            <div>
+              <div class="text-xl font-semibold text-[#6b4f3a]" th:text="${review.reviewer.nickname} + 'さん'"></div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <div class="flex text-2xl">
+              <span th:each="i : ${#numbers.sequence(1, 5)}"
+                th:class="${i <= review.score} ? 'text-[#fcdd7b]' : 'text-gray-400'">★</span>
+            </div>
+            <span class="text-lg font-bold text-[#6b4f3a]" th:text="'(' + ${review.score} + '/5)'"></span>
+          </div>
+        </div>
+
+        <div class="bg-white p-4 rounded-xl border border-[#eddccc] shadow-sm">
+          <div class="text-sm text-gray-600 mb-2">レビュー内容</div>
+          <p class="text-[#333] leading-relaxed whitespace-pre-wrap" th:text="${review.reviewText}"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- レビューがない場合のメッセージ -->
+    <div th:if="${#lists.isEmpty(myReview)}"
+      class="text-center p-12 rounded-2xl bg-white border border-[#d4bfa3] shadow-sm">
+      <div class="text-6xl text-gray-400 mb-4">📝</div>
+      <h3 class="text-2xl font-bold text-[#6b4f3a] mb-2">まだレビューがありません</h3>
+      <p class="text-gray-600">商品を出品して、レビューをしてもらいましょう！</p>
+    </div>
+
+    <!-- 戻る -->
+    <div class="text-center mt-12">
+      <a th:href="@{/mypage}"
+        class="inline-block bg-[var(--main-color)] text-white px-8 py-3 rounded-full font-semibold hover:bg-[#3a89a6] transition-colors duration-300">
+        ← マイページに戻る
+      </a>
+    </div>
+
+  </main>
 </body>
+
 </html>
