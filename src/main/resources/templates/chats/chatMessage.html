@@ -63,10 +63,34 @@
 				<div th:each="messageLog : ${messageLogs}" class="flex mb-2"
 					th:classappend="${messageLog.sender.id == @myAccount.id} ? 'justify-end' : 'justify-start'">
 
-					<div class="inline-block min-w-64 max-w-[80%] p-3 rounded-xl border border-[#ccc] shadow-sm"
+					<div class="relative inline-block min-w-64 max-w-[80%] p-3 rounded-xl border border-[#ccc] shadow-sm"
 						th:classappend="${messageLog.sender.id == @myAccount.id} ? 'bg-[#BAEFFF]' : 'bg-[#ECFEFE]'">
 						<div class="text-sm text-gray-600 mb-1" th:text="${messageLog.sender.nickname}"></div>
 						<div class="whitespace-pre-wrap" th:text="${messageLog.message}"></div>
+
+						<!-- 右下の吹き出し（自分のメッセージ） -->
+						<span th:if="${messageLog.sender.id == @myAccount.id}" class="absolute bottom-2 -right-2
+                 w-0 h-0
+                 border-l-[9px] border-l-[#ccc]
+                 border-t-[8px] border-t-transparent
+                 border-b-[8px] border-b-transparent"></span>
+						<span th:if="${messageLog.sender.id == @myAccount.id}" class="absolute bottom-2 -right-[7px]
+                 w-0 h-0
+                 border-l-[9px] border-l-[#BAEFFF]
+                 border-t-[8px] border-t-transparent
+                 border-b-[8px] border-b-transparent"></span>
+
+						<!-- 左下の吹き出し（相手のメッセージ） -->
+						<span th:if="${messageLog.sender.id != @myAccount.id}" class="absolute bottom-2 -left-2
+                 w-0 h-0
+                 border-r-[9px] border-r-[#ccc]
+                 border-t-[8px] border-t-transparent
+                 border-b-[8px] border-b-transparent"></span>
+						<span th:if="${messageLog.sender.id != @myAccount.id}" class="absolute bottom-2 -left-[7px]
+                 w-0 h-0
+                 border-r-[9px] border-r-[#ECFEFE]
+                 border-t-[8px] border-t-transparent
+                 border-b-[8px] border-b-transparent"></span>
 					</div>
 
 				</div>
