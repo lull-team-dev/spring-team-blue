@@ -1,80 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <title>ユーザー詳細</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-  </head>
+<html class="h-dvh" xmlns:th="http://www.thymeleaf.org">
 
-  <body>
-    <div th:replace="fragments/header_user :: header"></div>
+<head>
+	<meta charset="UTF-8" />
+	<title>ユーザー詳細</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
+	<link rel="stylesheet" th:href="@{/css/input.css}" />
 
-    <h2>ユーザー詳細</h2>
-    <p>ユーザー名: <span th:text="${account.nickname}"></span></p>
-    <p>自己紹介: <span th:text="${account.profile}"></span></p>
+</head>
 
-    <p>平均評価: <span th:text="${avgScore}">未評価</span></p>
+<body class="h-dvh relative">
+	<div th:replace="fragments/header_user :: header"></div>
 
-    <p>
-      フォロー中: <span th:text="${followingCount}"></span>人 / フォロワー:
-      <span th:text="${followerCount}"></span>人
-    </p>
-    <p>
-      <a th:href="@{'/mypage/user/' + ${account.id} + '/following'}"
-        >フォロー一覧</a
-      >
-      <a th:href="@{'/mypage/user/' + ${account.id} + '/followers'}"
-        >フォロワー一覧</a
-      >
-    </p>
+	<div class="relative p-4  mt-0 bg-[#72b5da] h-auto">
 
-    <!-- フォローボタン表示：自分自身じゃないとき -->
-    <div th:if="${account.id != myAccount.id}">
-      <form
-        th:action="@{${isFollowing} ? '/mypage/user/' + ${account.id} + '/unfollow' : '/mypage/user/' + ${account.id}}"
-        method="post"
-      >
-        <button
-          type="submit"
-          th:text="${isFollowing} ? 'フォロー解除' : 'フォローする'"
-        ></button>
-      </form>
-    </div>
+		<div class="flex flex-col mt-[7%] ">
+			<h3 class="ml-[5%] text-white tracking-widest text-3xl" th:text="${account.nickname} + 'さんのプロフィール'"></h3>
+			<p class="ml-[10%]  text-1xl text-white">自己紹介: <span th:text="${account.profile}"></span></p>
+		</div>
+		<div class="w-[80%] mt-[20px] ml-[5%] flex justify-between">
+			<p class="text-lg text-white block">平均評価:
+				<span th:text="${avgScore}">未評価</span>
+			</p>
 
-    <!-- 出品商品 -->
-    <h3>出品商品</h3>
-    <div th:each="item : ${items}" style="margin-bottom: 20px">
-      <a th:href="@{'/items/' + ${item.id} + '/detail'}">
-        <img
-          th:if="${item.image != null}"
-          th:src="@{'/images/items/' + ${item.image}}"
-          alt="商品画像"
-          width="200"
-        />
-      </a>
-      <p th:text="${item.name}">商品名</p>
-      <p th:text="${item.price} + '円'">価格</p>
-    </div>
+			<p class="text-lg text-white block w-auto justify-self-start">
+				<a class="relative inline-block group underline-animate"
+					th:href="@{'/mypage/user/' + ${account.id} + '/following'}">
+					フォロー中　<span th:text="${followingCount}"></span>
+				</a> /
+				<a class="relative inline-block group underline-animate"
+					th:href="@{'/mypage/user/' + ${account.id} + '/followers'}">
+					フォロワー　<span th:text="${followerCount}"></span>
+				</a>
+			</p>
+		</div>
 
-    <!-- レビュー一覧 -->
-    <h3>レビュー</h3>
-    <div th:if="${#lists.isEmpty(reviews)}">
-      <p>まだレビューはありません。</p>
-    </div>
-    <div th:unless="${#lists.isEmpty(reviews)}">
-      <ul>
-        <li th:each="review : ${reviews}" style="margin-bottom: 10px">
-          <strong th:text="${review.reviewer.name}">レビュワー名</strong>：
-          <span th:text="${'★'.repeat(review.score)}">★★★★★</span>
-          <p th:text="${review.reviewText}">レビュー本文</p>
-          <small
-            th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd HH:mm')}"
-            >投稿日</small
-          >
-        </li>
-      </ul>
-    </div>
+		<!-- フォローボタン表示：自分自身じゃないとき -->
+		<div th:if="${account.id != myAccount.id}">
+			<form
+				th:action="@{${isFollowing} ? '/mypage/user/' + ${account.id} + '/unfollow' : '/mypage/user/' + ${account.id}}"
+				method="post">
+				<button class="block  absolute right-3 bottom-3 text-sm text-white  primary-button" type="submit"
+					th:text="${isFollowing} ? 'フォロー解除' : 'フォローする'"></button>
+			</form>
+		</div>
+	</div>
 
-    <a href="/">← 商品一覧へ</a>
-  </body>
+	<div class="mt-[5%] ml-[15%] w-[70%] flex justify-between">
+		<!-- 出品商品 -->
+		<div class="justify-items-center ">
+			<h3 class="font-bold">出品商品</h3>
+			<div th:if="${items} == null">
+				<p>出品商品がありません。</p>
+			</div>
+			<div th:if="${items} != null" th:each="item : ${items}" style="margin-bottom: 20px">
+				<a th:href="@{'/items/' + ${item.id} + '/detail'}">
+					<img th:if="${item.image != null}" th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"
+						width="200" />
+				</a>
+				<p th:text="${item.name}">商品名</p>
+				<p th:text="${item.price} + '円'">価格</p>
+			</div>
+		</div>
+
+		<!-- レビュー一覧 -->
+		<div class="justify-items-center">
+			<h3 class="font-bold">レビュー</h3>
+			<div th:if="${#lists.isEmpty(reviews)}">
+				<p>まだレビューはありません。</p>
+			</div>
+			<div th:unless="${#lists.isEmpty(reviews)}">
+				<ul>
+					<li th:each="review : ${reviews}" style="margin-bottom: 10px">
+						<strong th:text="${review.reviewer.name}">レビュワー名</strong>：
+						<span th:text="${'★'.repeat(review.score)}">★★★★★</span>
+						<p th:text="${review.reviewText}">レビュー本文</p>
+						<small th:text="${#temporals.format(review.reviewDate, 'yyyy-MM-dd HH:mm')}">投稿日</small>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div class="mt-[10%] text-center">
+		<a href="/">← 商品一覧へ</a>
+	</div>
+
+</body>
+
 </html>
