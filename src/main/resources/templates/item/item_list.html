@@ -71,7 +71,7 @@
 
     <!-- 商品一覧 -->
     <main
-      class="mt-20 py-6 grid grid-cols-3 gap-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+      class="mt-20 py-6 grid grid-cols-1 sm:grid-cols-2 sm:gap-10 md:grid-cols-2 lg:grid-cols-4 gap-12 max-w-7xl mx-auto px-4 sm:px-10 lg:px-8"
     >
       <div
         th:each="item : ${items}"
@@ -80,17 +80,11 @@
       >
         <!-- 商品画像 -->
         <a th:href="@{'/items/' + ${item.id} + '/detail'}">
-          <!-- <img
+          <img
             th:if="${item.image != null}"
             th:src="@{'/images/items/' + ${item.image}}"
             alt="商品画像"
-            class="w-full"
-          /> -->
-          <img
-            th:if="${item.image != null}"
-            th:src="@{/images/items/dryflower_wreath.png}"
-            alt="商品画像"
-            class="w-full"
+            class="w-full aspect-[3/3] object-fill"
           />
 
           <!-- 売り切れラベル -->

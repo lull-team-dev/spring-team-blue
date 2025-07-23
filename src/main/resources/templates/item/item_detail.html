@@ -10,37 +10,26 @@
 <body class="pt-[100px] bg-[var(--main-bg-color)]">
   <div th:replace="fragments/header_user :: header"></div>
 
-  <main class="min-h-screen py-10 font-serifjp px-6">
-    <div class="max-w-5xl mx-auto  p-6 flex    gap-6">
+  <main class="min-h-screen py-10 font-serifjp ">
+    <div class="max-w-5xl mx-auto  p-6 flex  mt-25  gap-6">
       <!-- 商品画像 -->
-      <div class="flex-shrink-0 overflow-hidden relative">
+      <div class="flex-shrink-0 overflow-hidden  relative">
       <div
         th:if="${item.soldOut}"
-        class="absolute top-22 -left-19 w-[400px] text-center bg-red-600 text-white text-4xl font-bold py-3 rotate-[-45deg] shadow-md z-10"
+        class="absolute   -left-25 top-18 w-[400px] text-center bg-red-600 text-white text-4xl font-bold py-3 rotate-[-45deg] shadow-md z-10"
       >
         SOLDOUT
         </div>
         <div>
           <!-- 画像あり -->
-          <img
-            th:if="${item.image != null}"
-            th:src="@{/images/items/リース.png}" alt="リース画像"  
-            class="w-[500px] h-[500px] rounded-xl   object-cover "
-          />
-             <!-- <img
+   
+             <img
             th:if="${item.image != null}"
             th:src="@{'/images/items/' + ${item.image}}"
             alt="商品画像"
-            class="w-full"
-          /> -->
-
-          <!-- 画像なし -->
-          <img
-            th:if="${item.image == null}"
-            th:src="@{/images/items/1645F98C-8D48-44EF-916F-90C5E61389CE.png}"
-            alt="画像なし"
-            class="w-[250px] h-[250px] object-cover rounded-xl border"
+            class="max-w-[400px] rounded-[33px] aspect-[3/3] object-fill h-auto "
           />
+
         </div>
         
         <p class="text-center text-xl text-[#6b4e35] font-bold mt-4">
@@ -69,7 +58,8 @@
   <!-- 商品名と紹介 -->
   <div class="grow space-y-3">
     <p class="text-xl font-semibold text-center"><span th:text="${item.name}"></span></p>
-    <p class="whitespace-pre-wrap">商品紹介：<br><span th:text="${item.memo}"></span></p>
+    <p class="whitespace-pre-wrap">商品紹介：<br>
+    <span class="block text-left" th:text="${#strings.trim(item.memo)}"></span></p>
   </div>
 
   <!-- 区切り線 -->
@@ -129,7 +119,7 @@
     </div>
 
     <div class="mt-6 text-center">
-      <a href="/" class="text-sm font-bold  bg- text-gray-500 hover:underline">一覧へ</a>
+      <a href="/" class="text-sm font-bold  ">一覧へ</a>
     </div>
   </main>
 
