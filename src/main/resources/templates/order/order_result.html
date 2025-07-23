@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
 
-	<body>
-		<h2>ご注文ありがとうございました！</h2>
-		<p>注文が完了しました。</p>
-		<a href="/item/item_list">商品一覧へ戻る</a>
-	</body>
+<body>
+	<h2>ご注文ありがとうございました！</h2>
+	<p>注文が完了しました。</p>
+	<a th:href="@{/items}">商品一覧へ戻る</a>
+	<!-- レビュー投稿リンク -->
+	<a th:href="@{'/review/form/' + ${item.account.id}}" class="btn btn-primary">レビューを書く</a>
+</body>
 
 </html>

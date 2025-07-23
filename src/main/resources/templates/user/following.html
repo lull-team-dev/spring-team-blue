@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>フォロー一覧</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+  <div th:replace="fragments/header_user :: header"></div>
+
+  <h3 th:text="${account.nickname} + 'さんのフォロー一覧'">フォロー中</h3>
+  <ul>
+    <li th:each="follow : ${following}">
+      <a th:href="@{'/mypage/user/' + ${follow.followed.id} + '/detail'}"
+         th:text="${follow.followed.name}">ユーザー名</a>
+    </li>
+  </ul>
+
+  <th:block th:if="${@myAccount.id != account.id}">
+  	<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
+  </th:block>
+  <th:block th:if="${@myAccount.id == account.id}">
+  	<a th:href="@{/mypage}">← マイページに戻る</a>
+  </th:block>
+</body>
+</html>

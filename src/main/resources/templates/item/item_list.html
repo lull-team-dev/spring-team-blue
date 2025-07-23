@@ -1,35 +1,183 @@
+<!-- templates/item/item_list.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>商品一覧</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
-	<head>
-		<title>商品一覧</title>
-		<link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
-	</head>
+  <body class="pt-[100px]">
+    <style>
+      .fade-in-up {
+        opacity: 0;
+        transform: translateY(1.5rem);
+        transition: all 0.7s ease-out;
+      }
+      .fade-in-up-active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
+    <!-- ヘッダー -->
+    <div th:replace="fragments/header_search :: header"></div>
 
-	<body>
-		<div th:replace="fragments/header_search :: header"></div>
-		<div>
-			<h2>商品一覧</h2>
-			<nav>
-				<a href="/items">全商品</a>
-				<a th:each="c:${categories}" th:href="@{'/items?categoryId=' + ${c.id}}">
-					<span th:text="${c.name}" style="padding-left: 10px;"></span>
-				</a>
-			</nav>
-			<div th:each="item : ${items}">
-				<div style="margin-bottom: 20px;">
-					<a th:href="@{'/items/' + ${item.id} + '/detail'}">
-						<img th:if="${item.image != null}" th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"
-							width="200">
+    <!-- ナビゲーション -->
 
-					</a>
-					<p th:text="${item.name}">商品名</p>
-					<p th:text="${item.price} + '円'">価格</p>
-				</div>
-			</div>
+    <nav
+      class="relative border-b-[5px] border-[#ccc] bg-[#FFFDDA] text-[var(--text-items)] mt-6"
+    >
+      <ul
+        class="absolute left-[10%] w-[80%] table table-fixed m-0 p-0 text-center"
+      >
+        <!-- 全てカテゴリ -->
+        <li
+          class="table-cell"
+          th:classappend="${selectedCategoryId == null} ?
+          ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' :
+          ' hover:border-t-[5px] hover:border-[#006a6c]'"
+        >
+          <a
+            th:href="@{/items}"
+            class="block w-full h-full py-[10px] transition-colors"
+            th:classappend="${selectedCategoryId == null} ?
+           ' text-[#0068b7] hover:text-[#ee7800] hover:bg-[#ffedab]' :
+           ' hover:text-[#006a6c] hover:bg-[#d1f5ff]'"
+          >
+            全て
+          </a>
+        </li>
 
+        <!-- 各カテゴリー -->
+        <li
+          class="table-cell"
+          th:each="c : ${categories}"
+          th:classappend="${selectedCategoryId == c.id} ?
+          ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' :
+          ' hover:border-t-[5px] hover:border-[#006a6c]'"
+        >
+          <a
+            th:href="@{'/items?categoryId=' + ${c.id}}"
+            class="block w-full h-full py-[10px] transition-colors"
+            th:classappend="${selectedCategoryId == c.id} ?
+           ' text-[#0068b7] hover:text-[#ee7800] hover:bg-[#ffedab]' :
+           ' hover:text-[#006a6c] hover:bg-[#d1f5ff]'"
+            th:text="${c.name}"
+          >
+            カテゴリー
+          </a>
+        </li>
+      </ul>
+    </nav>
 
-		</div>
-	</body>
+    <!-- 商品一覧 -->
+    <main
+      class="mt-20 py-6 grid grid-cols-3 gap-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8"
+    >
+      <div
+        th:each="item : ${items}"
+        class="relative item-card fade-in-up rounded-[33px] overflow-hidden group block transition transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-105 hover:z-10"
+      >
+        <!-- 商品画像 -->
+        <a th:href="@{'/items/' + ${item.id} + '/detail'}">
+          <!-- <img
+            th:if="${item.image != null}"
+            th:src="@{'/images/items/' + ${item.image}}"
+            alt="商品画像"
+            class="w-full"
+          /> -->
+          <img
+            th:if="${item.image != null}"
+            th:src="@{/images/items/dryflower_wreath.png}"
+            alt="商品画像"
+            class="w-full"
+          />
 
+          <!-- 値段 -->
+          <div
+            class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent"
+          >
+            <span th:text="${item.name}"></span>
+            <span th:text="${item.price} + '円'">¥0</span>
+          </div>
+
+          <!-- ホバー時「商品詳細へ →」 -->
+          <div
+            class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          >
+            商品詳細へ →
+          </div>
+        </a>
+
+        <!-- お気に入りボタン -->
+        <button
+          class="absolute top-3 right-3 text-2xl bookmark-btn z-10"
+          th:attr="data-item-id=${item.id}"
+          aria-label="お気に入りに追加または解除"
+        >
+          <span
+            class="text-red-500"
+            th:if="${bookmarkedItemIds != null and #lists.contains(bookmarkedItemIds, item.id)}"
+            >♥</span
+          >
+          <span
+            th:if="${bookmarkedItemIds == null or !#lists.contains(bookmarkedItemIds, item.id)}"
+            >♡</span
+          >
+        </button>
+      </div>
+    </main>
+
+    <!-- お気に入り切り替えスクリプト -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".bookmark-btn").forEach((btn) => {
+          btn.addEventListener("click", async (e) => {
+            const itemId = btn.getAttribute("data-item-id");
+            const response = await fetch("/bookmarks/toggle-ajax", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+              body: `itemId=${itemId}`,
+            });
+            btn.disabled = true;
+            const result = await response.text();
+            btn.disabled = false;
+            if (result === "unauthenticated") {
+              alert("お気に入り機能を利用するには、ログインしてください");
+              return;
+            }
+            const iconSpan = btn.querySelector("span");
+            if (result === "bookmarked") {
+              iconSpan.textContent = "♥";
+              iconSpan.classList.add("text-red-500");
+            } else {
+              iconSpan.textContent = "♡";
+              iconSpan.classList.remove("text-red-500");
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("fade-in-up-active");
+                observer.unobserve(entry.target); // 一度だけアニメーション
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
+
+        document.querySelectorAll(".item-card").forEach((el) => {
+          observer.observe(el);
+        });
+      });
+    </script>
+  </body>
 </html>

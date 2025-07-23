@@ -1,23 +1,278 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Insert title here</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+  <body>
+    <div th:replace="fragments/header_user :: header"></div>
+    <div
+      class="min-h-screen bg-[var(--top-color)] flex items-center justify-center"
+    >
+      <div
+        class="bg-[var(--bg-form)] rounded-3xl px-10 py-8 w-[340px] shadow-md"
+      >
+        <h2 class="text-center text-xl font-semibold text-[#1976d2] mb-6">
+          配送情報の入力
+        </h2>
+        <form
+          method="post"
+          action="/order/confirm"
+          class="space-y-4 text-sm text-gray-700"
+        >
+          <div class="flex mt-8 items-center relative space-x-2">
+            <span
+              th:if="${zipMessage}"
+              th:text="${zipMessage}"
+              class="block absolute whitespace-nowrap left-1/2 -translate-x-1/2 -top-6 text-red-500 text-xs"
+            ></span>
+            <label class="" for="zip1"
+              >郵便番号<span class="text-red-500">*</span></label
+            >
+            <input
+              type="text"
+              id="zip1"
+              name="zip1"
+              class="w-16 h-9 border ml-4 rounded-[66px] border-[var(--main-color)] placeholder-gray-400 text-center"
+              maxlength="3"
+              placeholder="123"
+            />
+            <span>-</span>
+            <input
+              type="text"
+              name="zip2"
+              class="w-16 border h-9 rounded-2xl border-[var(--main-color)] placeholder-gray-400 text-center"
+              maxlength="4"
+              placeholder="4567"
+            />
+            <button
+              type="button"
+              class="px-3 h-9 ml-2 border rounded-2xl bg-[#baeeff] border-[var(--main-color)] text-[var(--main-color)] cursor-pointer text-sm"
+              id="searchBtn"
+            >
+              検索
+            </button>
+          </div>
+          <div class="form-group mt-4">
+            <input
+              id="prefecture"
+              type="text"
+              name="prefecture"
+              th:value="${account.prefecture}"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="prefecture" class="form-label">
+              都道府県<span class="text-red-500">*</span>
+            </label>
+          </div>
 
-	<body>
-		<h2>配送情報の入力</h2>
-		<form method="post" action="/order/confirm">
-			<label>郵便番号</label><input type="text" name="postal_code"><br>
-			<label>住所</label><input type="text" name="address"><br>
-			<label>支払い方法</label>
-			<select name="payment_method">
-				<option value="credit">クレジットカード</option>
-				<option value="cod">代金引換</option>
-			</select><br>
-			<button type="submit">確認画面へ</button>
-		</form>
-	</body>
+          <!-- 市区町村 -->
+          <div class="form-group mt-4">
+            <input
+              id="city"
+              type="text"
+              name="city"
+              th:value="${account.city}"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="city" class="form-label">
+              市区町村<span class="text-red-500">*</span>
+            </label>
+          </div>
 
+          <!-- 町域・番地 -->
+          <div class="form-group mt-4">
+            <input
+              id="town"
+              type="text"
+              name="town"
+              th:value="${account.town}"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="town" class="form-label">
+              町域・番地<span class="text-red-500">*</span>
+            </label>
+          </div>
+
+          <!-- 建物名 -->
+          <div class="form-group mt-4">
+            <input
+              id="building"
+              type="text"
+              name="building"
+              th:value="${account.building}"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="building" class="form-label"> 建物名など </label>
+          </div>
+
+          <!-- 支払い方法 -->
+          <div class="form-group mt-4">
+            <label for="payment_method" class="form-label">支払い方法</label>
+            <select
+              id="payment_method"
+              name="payment_method"
+              class="peer form-input"
+            >
+              <option value="クレジット">クレジットカード</option>
+              <option value="代金引換">代金引換</option>
+            </select>
+          </div>
+
+          <!-- 電話 -->
+          <div class="form-group mt-4">
+            <input
+              id="tel"
+              type="text"
+              name="tel"
+              th:value="${account.tel}"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="tel" class="form-label">電話番号</label>
+          </div>
+
+          <!-- メール -->
+          <div class="form-group mt-4">
+            <input
+              id="email"
+              type="text"
+              name="email"
+              th:value="${account.email}"
+              placeholder=" "
+              class="peer form-input"
+            />
+            <label for="email" class="form-label">メールアドレス</label>
+          </div>
+
+          <!-- 隠し項目 -->
+          <input type="hidden" name="item_id" th:value="${item.id}" />
+          <input type="hidden" name="address" id="addressHidden" />
+
+          <!-- ボタン -->
+          <button
+            type="submit"
+            class="w-full mt-6 py-2 rounded-lg bg-[#1976d2] text-white font-semibold hover:bg-[#1565c0]"
+          >
+            登録
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="absolute bottom-0 z-0 w-full overflow-hidden">
+      <svg
+        class="w-full h-[120px]"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 24 150 28"
+        preserveAspectRatio="none"
+        shape-rendering="auto"
+      >
+        <defs>
+          <path
+            id="gentle-wave"
+            d="M-160 44c30 0 58-18 88-18s 58 18 88 18 
+           58-18 88-18 58 18 88 18 v44h-352z"
+          />
+        </defs>
+        <g class="wave-parallax">
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="0"
+            fill="rgba(59,154,186,0.4)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="3"
+            fill="rgba(59,154,186,0.25)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="5"
+            fill="rgba(59,154,186,0.15)"
+          />
+          <use
+            xlink:href="#gentle-wave"
+            x="48"
+            y="7"
+            fill="rgba(59,154,186,0.3)"
+          />
+        </g>
+      </svg>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const searchBtn = document.getElementById("searchBtn");
+        const zip1 = document.querySelector('input[name="zip1"]');
+        const zip2 = document.querySelector('input[name="zip2"]');
+
+        const pref = document.querySelector('input[name="prefecture"]');
+        const city = document.querySelector('input[name="city"]');
+        const town = document.querySelector('input[name="town"]');
+
+        searchBtn.addEventListener("click", async () => {
+          const zipcode = zip1.value + zip2.value;
+
+          if (!/^\d{7}$/.test(zipcode)) {
+            alert("郵便番号は7桁の数字で入力してください");
+            return;
+          }
+
+          try {
+            const res = await fetch(
+              `https://zipcloud.ibsnet.co.jp/api/search?zipcode=${zipcode}`
+            );
+            const data = await res.json();
+
+            if (data.results) {
+              const result = data.results[0];
+              pref.value = result.address1; // 都道府県
+              city.value = result.address2; // 市区町村
+
+              [pref, city, town].forEach((input) => {
+                input.classList.add("filled"); // 入力値があるから filled クラスをつける
+              });
+            } else {
+              alert("該当する住所が見つかりませんでした");
+            }
+          } catch (err) {
+            alert("通信エラーが発生しました");
+            console.error(err);
+          }
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.querySelector("form");
+        const addressHidden = document.getElementById("addressHidden");
+
+        form.addEventListener("submit", () => {
+          const pref = document.querySelector('input[name="prefecture"]').value;
+          const city = document.querySelector('input[name="city"]').value;
+          const town = document.querySelector('input[name="town"]').value;
+          const building = document.querySelector(
+            'input[name="building"]'
+          ).value;
+
+          const address = [pref, city, town, building]
+            .filter(Boolean)
+            .join(" ");
+          addressHidden.value = address;
+        });
+      });
+    </script>
+  </body>
 </html>

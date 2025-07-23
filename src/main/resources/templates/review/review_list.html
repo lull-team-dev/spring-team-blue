@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>レビュー一覧</title>
+</head>
+<body>
+  <h1 class="font-bold">レビュー</h1>
+  <div th:each="review : ${myReview}">
+	<p th:text="${review.reviewer.nickname} + 'さん'"></p> <span th:text="'評価：' + ${review.score}"></span>
+	<p th:text="${review.reviewText}"></p>
+  </div>
+</body>
+</html>

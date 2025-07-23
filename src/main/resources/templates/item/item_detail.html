@@ -1,31 +1,96 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+<head>
+  <meta charset="UTF-8">
+  <title>Insert title here</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
 
-	<body>
-		<div th:replace="fragments/header_user :: header"></div>
+<body class="pt-[100px]">
+  <div th:replace="fragments/header_user :: header"></div>
 
-		<main>
-			<div>
-				
-				<p><img th:src="@{'/images/items/' + ${item.image}}" alt="商品画像"></p>
-				<p>価格:<span th:text="${item.price}"></span></p>
-			</div>
+  <main class="min-h-screen bg-[#FFFDDA] py-10 px-6">
+    <div class="max-w-4xl mx-auto rounded-2xl p-6 flex   gap-6">
+      <!-- 商品画像 -->
+      <div class="flex-shrink-0">
+        <div>
+          <!-- 画像あり -->
+          <img
+            th:if="${item.image != null}"
+            th:src="@{/images/items/1645F98C-8D48-44EF-916F-90C5E61389CE.png}"
+            alt="商品画像"
+            class="w-[500px] h-[500px] shadow-2xl object-cover rounded-xl"
+          />
 
-			<div>
-				<p>出品者:<span th:text="${item.account.name}"></span> <a href="/user/1/detail">出品者プロフィールを見る</a></p>
-				<p>商品名:<span th:text="${item.name}"></span></p>
-				<p>商品詳細:<br><span th:text="${item.memo}"></span></p>
-				
-			</div>
-			
-				<a href="/order">購入する</a>
-				<a href="/item/item_list">← 一覧へ</a>
-		</main>
-	</body>
+          <!-- 画像なし -->
+          <img
+            th:if="${item.image == null}"
+            th:src="@{/images/items/1645F98C-8D48-44EF-916F-90C5E61389CE.png}"
+            alt="画像なし"
+            class="w-[250px] h-[250px] object-cover rounded-xl border"
+          />
+        </div>
+        <p class="mt-4 text-center text-xl text-[#6b4e35] font-bold">
+          ¥<span th:text="${item.price}"></span>
+        </p>
+      </div>
+
+      <!-- 商品情報 -->
+      <div class="flex-1 flex flex-col border-4 border-[#FFFDDA] bg-[#ffffff] shadow-2xs justify-between">
+        <div>
+          <p class="text-sm text-gray-600 mb-2">投稿者：<span th:text="${item.account.nickname}"></span></p>
+          <p class="text-lg font-semibold mb-2">商品名：<span th:text="${item.name}"></span></p>
+          <p class="text-gray-700 whitespace-pre-wrap">商品紹介：<br><span th:text="${item.memo}"></span></p>
+        </div>
+
+        <!-- 出品者リンク -->
+        <div class="mt-4">
+          <a
+            th:if="${@myAccount.id != item.account.id}"
+            th:href="@{/mypage/user/{id}/detail(id=${item.account.id})}"
+            class="text-sm text-blue-600 hover:underline"
+          >出品者プロフィールを見る</a>
+          <a
+            th:if="${@myAccount.id == item.account.id}"
+            th:href="@{/mypage}"
+            class="text-sm text-blue-600 hover:underline"
+          >マイページ</a>
+        </div>
+
+        <!-- ボタン -->
+        <div class="mt-6 flex gap-4">
+          <th:block th:if="${@myAccount.id != item.account.id}">
+            <form th:action="@{/order/{itemId}(itemId=${item.id})}" method="get">
+              <button
+                th:disabled="${item.soldOut}"
+                th:title="${item.soldOut ? '売り切れのため購入できません' : ''}"
+                class="px-6 py-2 rounded-full text-white font-semibold transition-colors"
+                th:classappend="${item.soldOut} ? ' bg-gray-400 cursor-not-allowed' : ' bg-pink-400 hover:bg-pink-500'">
+                <span th:text="${item.soldOut ? '売り切れ' : '購入する'}"></span>
+              </button>
+            </form>
+            <form th:action="@{/chat}" method="post">
+              <input type="hidden" name="itemId" th:value="${item.id}">
+              <input type="hidden" name="ownerId" th:value="${item.account.id}">
+              <button
+                class="px-6 py-2 rounded-full bg-[#f8f4e6] text-[#6b4e35] font-semibold border border-[#6b4e35] hover:bg-[#f0ebda]">
+                チャットを始める
+              </button>
+            </form>
+          </th:block>
+
+          <th:block th:if="${@myAccount.id == item.account.id}">
+            <a th:href="@{'/items/' + ${item.id} + '/edit'}" class="text-sm text-blue-600 hover:underline">編集する</a>
+          </th:block>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 text-center">
+      <a href="/" class="text-sm text-gray-500 hover:underline">一覧へ</a>
+    </div>
+  </main>
+</body>
 
 </html>

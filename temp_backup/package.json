@@ -1,0 +1,30 @@
+{
+  "name": "spring-team-blue",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "postcss src/main/resources/static/css/input.css -o src/main/resources/static/css/styles.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lull-team-dev/spring-team-blue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/lull-team-dev/spring-team-blue/issues"
+  },
+  "homepage": "https://github.com/lull-team-dev/spring-team-blue#readme",
+  "dependencies": {
+    "@tailwindcss/postcss": "^4.1.8",
+    "tailwindcss": "^4.1.8",
+    "tailwindcss-motion": "^1.1.1"
+  },
+  "devDependencies": {
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1"
+  }
+}

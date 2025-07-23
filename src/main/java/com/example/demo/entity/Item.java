@@ -2,13 +2,13 @@ package com.example.demo.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "items")
@@ -16,34 +16,53 @@ public class Item {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id; // 商品ID
+	private Long id;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "user_id", nullable = false) // ユーザー（出品者）を参照
+	@ManyToOne
+	@JoinColumn(name = "user_Id", nullable = false)
 	private Account account;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "category_id", nullable = false) // カテゴリーを参照
+	@ManyToOne
+	@JoinColumn(name = "category_id", nullable = false)
 	private Category category;
 
 	@Column(nullable = false)
-	private String name; // 商品名
+	private String name;
 
 	@Column(nullable = false)
-	private String image; // 画像ファイル名
+	private String image;
 
 	@Column(nullable = false)
-	private String memo; // 商品説明
+	private String memo;
 
 	@Column(nullable = false)
-	private Integer price; // 価格
+	private Integer price;
 
 	@Column(name = "sold_out", nullable = false)
-	private Boolean soldOut; // 売り切れかどうか
+	private Boolean soldOut;
 
-	// --- Getter & Setter ---
+	// DBに保存しない一時的な変数
+	@Transient
+	private boolean bookmarked;
 
-	public Integer getId() {
+	public Item() {
+	}
+
+	public Item(Long id, Account account, Category category, String name, String image, String memo, Integer price,
+			Boolean soldOut) {
+		super();
+		this.id = id;
+		this.account = account;
+		this.category = category;
+		this.name = name;
+		this.image = image;
+		this.memo = memo;
+		this.price = price;
+		this.soldOut = soldOut;
+	}
+
+	// getter
+	public Long getId() {
 		return id;
 	}
 
@@ -75,7 +94,17 @@ public class Item {
 		return soldOut;
 	}
 
-	public void setId(Integer id) {
+	// boolean の getter（テンプレートエンジンなどで使用される形式）
+	public boolean isSoldOut() {
+		return Boolean.TRUE.equals(this.soldOut);
+	}
+
+	public boolean isBookmarked() {
+		return bookmarked;
+	}
+
+	// setter
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -105,5 +134,9 @@ public class Item {
 
 	public void setSoldOut(Boolean soldOut) {
 		this.soldOut = soldOut;
+	}
+
+	public void setBookmarked(boolean bookmarked) {
+		this.bookmarked = bookmarked;
 	}
 }

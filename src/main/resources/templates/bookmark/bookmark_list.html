@@ -1,0 +1,97 @@
+<!-- templates/bookmark/bookmark_list.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<title>お気に入り一覧</title>
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+
+<body>
+
+	<div class="text-center">
+		<h3 class="font-bold">お気に入りリスト</h3>
+
+			<!-- お気に入りが空の場合の表示 -->
+			<div class="flex justify-center " th:if="${bookmarks.isEmpty()}">
+				<img class="w-5 mr-[3px] " th:src="@{/images/content/attention.svg}">
+				<p class="text-red content-center"> お気に入りに登録された商品はありません。</p>
+			</div>
+		<div class="flex justify-center px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
+
+			<!-- お気に入りの商品を一覧で表示 -->
+			<div th:if="${!bookmarks.isEmpty()}" th:each="bookmark : ${bookmarks}"
+				class="relative rounded-[33px] overflow-hidden group block">
+
+				<!-- 商品画像 -->
+				<a th:href="@{'/items/' + ${bookmark.item.id} + '/detail'}">
+					<img th:if="${bookmark.item.image != null}" th:src="@{'/images/items/' + '革のキーケース.png'}" alt="商品画像"
+						class="w-full">
+					<!-- th:src="@{'/images/items/' + ${bookmark.item.image}}"-->
+
+					<!-- 値段 -->
+					<div
+						class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent">
+						<p th:text="${bookmark.item.name}">商品名</p>
+						<p th:text="${bookmark.item.price + '円'}">価格</p>
+					</div>
+
+
+					<!-- ホバー時「商品詳細へ →」 -->
+					<div
+						class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+						商品詳細へ →
+					</div>
+				</a>
+
+
+				<!-- お気に入り解除ボタン（Ajax連携用） -->
+				<button class="absolute top-3 right-3 text-2xl bookmark-btn z-10"
+					th:attr="data-item-id=${bookmark.item.id}" aria-label="お気に入りに追加または解除">
+					<span class="text-red-500">
+						♥
+					</span>
+				</button>
+			</div>
+		</div>
+
+	</div>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelectorAll('.bookmark-remove-btn').forEach(btn => {
+				btn.addEventListener('click', async () => {
+					const itemId = btn.getAttribute('data-item-id');
+
+					// Ajaxでブックマーク解除リクエストを送信
+					const response = await fetch('/bookmarks/toggle-ajax', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						body: `itemId=${itemId}`
+					});
+
+					const result = await response.text();
+
+					if (result === 'unauthenticated') {
+						alert('ログインしてください');
+						return;
+					}
+
+					// 解除に成功したら、その商品ブロックをDOMから削除
+					const itemBlock = btn.closest('div[style]');
+					itemBlock.remove();
+
+					// お気に入りが全て解除されて空になったらメッセージを表示
+					const container = document.querySelector('.item-link');
+					if (container.children.length === 1) {
+						container.innerHTML = '<p>お気に入りに登録された商品はありません。</p>';
+					}
+				});
+			});
+		});
+	</script>
+</body>
+
+</html>

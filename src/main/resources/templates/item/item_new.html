@@ -3,17 +3,49 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>出品</title>
 	</head>
 
 	<body>
 		<h2>商品登録フォーム</h2>
-		<form method="post" action="/items/submit">
+		<form method="post" action="/items/submit" enctype="multipart/form-data">
 			<label>商品名</label><input type="text" name="item_name"><br>
 			<label>価格</label><input type="number" name="price"><br>
-			<label>画像URL</label><input type="text" name="item_img"><br>
+			<label>画像アップロード</label><input type="file" id="imageFile" name="image_file" accept="image/*"><br> 
+			<img id="preview" src="#" alt="プレビュー画像" style="display:none; max-width: 200px; max-height: 200px;">
+			<label>商品説明</label><input
+				type="text" name="memo"><br>
+			<label>カテゴリー</label>
+			<select name="category_id">
+				<option value="1">アクセサリー</option>
+				<option value="2">バッグ・財布</option>
+				<option value="3">雑貨</option>
+				<option value="4">キッズ</option>
+				<option value="5">その他</option>
+			</select><br>
 			<button type="submit">登録する</button>
 		</form>
+		
+		<a th:href="@{/mypage}">← マイページに戻る</a>
+		<script>
+		    const imageFile = document.getElementById('imageFile');
+		    const preview = document.getElementById('preview');
+
+		    imageFile.addEventListener('change', function(e) {
+		      const file = e.target.files[0];
+		      if (file) {
+		        const reader = new FileReader();
+		        reader.onload = function(e) {
+		          preview.src = e.target.result;
+		          preview.style.display = 'block';
+		        }
+		        reader.readAsDataURL(file);
+		      } else {
+		        preview.src = '#';
+		        preview.style.display = 'none';
+		      }
+		    });
+		  </script>
 	</body>
 
 </html>

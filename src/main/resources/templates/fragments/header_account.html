@@ -1,10 +1,46 @@
-<div th:fragment="header">
-  <header>
-	ログイン画面・新規登録・マイページ用ヘッダー
-    <nav>
-      <a href="/">トップ</a>
-      <a href="/login">ログイン</a>
-      <a href="/register">新規登録</a>
-    </nav>
-  </header>
-</div>
+<header
+  class="fixed top-0 left-0 w-full z-50 h-[100px] bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)] px-8 py-3 flex justify-between items-center"
+>
+  <!-- 左：ロゴ -->
+
+  <a th:href="@{/}" class="w-1/7">
+    <img th:src="@{/images/content/logo.png}" alt="MadeForUロゴ" />
+  </a>
+
+
+  <!-- 右：ユーザー関連 -->
+
+        <!--  通知とログアウト-->
+        <div class="flex items-center space-x-4 ml-4">
+          <a class="block group" th:href="@{/account/logout}">
+            <img
+              title="ログアウト"
+              class="opacity-60 w-10 transition-transform duration-200 ease-in-out group-hover:animate-bounce"
+              src="/images/content/logout.png"
+            />
+          </a>
+
+          <details class="group">
+            <summary
+              class="list-none group-hover:animate-bounce cursor-pointer"
+            >
+              <img title="通知" class="w-10" src="/images/content/bell.png" />
+            </summary>
+            <ul
+              class="bg-white list-none"
+              th:if="${unreadChats}"
+              th:each="chat : ${unreadChats}"
+            >
+              <li>
+                <a
+                  th:href="@{'/chat?chatId=' + ${chat.id}}"
+                  th:text="${chat.item.name} + 'に新規メッセージ'"
+                ></a>
+              </li>
+            </ul>
+          </details>
+        </div>
+      </th:block>
+    </div>
+  </div>
+</header>
