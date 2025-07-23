@@ -1,51 +1,125 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
-	<head>
-		<meta charset="UTF-8">
-		<title>出品</title>
-	</head>
-
-	<body>
-		<h2>商品登録フォーム</h2>
-		<form method="post" action="/items/submit" enctype="multipart/form-data">
-			<label>商品名</label><input type="text" name="item_name"><br>
-			<label>価格</label><input type="number" name="price"><br>
-			<label>画像アップロード</label><input type="file" id="imageFile" name="image_file" accept="image/*"><br> 
-			<img id="preview" src="#" alt="プレビュー画像" style="display:none; max-width: 200px; max-height: 200px;">
-			<label>商品説明</label><input
-				type="text" name="memo"><br>
-			<label>カテゴリー</label>
-			<select name="category_id">
-				<option value="1">アクセサリー</option>
-				<option value="2">バッグ・財布</option>
-				<option value="3">雑貨</option>
-				<option value="4">キッズ</option>
-				<option value="5">その他</option>
-			</select><br>
-			<button type="submit">登録する</button>
-		</form>
-		
-		<a th:href="@{/mypage}">← マイページに戻る</a>
-		<script>
-		    const imageFile = document.getElementById('imageFile');
-		    const preview = document.getElementById('preview');
-
-		    imageFile.addEventListener('change', function(e) {
-		      const file = e.target.files[0];
-		      if (file) {
-		        const reader = new FileReader();
-		        reader.onload = function(e) {
-		          preview.src = e.target.result;
-		          preview.style.display = 'block';
-		        }
-		        reader.readAsDataURL(file);
-		      } else {
-		        preview.src = '#';
-		        preview.style.display = 'none';
-		      }
-		    });
-		  </script>
-	</body>
-
+  <head>
+    <meta charset="UTF-8" />
+    <title th:text="'商品登録 - 新規'">商品登録</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+  <body class="pt-[100px] bg-[var(--main-bg-color)] min-h-screen font-serifjp">
+    <div th:replace="fragments/header_user :: header"></div>
+    <main class="max-w-3xl mt-10 mx-auto px-6 py-10">
+      <div
+        class="bg-white shadow-[0_0_8px_rgba(221,179,142,0.5)] border border-[#eddccc] rounded-3xl p-10 space-y-6"
+      >
+        <h2 class="text-2xl font-bold text-center mb-6">商品登録</h2>
+        <form
+          method="post"
+          action="/items/submit"
+          enctype="multipart/form-data"
+          class="space-y-6"
+        >
+          <div>
+            <label for="item_name" class="block font-semibold mb-2"
+              >商品名</label
+            >
+            <input
+              type="text"
+              id="item_name"
+              name="item_name"
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              required
+            />
+          </div>
+          <div>
+            <label for="price" class="block font-semibold mb-2">価格</label>
+            <input
+              type="number"
+              id="price"
+              name="price"
+              class="w-full p-3 border rounded-md focus:ring-indigo-500 hover:border-gray-400 transition"
+              required
+            />
+          </div>
+          <div>
+            <label for="imageFile" class="block font-semibold mb-2"
+              >画像アップロード</label
+            >
+            <input
+              type="file"
+              id="imageFile"
+              name="image_file"
+              accept="image/*"
+              class="block w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[var(--main-color)] file:text-white hover:file:bg-indigo-500 cursor-pointer"
+            />
+            <div class="mt-4 text-center">
+              <img
+                id="preview"
+                alt="プレビュー画像"
+                class="hidden mx-auto max-w-[200px] max-h-[200px] rounded-md border"
+              />
+            </div>
+          </div>
+          <div>
+            <label for="memo" class="block font-semibold mb-2">商品説明</label>
+            <textarea
+              id="memo"
+              name="memo"
+              rows="4"
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus: focus:ring-indigo-500"
+              required
+            ></textarea>
+          </div>
+          <div>
+            <label for="category_id" class="block font-semibold mb-2"
+              >カテゴリー</label
+            >
+            <select
+              id="category_id"
+              name="category_id"
+              class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              required
+            >
+              <option value="1">アクセサリー</option>
+              <option value="2">バッグ・財布</option>
+              <option value="3">雑貨</option>
+              <option value="4">キッズ</option>
+              <option value="5">その他</option>
+            </select>
+          </div>
+          <div class="text-center">
+            <button type="submit" class="px-8 py-3 primary-button">
+              登録する
+            </button>
+          </div>
+        </form>
+        <div class="text-center mt-6">
+          <a th:href="@{/mypage}" class="text-sm text-gray-500 hover:underline">
+            ← マイページに戻る
+          </a>
+        </div>
+      </div>
+    </main>
+    <script>
+      const imageFile = document.getElementById("imageFile");
+      const preview = document.getElementById("preview");
+      let originalSrc = "";
+      imageFile &&
+        imageFile.addEventListener("change", function (e) {
+          const file = e.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              preview.src = e.target.result;
+              preview.classList.remove("hidden");
+            };
+            reader.readAsDataURL(file);
+          } else {
+            preview.src = originalSrc;
+            if (!originalSrc) {
+              preview.classList.add("hidden");
+            }
+          }
+        });
+    </script>
+  </body>
 </html>

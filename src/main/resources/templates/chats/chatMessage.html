@@ -14,13 +14,10 @@
 
 <body class="min-h-screen bg-[#fffcd8]">
 
-	<header class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 flex justify-between items-center">
-		<h1 class="w-[358px] mx-auto">
-			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
-		</h1>
-	</header>
+	  <div th:replace="fragments/header_user :: header"></div>
 
-	<main class="max-w-4xl mx-auto p-8">
+
+	<main class="max-w-4xl mx-auto pt-50">
 
 		<!-- チャット参加者情報 -->
 		<div class="mb-8 p-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm">

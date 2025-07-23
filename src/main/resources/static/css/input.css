@@ -4,16 +4,55 @@
 
 :root {
   --main-color: #3b9aba;/* ボタンの色など */
-  --header-bg-color:#82cddd;/* ヘッダー背景 */
+  --header-bg-color:#FFFDDA;/* ヘッダー背景 */
   --main-bg-color:#FFFDDA; /* 基本の背景色 */
   /* --main-bg-color:#FFFF;  */
   /* --main-bg-color:#82cddd;  */
-  --top-color:#d1f5ff;/* ログイン関連の背景 */
+  --top-color:#FFFDDA;/* ログイン関連の背景 */
   --bg-form: #edfffe;  /* フォームの背景色      */
   --text-color: #828484;
   --text-items: #7c6254;
 }
 
+
+/* カスタム色をお好みで */
+.logout-icon {
+  --door-frame: #000000;
+  --door-panel: #000000;
+  --door-knob: #ffffff;
+  --arrow: #000000;
+}
+
+/* 基本スタイル */
+.logout-icon .door-frame {
+  fill: var(--door-frame);
+}
+.logout-icon .door-panel {
+  fill: var(--door-panel);
+  transition: transform 0.25s ease;
+  transform-origin: left center;
+  transform-box: fill-box; /* SVGでtransform-originが効きやすくなる */
+}
+.logout-icon .door-knob {
+  fill: var(--door-knob);
+}
+.logout-icon .logout-arrow path {
+  stroke: var(--arrow);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* ホバーでドアが開く（Y軸回転／3D風） */
+.logout-icon:hover .door-panel,
+.logout-icon:focus-visible .door-panel,
+.logout-icon.group:hover .door-panel {
+  transform: perspective(200px) rotateY(-70deg);
+}
+
+/* 3D回転が微妙なブラウザ用にフォールバック（任意） */
+/* .logout-icon:hover .door-panel { transform: scaleX(0.15) translateX(-2px); } */
 
 @layer base {
   html {

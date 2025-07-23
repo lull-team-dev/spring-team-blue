@@ -7,13 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
   </head>
   <body class="min-h-screen relative overflow-y-hidden bg-[var(--top-color)]">
-    <header
-      class="bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)]"
-    >
-      <h1 class="w-[358px] mx-auto">
-        <img th:src="@{/images/content/Frame2.png}" alt="MadeForUロゴ" />
-      </h1>
-    </header>
+    <div th:replace="fragments/header_login :: header"></div>
 
     <main class="pt-15">
       <form
