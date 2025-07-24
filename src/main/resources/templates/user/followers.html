@@ -8,32 +8,23 @@
 	<link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 
-<body class="min-h-screen bg-[#fffcd8]">
+<body class="min-h-screen bg-[var(--main-bg-color)]">
 
-	<header class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 flex justify-between items-center">
-		<h1 class="w-[358px] mx-auto">
-			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
-		</h1>
-		</h1>
-	</header>
+	<div th:replace="fragments/header_user :: header"></div>
 
-	<main>
+	<main class="mt-45">
 
 		<!-- プロフィールの部分 -->
-		<div class="relative p-4 mt-[80px] mb-[60px] bg-[#dfcbaf]">
+		<div class="relative p-4 mt-[80px] mb-[60px] bg-[var(--mainsub-bg-color)]">
 
 			<!-- プロフィールアイコン -->
-			<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+			<img th:src="@{'/images/users/' + ${@myAccount.icon}}" alt="アイコン画像"
 				class="absolute -top-[50%] right-[24%] w-[124px] h-[124px] rounded-full border-2 border-none shadow-[5px_5px_3px_rgba(0,0,0,0.3)]">
-			<h2 class="text-white ml-[10%] tracking-widest text-4xl font-bold">[[${account.nickname}]]さんの</h2>
+			<h2 class=" ml-[10%] tracking-widest text-4xl font-bold">[[${account.nickname}]]さんの</h2>
 			<div class="flex justify-between items-end">
-				<div class="ml-[12%] text-4xl text-white">フォロワー一覧</div>
+				<div class="ml-[12%] text-4xl ">フォロワー一覧</div>
 
-				<div class="w-14 mr-[10%]">
-					<a th:href="@{/mypage/update}">
-						<img src="/images/content/setting.png" alt="設定アイコン" />
-					</a>
-				</div>
+
 			</div>
 		</div>
 
@@ -50,7 +41,7 @@
 					<div class="flex flex-col justify-center">
 						<div class="mb-1">
 							<a th:href="@{'/mypage/user/' + ${follow.follower.id} + '/detail'}"
-								class="text-xl font-bold text-[#6b4f3a] hover:underline">
+								class="text-xl font-bold  hover:underline">
 								[[${follow.follower.name}]]
 							</a>
 						</div>
@@ -60,12 +51,14 @@
 			</div>
 		</div>
 
-		<th:block th:if="${@myAccount.id != account.id}">
-			<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
-		</th:block>
-		<th:block th:if="${@myAccount.id == account.id}">
-			<a th:href="@{/mypage}">← マイページに戻る</a>
-		</th:block>
+		<div class="text-center">
+			<th:block th:if="${@myAccount.id != account.id}">
+				<a th:href="@{/mypage/user/{id}/detail(id=${account.id})}">← 戻る</a>
+			</th:block>
+			<th:block th:if="${@myAccount.id == account.id}">
+				<a th:href="@{/mypage}">← マイページに戻る</a>
+			</th:block>
+		</div>
 
 	</main>
 </body>

@@ -8,16 +8,11 @@
 	<link rel="stylesheet" th:href="@{/css/styles.css}" />
 </head>
 
-<body class="min-h-screen bg-[#fffcd8]">
+<body class="min-h-screen bg-[var(--main-bg-color)]">
 
-	<header class="bg-[linear-gradient(to_bottom,_#86cdd2_90%,_#FFFDDA_100%)] px-8 flex justify-between items-center">
-		<h1 class="w-[358px] mx-auto">
-			<img th:src="@{/img/Frame 2.png}" alt="MadeForUロゴ" />
-		</h1>
-		</h1>
-	</header>
+	<div th:replace="fragments/header_user :: header"></div>
 
-	<main>
+	<main class="mt-[8%]">
 
 		<div class="text-center text-2xl font-bold m-16 text-[var(--main-color)]">
 			<h1 class="text-3xl">レビュー投稿</h1>
@@ -28,10 +23,7 @@
 			<div class="w-4/5 mx-auto border-b border-b-[#d4bfa3] mb-6">
 				<div class="mb-2">
 					<span>レビュー対象:</span>
-					<span class="text-xl font-bold">[[${reviewee.name}]]</span>
-					<span>（ニックネーム:</span>
-					<span class="text-xl">[[${reviewee.nickname}]]</span>
-					<span>）</span>
+					<span class="text-xl">[[${reviewee.nickname}]] さん</span>
 				</div>
 				<div class="mb-6">
 					<span>プロフィール:</span>

@@ -4,11 +4,12 @@
 
 :root {
   --main-color: #3b9aba;/* ボタンの色など */
-  --header-bg-color:#FFFDDA;/* ヘッダー背景 */
-  --main-bg-color:#FFFDDA; /* 基本の背景色 */
-  /* --main-bg-color:#FFFF;  */
+  --header-bg-color:#d1f5ff;/* ヘッダー背景 */
+  --main-bg-color:#d1f5ff; /* 基本の背景色 */
+  --mainsub-bg-color:	#f7f1e4; 
   /* --main-bg-color:#82cddd;  */
-  --top-color:#FFFDDA;/* ログイン関連の背景 */
+ /* --top-color:#FFFDDA;/* ログイン関連の背景 */
+  --top-color:#d1f5ff;/* ログイン関連の背景 */
   --bg-form: #edfffe;  /* フォームの背景色      */
   --text-color: #828484;
   --text-items: #7c6254;
@@ -332,8 +333,3 @@ select.filled + .form-label {
   .fade-in-up-active {
     @apply opacity-100 translate-y-0;
   }
-
-
-
-
-  
