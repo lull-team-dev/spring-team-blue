@@ -12,7 +12,7 @@
 	<script src="/js/chat.js"></script>
 </head>
 
-<body class="min-h-screen bg-[#fffcd8]">
+<body class="min-h-screen bg-[var(--main-bg-color)]">
 
 	  <div th:replace="fragments/header_user :: header"></div>
 
@@ -26,7 +26,7 @@
 				<div class="flex gap-16 justify-center space-x-8">
 					<div class="flex gap-3 items-center text-center">
 						<div>
-							<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+							<img th:src="@{'/images/users/' + ${chat.client.icon}}" alt="アイコン画像"
 								class="w-[80px] h-[80px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
 						</div>
 						<div>
@@ -37,7 +37,7 @@
 					</div>
 					<div class="flex gap-3 items-center text-center">
 						<div>
-							<img th:src="@{/img/1645F98C-8D48-44EF-916F-90C5E61389CE.png}" alt="アイコン画像"
+							<img th:src="@{'/images/users/' + ${chat.owner.icon}}" alt="アイコン画像"
 								class="w-[80px] h-[80px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
 						</div>
 						<div>

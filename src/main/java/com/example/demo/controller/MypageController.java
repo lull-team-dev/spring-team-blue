@@ -1,5 +1,9 @@
 package com.example.demo.controller;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.entity.Account;
 import com.example.demo.entity.Bookmark;
@@ -146,6 +151,7 @@ public class MypageController {
 			@RequestParam(name = "city", defaultValue = "") String city,
 			@RequestParam(name = "town", defaultValue = "") String town,
 			@RequestParam(name = "building", defaultValue = "") String building,
+			@RequestParam(name = "icon", defaultValue = "") MultipartFile icon,
 			Model model) {
 
 		boolean hasError = false;
@@ -209,7 +215,16 @@ public class MypageController {
 
 		// 更新処理
 		Account updateAccount = accountRepository.findById(id).orElse(null);
-		if (updateAccount != null) {
+		try {
+			String imageFilename = input.getIcon(); // デフォルトで既存の画像
+			if (icon != null && !icon.isEmpty()) {
+				String uploadDir = new File("src/main/resources/static/images/items").getAbsolutePath();
+				Files.createDirectories(Paths.get(uploadDir));
+				imageFilename = icon.getOriginalFilename();
+				Path filePath = Paths.get(uploadDir, imageFilename);
+				icon.transferTo(filePath.toFile());
+			}
+			updateAccount.setIcon(imageFilename);
 			updateAccount.setName(name);
 			updateAccount.setNickname(nickname);
 			updateAccount.setPassword(password);
@@ -221,13 +236,19 @@ public class MypageController {
 			updateAccount.setTown(town);
 			updateAccount.setBuilding(building);
 			updateAccount.setZip(zip1 + "-" + zip2);
-			accountRepository.save(updateAccount);
+			myAccount.setIcon(imageFilename);
 
-			myAccount.updateFrom(updateAccount);
-			myAccount.setNickname(nickname);
-			myAccount.setName(name);
-			myAccount.setEmail(email);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "error";
 		}
+
+		accountRepository.save(updateAccount);
+
+		myAccount.updateFrom(updateAccount);
+		myAccount.setNickname(nickname);
+		myAccount.setName(name);
+		myAccount.setEmail(email);
 
 		return "redirect:/mypage";
 	}
