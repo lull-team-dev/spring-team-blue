@@ -12,7 +12,7 @@
       class="min-h-screen bg-[var(--main-bg-color)] flex items-center justify-center"
     >
       <div
-        class="rounded-3xl mt-12 px-10 py-8 w-4/12 bg-[#ffffff] shadow-[0_0_8px_rgba(221,179,142,0.5)] border border-[#eddccc]"
+        class="rounded-3xl mt-12 px-10 py-8 w-4/12 bg-white shadow-[0_0_8px_rgba(221,179,142,0.5)] border border-[#eddccc]"
       >
         <h2 class="text-center text-xl font-semibold mb-6">配送情報の入力</h2>
         <form method="post" action="/order/confirm" class="space-y-4 text-s">
@@ -202,6 +202,8 @@
         </form>
       </div>
     </div>
+
+    <div th:replace="fragments/footer :: footer"></div>
 
     <script>
       document.addEventListener("DOMContentLoaded", () => {

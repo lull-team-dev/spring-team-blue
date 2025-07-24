@@ -11,7 +11,7 @@
   <div th:replace="fragments/header_user :: header"></div>
 
   <main class="min-h-screen py-10 font-serifjp ">
-    <div class="max-w-5xl mx-auto  p-6 flex  mt-25  gap-6">
+    <div class="max-w-5xl mx-auto fade-in-up   p-6 flex  mt-25  gap-6">
       <!-- 商品画像 -->
       <div class="flex-shrink-0 overflow-hidden  relative">
       <div
@@ -118,10 +118,13 @@
 </div>
     </div>
 
-    <div class="mt-6 text-center">
-      <a href="/" class="text-sm font-bold  ">一覧へ</a>
+    <div class="mt-8 text-center">
+      <a href="/" class="text-xl font-bold  ">← 一覧へ</a>
     </div>
   </main>
+
+
+  <div th:replace="fragments/footer :: footer"></div>
 
 
       <!-- お気に入り切り替えスクリプト -->
@@ -156,6 +159,8 @@
         });
       });
     </script>
+
+    <script th:src="@{/js/scroll-animate.js}"></script>
 
 </body>
 

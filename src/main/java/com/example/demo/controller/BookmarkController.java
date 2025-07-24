@@ -39,14 +39,14 @@ public class BookmarkController {
 	@Autowired
 	private MyAccount myAccount;
 
-	//  // ブックマーク一覧画面表示 ←　これはマイページのshowMoreMypage()メソッドで処理してページでそのまま表示させるので不要
-	//  @GetMapping("")
-	//  public String showBookmarks(Model model) {
-	//    Account user = accountRepository.findById(myAccount.getId()).orElseThrow();
-	//    List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
-	//    model.addAttribute("bookmarks", bookmarks);
-	//    return "bookmark/bookmark_list";
-	//  }
+	// // ブックマーク一覧画面表示 ← これはマイページのshowMoreMypage()メソッドで処理してページでそのまま表示させるので不要
+	// @GetMapping("")
+	// public String showBookmarks(Model model) {
+	// Account user = accountRepository.findById(myAccount.getId()).orElseThrow();
+	// List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+	// model.addAttribute("bookmarks", bookmarks);
+	// return "bookmark/bookmark_list";
+	// }
 
 	@PostMapping("/toggle-ajax")
 	@ResponseBody // JSにレスポンスとして直接返す

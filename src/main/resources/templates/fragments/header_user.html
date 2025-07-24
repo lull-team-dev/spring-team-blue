@@ -1,5 +1,5 @@
 <header
-  class="fixed top-0 shadow-xl left-0 w-full z-50 h-[100px] bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)] px-8 py-3 flex justify-between items-center"
+  class="fixed top-0 left-0 w-full z-50 h-[100px] bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)] px-8 py-3 flex justify-between items-center"
 >
   <!-- 左：ロゴ -->
 
@@ -37,7 +37,7 @@
           />
           <p
             class="text-[var(--text-items)] mt-0.5 text-sm"
-            th:text="${session.account.name}"
+            th:text="${session.account.nickname}"
           ></p>
         </a>
 
@@ -51,21 +51,25 @@
             />
           </a>
 
-          <details class="group">
+          <details class="group relative">
+            <!-- 通知アイコン（summary） -->
             <summary
               class="list-none group-hover:animate-bounce cursor-pointer"
             >
               <img title="通知" class="w-10" src="/images/content/bell.png" />
             </summary>
+
+            <!-- 通知リスト（ul） -->
             <ul
-              class="bg-white list-none"
+              class="absolute top-full mt-2 right-0 w-64 bg-white border border-gray-300 rounded-md shadow-md p-4 z-50 hidden group-open:block"
               th:if="${unreadChats}"
               th:each="chat : ${unreadChats}"
             >
-              <li>
+              <li class="mb-2 last:mb-0">
                 <a
                   th:href="@{'/chat?chatId=' + ${chat.id}}"
                   th:text="${chat.item.name} + 'に新規メッセージ'"
+                  class="block text-blue-700 hover:text-blue-900 text-sm underline"
                 ></a>
               </li>
             </ul>

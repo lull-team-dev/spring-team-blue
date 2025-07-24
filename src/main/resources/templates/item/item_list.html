@@ -7,17 +7,6 @@
   </head>
 
   <body class="pt-[100px] min-h-screen bg-[var(--main-bg-color)]">
-    <style>
-      .fade-in-up {
-        opacity: 0;
-        transform: translateY(1.5rem);
-        transition: all 0.7s ease-out;
-      }
-      .fade-in-up-active {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    </style>
     <!-- ヘッダー -->
     <div th:replace="fragments/header_search :: header"></div>
 
@@ -97,10 +86,13 @@
 
           <!-- 値段 -->
           <div
-            class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent"
+            class="absolute bottom-0 text-white w-full text-right pr-4 py-2 font-bold bg-gradient-to-l from-black/36 to-transparent"
           >
-            <span th:text="${item.name}"></span>
-            <span th:text="${item.price} + '円'">¥0</span>
+            <span
+              class="block whitespace-nowrap overflow-hidden text-ellipsis"
+              th:text="${item.name}"
+            ></span>
+            <span class="block" th:text="${item.price} + '円'">¥0</span>
           </div>
 
           <!-- ホバー時「商品詳細へ →」 -->
@@ -130,6 +122,7 @@
       </div>
     </main>
 
+    <div th:replace="fragments/footer :: footer"></div>
     <!-- お気に入り切り替えスクリプト -->
     <script>
       document.addEventListener("DOMContentLoaded", () => {
@@ -162,25 +155,6 @@
         });
       });
     </script>
-
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("fade-in-up-active");
-                observer.unobserve(entry.target); // 一度だけアニメーション
-              }
-            });
-          },
-          { threshold: 0.1 }
-        );
-
-        document.querySelectorAll(".item-card").forEach((el) => {
-          observer.observe(el);
-        });
-      });
-    </script>
+    <script th:src="@{/js/scroll-animate.js}"></script>
   </body>
 </html>

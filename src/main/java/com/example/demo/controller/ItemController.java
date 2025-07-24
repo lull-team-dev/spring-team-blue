@@ -29,6 +29,7 @@ import com.example.demo.repository.AccountRepository;
 import com.example.demo.repository.BookmarkRepository;
 import com.example.demo.repository.CategoryRepository;
 import com.example.demo.repository.ItemRepository;
+import com.example.demo.service.BookmarkService;
 import com.example.demo.service.ChatService;
 import com.example.demo.service.ItemService;
 
@@ -46,6 +47,9 @@ public class ItemController {
 
 	@Autowired
 	AccountRepository accountRepository;
+
+	@Autowired
+	BookmarkService bookmarkService;
 
 	@Autowired
 	MyAccount myAccount;
@@ -189,7 +193,10 @@ public class ItemController {
 	// 商品詳細
 	@GetMapping("/items/{id}/detail")
 	public String showItemDetail(@PathVariable("id") Long id, Model model) {
-		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
+		Item item = itemRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("商品が存在しません"));
+		model.addAttribute("item", item);
+
 		List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
 
 		if (myAccount.getId() != null) {
@@ -204,16 +211,33 @@ public class ItemController {
 		}
 
 		model.addAttribute("unreadChats", unreadChats);
-		model.addAttribute("item", item);
+
+		// ログインユーザーがこの商品をブックマークしているかどうか
+		if (myAccount.getId() != null) {
+			Account loginUser = accountRepository.findById(myAccount.getId()).orElse(null);
+			if (loginUser != null) {
+				boolean isBookmarked = bookmarkService.isBookmarked(loginUser, item);
+				model.addAttribute("isBookmarked", isBookmarked);
+			}
+		}
+
 		return "item/item_detail";
 	}
 
 	@GetMapping("/items/{id}/edit")
 	public String itemEdit(@PathVariable("id") Long id, Model model) {
-		Item item = itemRepository.findById(id).get();
+		Item item = itemRepository.findById(id)
+				.orElseThrow(() -> new IllegalArgumentException("商品が存在しません"));
+
 		List<Category> categories = categoryRepository.findAll();
 		model.addAttribute("item", item);
 		model.addAttribute("categories", categories);
+
+		// ブックマーク情報の追加
+		Account loginUser = accountRepository.findById(myAccount.getId()).orElseThrow();
+		boolean isBookmarked = bookmarkRepository.findByUserAndItem(loginUser, item).isPresent();
+		model.addAttribute("isBookmarked", isBookmarked);
+
 		return "item/item_edit";
 	}
 
@@ -229,7 +253,7 @@ public class ItemController {
 		}
 	}
 
-	//商品編集処理
+	// 商品編集処理
 	@PostMapping("/items/{id}/edit")
 	public String updateItem(
 			@PathVariable("id") Long itemId,

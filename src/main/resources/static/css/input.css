@@ -8,13 +8,19 @@
   --main-bg-color:#d1f5ff; /* 基本の背景色 */
   --mainsub-bg-color:	#f7f1e4; 
   /* --main-bg-color:#82cddd;  */
- /* --top-color:#FFFDDA;/* ログイン関連の背景 */
+  /* --top-color:#FFFDDA;/* ログイン関連の背景 */
   --top-color:#d1f5ff;/* ログイン関連の背景 */
-  --bg-form: #edfffe;  /* フォームの背景色      */
+  --bg-form: #edfffe;  /* フォームの背景色  */
   --text-color: #828484;
   --text-items: #7c6254;
 }
 
+@layer base {
+  html {
+    font-family: 'Noto Serif JP', serif;
+    color: #7C6254;
+  }
+}
 
 /* カスタム色をお好みで */
 .logout-icon {
@@ -55,12 +61,6 @@
 /* 3D回転が微妙なブラウザ用にフォールバック（任意） */
 /* .logout-icon:hover .door-panel { transform: scaleX(0.15) translateX(-2px); } */
 
-@layer base {
-  html {
-    font-family: 'Noto Serif JP', serif;
-    color: #7C6254;
-  }
-}
 
 
 @layer components {
@@ -324,12 +324,26 @@ select.filled + .form-label {
   }
 }
 
-
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(2.5rem) scale(0.62);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
 
 .fade-in-up {
-    @apply opacity-0 translate-y-6 transition duration-700 ease-out;
-  }
+  opacity: 0;
+  transform: translateY(2.5rem) scale(0.52);
+}
 
-  .fade-in-up-active {
-    @apply opacity-100 translate-y-0;
-  }
+.fade-in-up-active {
+  animation: fadeInUp 1.3s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+  animation-delay: var(--fade-delay, 0s);
+}
+
+
+  
