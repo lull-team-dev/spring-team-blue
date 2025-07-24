@@ -1,255 +1,225 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
 
-    <title>マイページ</title>
-    <link rel="stylesheet" href="/css/toggle.css" />
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-  </head>
+<head>
+	<meta charset="UTF-8" />
 
-  <body>
-    <div th:replace="fragments/header_account :: header"></div>
+	<title>マイページ</title>
+	<link rel="stylesheet" href="/css/toggle.css" />
+	<link rel="stylesheet" th:href="@{/css/styles.css}" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
 
-    <main class="min-h-screen pt-35 bg-[var(--main-bg-color)]">
-      <h2 class="text-center tracking-widest text-4xl">MyPage</h2>
-      <!--プロフィール-->
-      <div class="relative w-auto py-6 mt-15 bg-[var(--mainsub-bg-color)]">
-        <div class="absolute -top-1/2 left-1/6">
-          <img
-            th:if="${@myAccount.icon != null}"
-            th:src="@{'/images/users/' + ${@myAccount.icon}}"
-            alt="ユーザー"
-            class="shadow-2xl w-40 mt-2 rounded-full"
-          />
-          <img
-            th:if="${@myAccount.icon == null}"
-            src="/images/users/unknownIcon.svg"
-            alt="ユーザー（デフォルト）"
-            class="shadow-2xl w-40 mt-2 rounded-full"
-          />
+<body>
+	<div th:replace="fragments/header_account :: header"></div>
 
-          <!-- ユーザ名 -->
-          <p class="text-center mt-2 text-2xl">
-            [[${@myAccount.nickname}]]さん
-          </p>
-        </div>
+	<main class="min-h-screen pt-35 bg-[var(--main-bg-color)]">
+		<h2 class="text-center tracking-widest text-4xl">MyPage</h2>
+		<!--プロフィール-->
+		<div class="relative w-auto py-6 mt-15 bg-[var(--mainsub-bg-color)]">
+			<div class="absolute -top-1/2 left-1/6">
+				<img th:if="${@myAccount.icon != null}" th:src="@{'/images/users/' + ${@myAccount.icon}}" alt="ユーザー"
+					class="shadow-2xl w-40 mt-2 rounded-full" />
+				<img th:if="${@myAccount.icon == null}" src="/images/users/unknownIcon.svg" alt="ユーザー（デフォルト）"
+					class="shadow-2xl w-40 mt-2 rounded-full" />
 
-        <div class="mt-1 ml-[34%] items-center">
-          <div class="flex">
-            <!-- 評価 -->
-            <p class="text-3xl flex items-center gap-2">
-              <span>評価：</span>
-              <span class="flex text-3xl">
-                <span
-                  th:each="i : ${#numbers.sequence(1, 5)}"
-                  th:class="${i <= avgScore} ? 'text-[#fcdd7b]' : ''"
-                  >★</span
-                  >
-                </span>
-                <!-- <span
+				<!-- ユーザ名 -->
+				<p class="text-center mt-2 text-2xl">
+					[[${@myAccount.nickname}]]さん
+				</p>
+			</div>
+
+			<div class="mt-1 ml-[34%] items-center">
+				<div class="flex">
+					<!-- 評価 -->
+					<p class="text-3xl flex items-center gap-2">
+						<span>評価：</span>
+						<span class="flex text-3xl">
+							<span th:each="i : ${#numbers.sequence(1, 5)}"
+								th:class="${i <= avgScore} ? 'text-[#fcdd7b]' : ''">★</span>
+						</span>
+						<!-- <span
                 th:text="${T(java.lang.Math).round(avgScore)} + ' / 5'"
                 class="text-3xl align-bottom ml-2"
                 ></span> -->
-              </p>
-              <!--プロフィール変更ボタン-->
-              <div class="flex items-start justify-end gap-4 mt-2 mr-4 ml-auto">
-                <a th:href="@{/mypage/update}" class="block w-12">
-                  <img
-                  title="プロフィール編集"
-                  class="transition-transform duration-300 hover:rotate-180"
-                  src="/images/content/setting.png"
-                  alt="編集"
-                  />
-                </a>
-              </div>
-            </div>
-            <!-- フォロー/フォロワー -->
-            <div class="flex">
-              
-              <p class="text-lg mt-5">
-                <a
-                class="inline-block group underline-animate mr-2"
-                th:href="@{'/mypage/user/' + ${@myAccount.id} + '/following'}"
-                >
-                <span
-                class="text-black font-bold"
-                th:text="${followingCount}"
-                ></span>
-                フォロー中
-              </a>
-              <a
-              class="inline-block ml-5 group underline-animate"
-              th:href="@{'/mypage/user/' + ${@myAccount.id} + '/followers'}"
-              >
-              <span
-              class="text-black font-bold"
-              th:text="${followerCount}"
-              ></span>
-              フォロワー
-            </a>
-            <a
-              href="/items/new"
-              class="primary-button pl-1/4 font-bold ml-15 mb-4 px-8 py-4 rounded-full shadow-md  transition duration-300 text-sm"
-            >
-              ＋ 出品する
-            </a>
-          </div>
-        </div>
-      </p>
-    </div>
-  </div>
-  
-  <nav
-  class="relative border-b-[5px] border-[#ccc] bg-[#FFFDDA] text-[var(--text-items)]"
-  >
-  <ul
-  class="absolute left-[20%] w-[60%] table table-fixed m-0 p-0 text-center"
-        >
-          <!-- お気に入り -->
-          <li
-            class="table-cell w-[50px]"
-            th:classappend="${currentTab == 4} ? ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : ' border-t-[5px] border-transparent hover:border-[#006a6c]'"
-          >
-            <a
-              th:href="@{/mypage/{id}(id=4)}"
-              class="block w-full h-full py-[10px]"
-              th:classappend="${currentTab == 4} ? ' text-[#0068b7] bg-[#bbe2f1] hover:text-[#ee7800] hover:bg-[#ffedab]' : ' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'"
-            >
-              お気に入り
-            </a>
-          </li>
+					</p>
+					<!--プロフィール変更ボタン-->
+					<div class="flex items-start justify-end gap-4 mt-2 mr-4 ml-auto">
+						<a th:href="@{/mypage/update}" class="block w-12">
+							<img title="プロフィール編集" class="transition-transform duration-300 hover:rotate-180"
+								src="/images/content/setting.png" alt="編集" />
+						</a>
+					</div>
+				</div>
+				<!-- フォロー/フォロワー -->
+				<div class="flex">
 
-          <!-- 購入履歴 -->
-          <li
-            class="table-cell w-[50px]"
-            th:classappend="${currentTab == 1} ? ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : ' hover:border-t-[5px] hover:border-[#006a6c]'"
-          >
-            <a
-              th:href="@{/mypage/{id}(id=1)}"
-              class="block w-full h-full py-[10px]"
-              th:classappend="${currentTab == 1} ? ' text-[#0068b7] bg-[#bbdbf3] hover:text-[#ee7800] hover:bg-[#ffedab]' : ' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'"
-            >
-              購入履歴
-            </a>
-          </li>
+					<p class="text-lg mt-5">
+						<a class="inline-block group underline-animate mr-2"
+							th:href="@{'/mypage/user/' + ${@myAccount.id} + '/following'}">
+							<span class="text-black font-bold" th:text="${followingCount}"></span>
+							フォロー中
+						</a>
+						<a class="inline-block ml-5 group underline-animate"
+							th:href="@{'/mypage/user/' + ${@myAccount.id} + '/followers'}">
+							<span class="text-black font-bold" th:text="${followerCount}"></span>
+							フォロワー
+						</a>
+						<a href="/items/new"
+							class="primary-button pl-1/4 font-bold ml-15 mb-4 px-8 py-4 rounded-full shadow-md  transition duration-300 text-sm">
+							＋ 出品する
+						</a>
+				</div>
+			</div>
+			</p>
+		</div>
+		</div>
 
-          <!-- 出品 -->
-          <li
-            class="table-cell w-[50px]"
-            th:classappend="${currentTab == 2} ? ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : ' hover:border-t-[5px] hover:border-[#006a6c]'"
-          >
-            <a
-              th:href="@{/mypage/{id}(id=2)}"
-              class="block w-full h-full py-[10px]"
-              th:classappend="${currentTab == 2} ? ' text-[#0068b7] bg-[#bbe2f1] hover:text-[#ee7800] hover:bg-[#ffedab]' : ' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'"
-            >
-              出品
-            </a>
-          </li>
+		<nav class="relative border-b-[5px] border-[#ccc] bg-[#FFFDDA] text-[var(--text-items)]">
+			<ul class="absolute left-[20%] w-[60%] table table-fixed m-0 p-0 text-center">
+				<!-- お気に入り -->
+				<li class="table-cell w-[50px]" th:classappend="${currentTab == 4} ? 
+					' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : 
+					' border-t-[5px] border-transparent hover:border-[#006a6c]'">
+					<a th:href="@{/mypage?id=4}" class="block w-full h-full py-[10px]" th:classappend="${currentTab == 4} ? ' text-[#0068b7] bg-[#bbe2f1] hover:text-[#ee7800] hover:bg-[#ffedab]' : 
+						' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'">
+						お気に入り
+					</a>
+				</li>
 
-          <!-- 評価 -->
-          <li
-            class="table-cell w-[50px]"
-            th:classappend="${currentTab == 3} ? ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : ' hover:border-t-[5px] hover:border-[#006a6c]'"
-          >
-            <a
-              th:href="@{/mypage/{id}(id=3)}"
-              class="block w-full h-full py-[10px]"
-              th:classappend="${currentTab == 3} ? ' text-[#0068b7] bg-[#bbe2f1] hover:text-[#ee7800] hover:bg-[#ffedab]' : ' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'"
-            >
-              評価
-            </a>
-          </li>
-        </ul>
-      </nav>
+				<!-- 購入履歴 -->
+				<li class="table-cell w-[50px]"
+					th:classappend="${currentTab == 1} ? ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : ' hover:border-t-[5px] hover:border-[#006a6c]'">
+					<a th:href="@{/mypage?id=1}" class="block w-full h-full py-[10px]"
+						th:classappend="${currentTab == 1} ? ' text-[#0068b7] bg-[#bbdbf3] hover:text-[#ee7800] hover:bg-[#ffedab]' : ' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'">
+						購入履歴
+					</a>
+				</li>
 
-      <div class="mt-[5%] text-center">
-        <th:block th:if="${historys}">
-          <h3 class="font-bold">購入履歴</h3>
-          <div th:each="history : ${historys}">
-            <p th:text="${#temporals.format(history.date, 'yyyy/MM/dd')}"></p>
-            <p th:text="${history.item.name}"></p>
-            <p th:text="${history.totalPrice} + '円'"></p>
-          </div>
-        </th:block>
-        <th:block th:if="${itemSelling}">
-          <h3 class="font-bold">出品作品</h3>
-          <div class="px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
-            <div th:each="myItem : ${itemSelling}" class="fade-in-up">
-              <div class="relative rounded-[33px] overflow-hidden group block">
-                <a th:href="@{'/items/' + ${myItem.id} + '/detail'}">
-                  <img
-                    th:if="${myItem.image != null}"
-                    th:src="@{'/images/items/' + ${myItem.image}}"
-                    alt="商品画像"
-                    class="w-full h-60"
-                  />
-                  <div
-                    class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent"
-                  >
-                    <p th:text="${myItem.name}">商品名</p>
-                    <p th:text="${myItem.price} + '円'">価格</p>
-                  </div>
+				<!-- 出品 -->
+				<li class="table-cell w-[50px]"
+					th:classappend="${currentTab == 2} ? ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : ' hover:border-t-[5px] hover:border-[#006a6c]'">
+					<a th:href="@{/mypage?id=2}" class="block w-full h-full py-[10px]"
+						th:classappend="${currentTab == 2} ? ' text-[#0068b7] bg-[#bbe2f1] hover:text-[#ee7800] hover:bg-[#ffedab]' : ' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'">
+						出品
+					</a>
+				</li>
 
-                  <!-- ホバー時「商品詳細へ →」 -->
-                  <div
-                    class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                  >
-                    商品詳細へ →
-                  </div>
-                </a>
-              </div>
+				<!-- 評価 -->
+				<li class="table-cell w-[50px]"
+					th:classappend="${currentTab == 3} ? ' font-bold border-t-[5px] border-[#0068b7] hover:border-[#ee7800]' : ' hover:border-t-[5px] hover:border-[#006a6c]'">
+					<a th:href="@{/mypage?id=3}" class="block w-full h-full py-[10px]"
+						th:classappend="${currentTab == 3} ? ' text-[#0068b7] bg-[#bbe2f1] hover:text-[#ee7800] hover:bg-[#ffedab]' : ' hover:text-[#006a6c] hover:bg-[#a4d5bd] transition-colors'">
+						評価
+					</a>
+				</li>
+			</ul>
+		</nav>
 
-              <!-- アイテムごとのトグルボタン -->
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  class="soldout-toggle"
-                  th:data-id="${myItem.id}"
-                  th:checked="${!myItem.soldOut ? 'checked' : null}"
-                />
-                <span class="slider"></span>
-              </label>
-            </div>
-          </div>
+		<div class="mt-[5%] text-center">
+			<th:block th:if="${historys}">
+				<h3 class="text-3xl font-bold ">購入履歴</h3>
+				<div class="mt-4 text-lg text-[var(--text-color)]">購入した商品が確認できます。</div>
 
-          <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-          <script>
-            $(function () {
-              $(".soldout-toggle").on("change", function () {
-                const itemId = $(this).data("id");
-                const soldOut = !$(this).is(":checked"); // ←ここで反転
+				<!--購入履歴がない場合-->
+				<div th:if="${historys.isEmpty()}">
+					<div class="mt-[5%] flex justify-center ">
+					<img class="w-5 mr-[3px] " th:src="@{/images/content/attention.svg}">
+					<p class="text-red content-center">購入履歴はありません。</p>
+					</div>
+				</div>
+				<div class="space-y-5 max-w-4xl mx-auto">
+					<div th:each="history : ${historys}"
+						class="p-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm transition duration-300">
+						<div class="flex items-center justify-between mb-4 pb-4 border-b border-b-[#d4bfa3]">
+							<p th:text="${#temporals.format(history.date, 'yyyy/MM/dd')}"></p>
+						</div>
+						<div class="relative flex items-center gap-4">
+							<div class="rounded-[33px] group block w-[18%] overflow-hidden ">
+								<img th:src="@{'/images/items/' + ${history.item.image}}"
+									class=" aspect-square object-fill">
+							</div>
+							<div class="absolute right-40">
+								<p th:text="${history.item.name}"></p>
+								<p th:text="${history.totalPrice} + '円'"></p>
+							</div>
+						</div>
+					</div>
+				</div>
 
-                $.ajax({
-                  url: "/item/toggle-soldout",
-                  method: "POST",
-                  data: {
-                    itemId: itemId,
-                    soldOut: soldOut,
-                  },
-                  success: function (response) {
-                    console.log("出品状態更新成功:", response);
-                  },
-                  error: function (xhr) {
-                    alert("更新失敗: " + xhr.responseText);
-                  },
-                });
-              });
-            });
-          </script>
-        </th:block>
-        <th:block th:if="${myReview}">
-          <div th:replace="review/review_list :: body"></div>
-        </th:block>
-        <th:block th:if="${bookmarks}">
-          <div th:replace="bookmark/bookmark_list :: body"></div>
-        </th:block>
-      </div>
-    </main>
-  </body>
+			</th:block>
+			<th:block th:if="${itemSelling}">
+				<h3 class="text-3xl font-bold ">投稿作品</h3>
+				<div class="mt-4 text-lg text-[var(--text-color)]">出品した商品が確認できます。</div>
+				
+				<div th:if="${itemSelling.isEmpty()}">
+					<div class="mt-[5%] flex justify-center ">
+					<img class="w-5 mr-[3px] " th:src="@{/images/content/attention.svg}">
+					<p class="text-red content-center">まだ投稿作品がありません。</p>
+					</div>
+				</div>
+				<div class="px-10 mt-20 py-6 grid grid-cols-4 gap-10 w-[70%] mx-auto">
+					<div th:each="myItem : ${itemSelling}" class="fade-in-up">
+						<div class="relative rounded-[33px] overflow-hidden group block">
+							<a th:href="@{'/items/' + ${myItem.id} + '/detail'}">
+								<img th:if="${myItem.image != null}" th:src="@{'/images/items/' + ${myItem.image}}"
+									alt="商品画像" class="w-full h-60" />
+								<div
+									class="absolute bottom-0 text-white w-full text-right pr-4 py-2 text-lg font-bold bg-gradient-to-l from-black/36 to-transparent">
+									<p th:text="${myItem.name}">商品名</p>
+									<p th:text="${myItem.price} + '円'">価格</p>
+								</div>
+
+								<!-- ホバー時「商品詳細へ →」 -->
+								<div
+									class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+									商品詳細へ →
+								</div>
+							</a>
+						</div>
+
+						<!-- アイテムごとのトグルボタン -->
+						<label class="switch">
+							<input type="checkbox" class="soldout-toggle" th:data-id="${myItem.id}"
+								th:checked="${!myItem.soldOut ? 'checked' : null}" />
+							<span class="slider"></span>
+						</label>
+					</div>
+				</div>
+
+				<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+				<script>
+					$(function () {
+						$(".soldout-toggle").on("change", function () {
+							const itemId = $(this).data("id");
+							const soldOut = !$(this).is(":checked"); // ←ここで反転
+
+							$.ajax({
+								url: "/item/toggle-soldout",
+								method: "POST",
+								data: {
+									itemId: itemId,
+									soldOut: soldOut,
+								},
+								success: function (response) {
+									console.log("出品状態更新成功:", response);
+								},
+								error: function (xhr) {
+									alert("更新失敗: " + xhr.responseText);
+								},
+							});
+						});
+					});
+				</script>
+			</th:block>
+			<th:block th:if="${myReview}">
+				<div th:replace="review/review_list :: body"></div>
+			</th:block>
+			<th:block th:if="${bookmarks}">
+				<div th:replace="bookmark/bookmark_list :: body"></div>
+			</th:block>
+		</div>
+	</main>
+</body>
+
 </html>
