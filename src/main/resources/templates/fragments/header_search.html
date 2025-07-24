@@ -1,5 +1,5 @@
 <header
-  class="fixed shadow-xl top-0 left-0 w-full z-50 h-[100px] bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)] px-8 py-3 flex justify-between items-center"
+  class="fixed top-0 left-0 w-full z-50 h-[100px] bg-[linear-gradient(to_bottom,_#7eccda_1%,_#c5f2fb_90%,_#d1f5ff_100%)] px-8 py-3 flex justify-between items-center"
 >
   <!-- 左：ロゴ -->
 
@@ -58,7 +58,7 @@
           th:href="@{/mypage}"
           class="flex flex-col items-center text-sm text-white hover:underline"
         >
-          <img
+                         <img
 		  	th:if="${@myAccount.icon} != null"
             th:src="@{'/images/users/' + ${@myAccount.icon}}"
             alt="ユーザー"
@@ -69,9 +69,14 @@
 		  th:src="@{/images/users/unknownIcon.svg}"
 		  alt="ユーザー"
 		  class="w-15 mt-2 rounded-full border border-white">
+		  <img
+		  th:if="${@myAccount.icon} == null"
+		  th:src="@{/images/users/unknownIcon.svg}"
+		  alt="ユーザー"
+		  class="w-15 mt-2 rounded-full border border-white">
           <p
             class="text-[var(--text-items)] mt-0.5 text-sm"
-            th:text="${session.account.name}"
+            th:text="${session.account.nickname}"
           ></p>
         </a>
 

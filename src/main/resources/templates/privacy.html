@@ -1,0 +1,78 @@
+<!-- templates/privacy.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <title>プライバシーポリシー | MadeForU</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
+
+  <body class="bg-[var(--main-bg-color)] min-h-screen">
+    <div th:replace="fragments/header_account :: header"></div>
+
+    <main
+      class="max-w-4xl mx-auto px-6 py-12 bg-white rounded-xl shadow-md mt-10"
+    >
+      <h1 class="text-3xl font-bold mb-6">プライバシーポリシー</h1>
+
+      <p class="mb-4">
+        MadeForU（以下、「当サイト」といいます）は、利用者のプライバシーを尊重し、個人情報の保護に最大限の注意を払っています。当サイトでは、以下の方針に基づき個人情報を取り扱います。
+      </p>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-2">1. 取得する情報</h2>
+      <p class="mb-4">
+        当サイトでは、会員登録、商品購入、レビュー投稿、お問い合わせ等の際に、以下の情報を取得することがあります。
+      </p>
+      <ul class="list-disc list-inside mb-4">
+        <li>氏名、ニックネーム</li>
+        <li>メールアドレス</li>
+        <li>配送先住所</li>
+        <li>電話番号</li>
+        <li>購入履歴、レビュー内容などの利用履歴</li>
+      </ul>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-2">2. 利用目的</h2>
+      <p class="mb-4">取得した情報は、以下の目的のために利用します。</p>
+      <ul class="list-disc list-inside mb-4">
+        <li>商品やサービスの提供・管理</li>
+        <li>注文処理・配送手配</li>
+        <li>お問い合わせへの対応</li>
+        <li>不正利用防止や本人確認</li>
+        <li>サービス改善や新機能開発のための分析</li>
+      </ul>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-2">3. 第三者提供</h2>
+      <p class="mb-4">
+        当サイトは、法令に基づく場合を除き、利用者の同意なく第三者に個人情報を提供することはありません。
+      </p>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-2">4. クッキーの使用</h2>
+      <p class="mb-4">
+        当サイトでは、利便性向上のためにクッキー（Cookie）を使用する場合があります。ブラウザの設定により、クッキーの使用を制限・拒否することも可能です。
+      </p>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-2">5. 情報の管理</h2>
+      <p class="mb-4">
+        当サイトは、個人情報の漏洩、滅失、毀損を防止するため、適切なセキュリティ対策を実施します。
+      </p>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-2">
+        6. プライバシーポリシーの変更
+      </h2>
+      <p class="mb-4">
+        本ポリシーは予告なく改定されることがあります。変更後は、当ページにて速やかに公開いたします。
+      </p>
+
+      <h2 class="text-2xl font-semibold mt-8 mb-2">7. お問い合わせ</h2>
+      <p>
+        本ポリシーに関するお問い合わせは、
+        <a href="/contact" class="text-blue-600 underline"
+          >お問い合わせフォーム</a
+        >
+        よりお願いいたします。
+      </p>
+    </main>
+
+    <div th:replace="fragments/footer :: footer"></div>
+  </body>
+</html>

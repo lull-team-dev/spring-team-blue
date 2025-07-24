@@ -1,14 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>商品登録完了</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
-	<head>
-		<meta charset="UTF-8">
-		<title>Insert title here</title>
-	</head>
+  <body
+    class="min-h-screen bg-[var(--main-bg-color)] flex flex-col items-center justify-center text-[#6b4f3a]"
+  >
+    <div th:replace="fragments/header_user :: header"></div>
 
-	<body>
-		<h2>商品登録が完了しました！</h2>
-		<p><a href="/mypage">マイページへ</a></p>
-	</body>
-
+    <div
+      class="text-center bg-white px-10 py-12 rounded-3xl shadow-md border border-[#eddccc] max-w-md w-full"
+    >
+      <h2 class="text-2xl font-bold mb-6">商品登録が完了しました！</h2>
+      <p class="text-sm mb-8">ご登録いただきありがとうございます。</p>
+      <a
+        href="/mypage"
+        class="inline-block bg-[#FFB69E] hover:bg-[#ffa88c] text-white font-semibold px-6 py-2 rounded-full transition-colors duration-300"
+      >
+        マイページへ
+      </a>
+    </div>
+  </body>
 </html>
