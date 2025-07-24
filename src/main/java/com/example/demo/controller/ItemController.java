@@ -191,6 +191,18 @@ public class ItemController {
 	public String showItemDetail(@PathVariable("id") Long id, Model model) {
 		Item item = itemRepository.findById(id).orElse(null); // orElseThrowでもOK
 		List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
+
+		if (myAccount.getId() != null) {
+			Account user = accountRepository.findById(myAccount.getId()).orElse(null);
+			if (user != null) {
+				List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+				List<Long> bookmarkedItemIds = bookmarks.stream()
+						.map(b -> b.getItem().getId())
+						.collect(Collectors.toList());
+				model.addAttribute("bookmarkedItemIds", bookmarkedItemIds);
+			}
+		}
+
 		model.addAttribute("unreadChats", unreadChats);
 		model.addAttribute("item", item);
 		return "item/item_detail";
