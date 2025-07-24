@@ -55,38 +55,17 @@ public class MypageController {
 	@Autowired
 	ChatService chatService;
 
-	// マイページ
 	@GetMapping("")
-	public String showMypage(Model model) {
-		Account loginUser = accountRepository.findById(myAccount.getId()).orElse(null);
-		if (loginUser != null) {
-			int followerCount = followRepository.countByFollowed(loginUser);
-			int followingCount = followRepository.countByFollower(loginUser);
+	public String showMoreMypage(@RequestParam(name = "id", required = false) Long id, Model model) {
+		Account account = accountRepository.findById(myAccount.getId())
+				.orElseThrow(() -> new IllegalStateException("ログインユーザーが見つかりません"));
 
-			// ★ 追加：レビュー平均スコアの計算
-			List<Review> reviews = reviewRepository.findByReviewee(loginUser);
-			double avgScore = 0.0;
-			if (!reviews.isEmpty()) {
-				double total = reviews.stream().mapToInt(r -> r.getScore()).sum();
-				avgScore = total / reviews.size();
-			}
-
-			List<Chat> Chats = chatService.getUnreadChatsForCurrentUser();
-			model.addAttribute("unreadChats", Chats);
-			model.addAttribute("avgScore", avgScore);
-
-			model.addAttribute("followerCount", followerCount);
-			model.addAttribute("followingCount", followingCount);
-			model.addAttribute("account", loginUser);
-		}
-		return "mypage/mypage";
-	}
-
-	@GetMapping("/{id}")
-	public String showMoreMypage(@PathVariable(name = "id") Long id, Model model) {
-		Account account = accountRepository.findById(myAccount.getId()).get();
-
-		if (id == 1) {
+		if (id == null) {
+			id = 4L;
+			Account user = accountRepository.findById(myAccount.getId()).orElseThrow();
+			List<Bookmark> bookmarks = bookmarkRepository.findAllByUser(user);
+			model.addAttribute("bookmarks", bookmarks);
+		} else if (id == 1) {
 			List<History> historys = historyRepository.findByAccount(account);
 			model.addAttribute("historys", historys);
 		} else if (id == 2) {
@@ -118,6 +97,7 @@ public class MypageController {
 			List<Chat> unreadChats = chatService.getUnreadChatsForCurrentUser();
 			model.addAttribute("unreadChats", unreadChats);
 			model.addAttribute("avgScore", avgScore);
+			model.addAttribute("currentTab", id);
 
 			model.addAttribute("followerCount", followerCount);
 			model.addAttribute("followingCount", followingCount);

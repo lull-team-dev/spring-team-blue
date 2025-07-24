@@ -10,10 +10,11 @@
 <body class="min-h-screen bg-[var(--main-bg-color)]">
 
 	<div class="text-center">
-		<h3 class="font-bold">お気に入りリスト</h3>
+		<h3 class="text-3xl font-bold ">お気に入りリスト</h3>
+		<div class="mt-4 text-lg text-[var(--text-color)]">気になる商品を管理できます。</div>
 
 		<!-- お気に入りが空の場合の表示 -->
-		<div class="flex justify-center " th:if="${bookmarks.isEmpty()}">
+		<div class="mt-[5%] flex justify-center " th:if="${bookmarks.isEmpty()}">
 			<img class="w-5 mr-[3px] " th:src="@{/images/content/attention.svg}">
 			<p class="text-red content-center"> お気に入りに登録された商品はありません。</p>
 		</div>
