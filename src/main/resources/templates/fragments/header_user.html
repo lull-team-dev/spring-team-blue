@@ -10,31 +10,24 @@
   <!-- 右：ユーザー関連 -->
   <div class="flex items-center ml-4 space-x-4">
     <div class="flex items-center space-x-4 ml-auto">
-      <!-- ログインしていない場合 -->
-      <th:block th:if="${session.account == null}">
-        <a
-          th:href="@{/account/login}"
-          class="text-sm text-white primary-button hover:underline"
-          >ログイン</a
-        >
-        <a
-          th:href="@{/account/register}"
-          class="text-sm text-white hover:underline primary-button"
-          >新規登録</a
-        >
-      </th:block>
-
       <!-- ログインしている場合 -->
       <th:block th:if="${session.account != null}">
         <a
           th:href="@{/mypage}"
           class="flex flex-col items-center text-sm text-white hover:underline"
         >
-          <img
-            th:src="@{/images/items/image.png}"
+                         <img
+		  	th:if="${@myAccount.icon} != null"
+            th:src="@{'/images/users/' + ${@myAccount.icon}}"
             alt="ユーザー"
             class="w-15 mt-2 rounded-full border border-white"
           />
+
+		  <img
+		  th:if="${@myAccount.icon} == null"
+		  th:src="@{/images/users/unknownIcon.svg}"
+		  alt="ユーザー"
+		  class="w-15 mt-2 rounded-full border border-white">
           <p
             class="text-[var(--text-items)] mt-0.5 text-sm"
             th:text="${session.account.nickname}"
