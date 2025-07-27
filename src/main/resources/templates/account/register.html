@@ -42,6 +42,7 @@
                   type="text"
                   placeholder=" "
                   class="peer form-input"
+                  th:value="${oldLastName}"
                 />
                 <label for="last_name" class="form-label"
                   >姓<span class="text-red-500">*</span></label
@@ -56,6 +57,7 @@
                 type="text"
                 placeholder=" "
                 class="peer form-input"
+                th:value="${oldFirstName}"
               />
               <label for="first_name" class="form-label">
                 名<span class="text-red-500">*</span>
@@ -71,6 +73,7 @@
               class="peer form-input"
               type="text"
               placeholder=" "
+              th:value="${oldNickName}"
             />
             <label for="nickName" class="form-label">
               ユーザー名<span class="text-red-500">*</span>
@@ -78,7 +81,7 @@
             <span
               th:if="${nickNameMessage}"
               th:text="${nickNameMessage}"
-              class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+              class="absolute top-0 left-4/6 -translate-x-1/2 w-full text-center text-red-500 text-xs"
             ></span>
           </div>
 
@@ -90,6 +93,7 @@
               type="email"
               placeholder=" "
               class="peer form-input"
+              th:value="${oldEmail}"
             />
             <label for="email" class="form-label">
               メールアドレス<span class="text-red-500">*</span>
@@ -97,7 +101,7 @@
             <span
               th:if="${emailMessage}"
               th:text="${emailMessage}"
-              class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+              class="absolute top-0 left-4/6 -translate-x-1/2 w-full text-center text-red-500 text-xs"
             ></span>
           </div>
 
@@ -109,6 +113,7 @@
               type="text"
               placeholder=" "
               class="peer form-input"
+              th:value="${oldTel}"
             />
             <label for="tel" class="form-label">
               電話番号<span class="text-red-500">*</span>
@@ -116,7 +121,7 @@
             <span
               th:if="${tellMessage}"
               th:text="${tellMessage}"
-              class="absolute top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+              class="absolute top-0 left-4/6 -translate-x-1/2 w-full text-center text-red-500 text-xs"
             ></span>
           </div>
 
@@ -135,7 +140,7 @@
             <span
               th:if="${passMessage}"
               th:text="${passMessage}"
-              class="absolute -top-0 left-1/2 -translate-x-1/2 w-full text-center text-red-500 text-xs"
+              class="absolute top-0 left-4/6 -translate-x-1/2 w-full text-center text-red-500 text-xs"
             ></span>
           </div>
           <!-- パスワード（確認用） -->
@@ -207,6 +212,7 @@
               class="w-16 h-9 border ml-4 rounded-[66px] border-[var(--main-color)] placeholder-gray-400 text-center"
               maxlength="3"
               placeholder="123"
+              th:value="${oldZip1}"
             />
             <span>-</span>
             <input
@@ -215,6 +221,7 @@
               class="w-16 border h-9 rounded-2xl border-[var(--main-color)] placeholder-gray-400 text-center"
               maxlength="4"
               placeholder="4567"
+              th:value="${oldZip2}"
             />
             <button
               type="button"
@@ -233,6 +240,7 @@
               name="prefecture"
               placeholder=" "
               class="peer form-input"
+              th:value="${oldPrefecture}"
             />
             <label for="prefecture" class="form-label">
               都道府県<span class="text-red-500">*</span>
@@ -252,6 +260,7 @@
               name="city"
               placeholder=" "
               class="peer form-input"
+              th:value="${oldCity}"
             />
             <label for="city" class="form-label">
               市区町村<span class="text-red-500">*</span>
@@ -266,6 +275,7 @@
               name="town"
               placeholder=" "
               class="peer form-input"
+              th:value="${oldTown}"
             />
             <label for="town" class="form-label">
               町域・番地<span class="text-red-500">*</span>
@@ -280,6 +290,7 @@
               name="building"
               placeholder=" "
               class="peer form-input"
+              th:value="${oldBuilding}"
             />
             <label for="building" class="form-label">建物名など</label>
           </div>

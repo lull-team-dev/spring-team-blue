@@ -128,7 +128,7 @@
 					<p class="text-red content-center">購入履歴はありません。</p>
 					</div>
 				</div>
-				<div class="space-y-5 max-w-4xl mx-auto">
+				<div class="space-y-5 fade-in-up max-w-4xl mx-auto">
 					<div th:each="history : ${historys}"
 						class="p-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm transition duration-300">
 						<div class="flex items-center justify-between mb-4 pb-4 border-b border-b-[#d4bfa3]">
@@ -178,12 +178,16 @@
 							</a>
 						</div>
 
-						<!-- アイテムごとのトグルボタン -->
-						<label class="switch">
-							<input type="checkbox" class="soldout-toggle" th:data-id="${myItem.id}"
-								th:checked="${!myItem.soldOut ? 'checked' : null}" />
-							<span class="slider"></span>
-						</label>
+						<!-- アイテムごとのトグルボタンと状態表示（リファクタ済み） -->
+						<div class="flex items-center gap-3 mt-2">
+							<label class="switch">
+								<input type="checkbox" class="soldout-toggle" th:data-id="${myItem.id}"
+									th:checked="${!myItem.soldOut ? 'checked' : null}" />
+								<span class="slider"></span>
+							</label>
+							<span class="item-status font-semibold" th:text="${myItem.soldOut} ? '売り切れ' : '出品中'"
+								th:classappend="${myItem.soldOut} ? ' text-red-600' : ' text-green-600'"></span>
+						</div>
 					</div>
 				</div>
 
@@ -202,6 +206,14 @@
 									soldOut: soldOut,
 								},
 								success: function (response) {
+									const statusSpan = $(`input[data-id='${itemId}']`).closest('.flex').find('.item-status');
+									if (soldOut) {
+										statusSpan.text('売り切れ');
+										statusSpan.removeClass('text-green-600').addClass('text-red-600');
+									} else {
+										statusSpan.text('出品中');
+										statusSpan.removeClass('text-red-600').addClass('text-green-600');
+									}
 									console.log("出品状態更新成功:", response);
 								},
 								error: function (xhr) {
@@ -220,6 +232,9 @@
 			</th:block>
 		</div>
 	</main>
+
+	    <script th:src="@{/js/scroll-animate.js}"></script>
+
 </body>
 
 </html>

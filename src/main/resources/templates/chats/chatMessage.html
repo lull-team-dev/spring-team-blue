@@ -25,10 +25,29 @@
 				<h2 class="text-2xl font-bold text-[#6b4f3a] mb-4">チャット参加者</h2>
 				<div class="flex gap-16 justify-center space-x-8">
 					<div class="flex gap-3 items-center text-center">
-						<div>
-							<img th:src="@{'/images/users/' + ${chat.client.icon}}" alt="アイコン画像"
-								class="w-[80px] h-[80px] rounded-full border-2 border-[#fff9e6] shadow-sm" />
-						</div>
+					   <!-- ログインしている場合 -->
+      <th:block th:if="${session.account != null}">
+        <a
+          th:href="@{/mypage}"
+          class="flex flex-col items-center text-sm text-white hover:underline"
+        >
+                         <img
+		  	th:if="${@myAccount.icon} != null"
+            th:src="@{'/images/users/' + ${@myAccount.icon}}"
+            alt="ユーザー"
+            class="w-15 mt-2 rounded-full border border-white"
+          />
+
+		  <img
+		  th:if="${@myAccount.icon} == null"
+		  th:src="@{/images/users/unknownIcon.svg}"
+		  alt="ユーザー"
+		  class="w-15 mt-2 rounded-full border border-white">
+          <p
+            class="text-[var(--text-items)] mt-0.5 text-sm"
+            th:text="${session.account.nickname}"
+          ></p>
+        </a>
 						<div>
 							<div class="text-sm text-gray-600 mb-1">お客様</div>
 							<span name="clientName" class="text-lg font-semibold text-[#6b4f3a]"

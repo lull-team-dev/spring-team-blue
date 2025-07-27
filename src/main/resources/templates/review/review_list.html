@@ -7,36 +7,27 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}" />
   </head>
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>レビュー一覧</title>
-	<link rel="stylesheet" th:href="@{/css/styles.css}" />
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>レビュー一覧</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+  </head>
 
   <body class="min-h-screen bg-[#fffcd8]">
-    <main class="max-w-5xl mx-auto p-8">
+    <main class="max-w-5xl mx-auto">
       <!-- ページタイトル -->
-      <div class="text-center mb-12">
-        <h1 class="text-3xl font-bold text-[var(--main-color)]">レビュー</h1>
+      <div class="text-center">
+        <h1 class="text-3xl font-bold">レビュー</h1>
         <div class="mt-4 text-lg text-[var(--text-color)]">
           出品した商品のレビューが確認できます
         </div>
       </div>
-<body class="min-h-screen bg-[#fffcd8]">
 
-	<main class="max-w-5xl mx-auto ">
-
-		<!-- ページタイトル -->
-		<div class="text-center">
-			<h1 class="text-3xl font-bold ">レビュー</h1>
-			<div class="mt-4 text-lg text-[var(--text-color)]">出品した商品のレビューが確認できます</div>
-		</div>
-
-      <div class="space-y-6">
+      <div class="mt-7 space-y-6">
         <div
           th:each="review : ${myReview}"
-          class="p-6 rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm transition duration-300"
+          class="p-6 fade-in-up rounded-2xl bg-[#f7f1e4] border border-[#d4bfa3] shadow-sm transition duration-300"
         >
           <div
             class="flex items-center justify-between mb-4 pb-4 border-b border-b-[#d4bfa3]"
@@ -86,16 +77,21 @@
         </div>
       </div>
 
-    <!-- レビューがない場合のメッセージ -->
-    <div th:if="${#lists.isEmpty(myReview)}"
-      class="text-center p-12 rounded-2xl bg-white border border-[#d4bfa3] shadow-sm">
-      <div class="text-6xl text-gray-400 mb-4">📝</div>
-      <h3 class="text-2xl font-bold text-[#6b4f3a] mb-2">まだレビューがありません</h3>
-      <p class="text-gray-600">商品を出品して、レビューをしてもらいましょう！</p>
-    </div>
+      <!-- レビューがない場合のメッセージ -->
+      <div
+        th:if="${#lists.isEmpty(myReview)}"
+        class="text-center p-12 rounded-2xl bg-white border border-[#d4bfa3] shadow-sm"
+      >
+        <div class="text-6xl text-gray-400 mb-4">📝</div>
+        <h3 class="text-2xl font-bold text-[#6b4f3a] mb-2">
+          まだレビューがありません
+        </h3>
+        <p class="text-gray-600">
+          商品を出品して、レビューをしてもらいましょう！
+        </p>
+      </div>
+    </main>
 
-
-  </main>
-</body>
-
+    <script th:src="@{/js/scroll-animate.js}"></script>
+  </body>
 </html>

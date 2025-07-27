@@ -75,66 +75,69 @@
         </div>
       </div>
 
-      <h3 class="text-center mt-6 text-3xl mfont-bold">出品商品</h3>
-      <div class="mt-[5%] ml-[15%] w-[70%] flex justify-between">
-        <!-- 出品商品 -->
-        <div class="justify-items-center">
-          <div th:if="${items} == null">
-            <p>出品商品がありません。</p>
+      <div class="mt-[5%] mx-auto w-[80%] space-y-10">
+        <section class="bg-[#fff4e6] rounded-xl shadow-md p-6">
+          <h3 class="text-2xl text-center mt-10 font-bold mb-4">出品商品</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div th:if="${items} == null">
+              <p>出品商品がありません。</p>
+            </div>
+            <div
+              th:each="item : ${items}"
+              class="relative w-full item-card mt-5 fade-in-up rounded-[33px] overflow-hidden group block transition transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-105 hover:z-10"
+            >
+              <!-- 商品画像 -->
+              <a th:href="@{'/items/' + ${item.id} + '/detail'}">
+                <img
+                  th:if="${item.image != null}"
+                  th:src="@{'/images/items/' + ${item.image}}"
+                  alt="商品画像"
+                  class="aspect-[3/3] object-fill w-full h-full"
+                />
+
+                <!-- 売り切れラベル -->
+                <div
+                  th:if="${item.soldOut}"
+                  class="absolute top-5 -left-10 w-[160px] text-center bg-red-600 text-white text-sm font-bold py-1 rotate-[-45deg] shadow-lg z-20"
+                >
+                  SOLD OUT
+                </div>
+
+                <!-- 値段 -->
+                <div
+                  class="absolute bottom-0 text-white w-full text-right pr-4 py-2 font-bold bg-gradient-to-l from-black/36 to-transparent"
+                >
+                  <span
+                    class="block whitespace-nowrap overflow-hidden text-ellipsis"
+                    th:text="${item.name}"
+                  ></span>
+                  <span class="block" th:text="${item.price} + '円'">¥0</span>
+                </div>
+
+                <!-- ホバー時「商品詳細へ →」 -->
+                <div
+                  class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                >
+                  商品詳細へ →
+                </div>
+              </a>
+            </div>
           </div>
-          <div
-            th:each="item : ${items}"
-            class="relative w-[40%] item-card fade-in-up rounded-[33px] overflow-hidden group block transition transform duration-300 hover:-translate-y-2 hover:shadow-xl hover:scale-105 hover:z-10"
-          >
-            <!-- 商品画像 -->
-            <a th:href="@{'/items/' + ${item.id} + '/detail'}">
-              <img
-                th:if="${item.image != null}"
-                th:src="@{'/images/items/' + ${item.image}}"
-                alt="商品画像"
-                class="aspect-[3/3] object-fill"
-              />
+        </section>
 
-              <!-- 売り切れラベル -->
-              <div
-                th:if="${item.soldOut}"
-                class="absolute top-5 -left-10 w-[160px] text-center bg-red-600 text-white text-sm font-bold py-1 rotate-[-45deg] shadow-lg z-20"
-              >
-                SOLD OUT
-              </div>
-
-              <!-- 値段 -->
-              <div
-                class="absolute bottom-0 text-white w-full text-right pr-4 py-2 font-bold bg-gradient-to-l from-black/36 to-transparent"
-              >
-                <span
-                  class="block whitespace-nowrap overflow-hidden text-ellipsis"
-                  th:text="${item.name}"
-                ></span>
-                <span class="block" th:text="${item.price} + '円'">¥0</span>
-              </div>
-
-              <!-- ホバー時「商品詳細へ →」 -->
-              <div
-                class="absolute inset-0 flex items-center justify-center bg-white/70 text-[#6b4e35] text-xl font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              >
-                商品詳細へ →
-              </div>
-            </a>
-          </div>
-        </div>
-
-        <!-- レビュー一覧 -->
-        <div
-          class="justify-items-center bg-[#fff4e6] w-full fade-in-up rounded-xl shadow-md p-6"
+        <section
+          class="bg-[#fff4e6] rounded-xl shadow-md p-6 max-h-[500px] overflow-y-auto"
         >
-          <h3 class="font-bold">レビュー</h3>
+          <h3 class="text-2xl font-bold mb-4">レビュー</h3>
           <div th:if="${#lists.isEmpty(reviews)}">
             <p>まだレビューはありません。</p>
           </div>
           <div th:unless="${#lists.isEmpty(reviews)}">
             <ul>
-              <li th:each="review : ${reviews}" style="margin-bottom: 10px">
+              <li
+                th:each="review : ${reviews}"
+                class="mb-6 p-4 bg-white rounded shadow"
+              >
                 <strong th:text="${review.reviewer.name}">レビュワー名</strong
                 >：
                 <span th:text="${'★'.repeat(review.score)}">★★★★★</span>
@@ -146,7 +149,7 @@
               </li>
             </ul>
           </div>
-        </div>
+        </section>
       </div>
     </main>
     <div class="text-center py-6">
